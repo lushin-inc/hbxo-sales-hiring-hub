@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-view="home">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Hubexo Sales Hiring Hub</title>
+<link rel="icon" href="Assets/OS Icons/Light Blue Lushin.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   THEME TOKENS
+   ========================================================================== */
+:root{
+  --bg:#f6f7f9;
+  --surface:#ffffff;
+  --line:#e5e8ef;
+  --line-soft:#eef0f5;
+  --ink:#21245C;
+  --ink-2:#4e5665;
+  --ink-3:#8b93a2;
+  --hover:#f1f3f7;
+  --shadow:0 1px 2px rgba(16,20,28,.05), 0 10px 28px -18px rgba(16,20,28,.35);
+  --shadow-lg:0 2px 4px rgba(16,20,28,.05), 0 26px 54px -30px rgba(16,20,28,.45);
+}
+html[data-theme="dark"]{
+  --bg:#0e1014;
+  --surface:#171a21;
+  --line:#262b35;
+  --line-soft:#20242c;
+  --ink:#e9ecf2;
+  --ink-2:#a7afbe;
+  --ink-3:#737c8c;
+  --hover:#1c2029;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 12px 30px -18px rgba(0,0,0,.7);
+  --shadow-lg:0 2px 6px rgba(0,0,0,.45), 0 30px 60px -32px rgba(0,0,0,.8);
+}
+
+/* ==========================================================================
+   BASE
+   ========================================================================== */
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:Poppins,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  font-size:17px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;}
+
+.wrap{max-width:1240px;margin:0 auto;padding:30px 40px 90px;}
+
+/* ==========================================================================
+   PAGE HEAD
+   ========================================================================== */
+.pagehead{display:flex;align-items:center;gap:16px;margin:0 0 34px;}
+.pagemark img{height:34px;width:auto;display:block;}
+.pagemark .dk{display:none;}
+html[data-theme="dark"] .pagemark .lt{display:none;}
+html[data-theme="dark"] .pagemark .dk{display:block;}
+
+.topnav{display:flex;align-items:center;gap:4px;margin-left:auto;flex-wrap:wrap;}
+.topnav a{
+  padding:8px 13px;border-radius:10px;
+  font-size:14px;font-weight:500;color:var(--ink-3);
+  transition:background .12s ease,color .12s ease;
+}
+.topnav a:hover{background:var(--hover);color:var(--ink);}
+.topnav a.on{color:var(--ink);font-weight:600;}
+
+.iconbtn{
+  border:1px solid var(--line);background:var(--surface);color:var(--ink-2);
+  width:40px;height:40px;flex:0 0 40px;border-radius:10px;
+  display:inline-flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:background .12s ease,color .12s ease;
+}
+.iconbtn:hover{background:var(--hover);color:var(--ink);}
+.iconbtn svg{width:19px;height:19px;display:block;}
+
+/* ==========================================================================
+   TITLES
+   ========================================================================== */
+.page-title{
+  font-size:22px;font-weight:500;letter-spacing:-.01em;
+  color:var(--ink-2);margin:0 0 26px;
+}
+
+/* ==========================================================================
+   HOME — REGION CHOOSER
+   ========================================================================== */
+.regions{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;}
+.region{
+  position:relative;overflow:hidden;
+  min-height:440px;border-radius:22px;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:30px 26px;
+  color:#fff;
+  transition:transform .16s ease,box-shadow .16s ease;
+}
+.region:hover{transform:translateY(-4px);}
+.region .rn{
+  font-size:30px;font-weight:600;letter-spacing:-.02em;line-height:1.14;
+}
+.region .arw{
+  margin-top:16px;width:26px;height:26px;opacity:.75;
+  stroke:#fff;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;
+}
+
+/* ==========================================================================
+   REGION VIEW
+   ========================================================================== */
+.banner{
+  border-radius:22px;padding:40px 34px;margin:0 0 30px;
+  color:#fff;
+}
+.banner .eyebrow{
+  font-size:15px;font-weight:200;letter-spacing:0;
+  opacity:.85;margin:0 0 6px;
+}
+.banner h1{
+  font-size:44px;font-weight:600;letter-spacing:-.025em;line-height:1.1;margin:0;
+}
+
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.tile{
+  display:flex;align-items:center;gap:20px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:30px 28px;
+  min-height:132px;
+  box-shadow:var(--shadow);
+  transition:transform .14s ease,border-color .14s ease;
+}
+.tile:hover{transform:translateY(-3px);}
+.tile .ic{
+  width:60px;height:60px;flex:0 0 60px;border-radius:16px;
+  display:inline-flex;align-items:center;justify-content:center;
+}
+.tile .ic svg{width:29px;height:29px;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.tile .tn{
+  font-size:23px;font-weight:600;letter-spacing:-.018em;line-height:1.24;color:var(--ink);
+}
+
+.grp-label{
+  font-size:14px;font-weight:500;color:var(--ink-3);
+  margin:38px 0 16px;
+}
+
+/* ==========================================================================
+   MOBILE
+   ========================================================================== */
+@media (max-width:1080px){
+  .regions{grid-template-columns:repeat(2,1fr);}
+  .region{min-height:300px;}
+}
+@media (max-width:760px){
+  body{font-size:16.5px;}
+  .wrap{padding:22px 18px 70px;}
+  .regions{grid-template-columns:1fr;gap:14px;}
+  .region{min-height:200px;padding:24px 22px;border-radius:18px;}
+  .region .rn{font-size:27px;}
+  .banner{padding:30px 24px;border-radius:18px;}
+  .banner h1{font-size:33px;}
+  .tiles{grid-template-columns:1fr;gap:14px;}
+  .tile{padding:24px 22px;min-height:0;border-radius:16px;gap:17px;}
+  .tile .ic{width:52px;height:52px;flex:0 0 52px;border-radius:14px;}
+  .tile .tn{font-size:20px;}
+  .topnav{display:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="pagehead">
+    <a class="pagemark" href="#" title="Home">
+      <img class="lt" src="Assets/Lushin Logo Icons/Lushin Logo Blue.svg" alt="Lushin">
+      <img class="dk" src="Assets/Lushin Logo Icons/Lushin Logo Icon - Arctic White.svg" alt="Lushin">
+    </a>
+    <nav class="topnav" id="topnav"></nav>
+    <button class="iconbtn" id="theme" title="Toggle light / dark" aria-label="Toggle light or dark theme"></button>
+  </div>
+  <div id="view"></div>
+</div>
+
+<script>
+/* ==========================================================================
+   TO EDIT CONTENT — everything lives in the REGIONS array below.
+
+   Swap an OMG License link : replace the "omg" value for that region with the
+                              region's own OMG registration URL. Nothing else
+                              changes. (All five currently point at the Lushin
+                              demo license as a placeholder.)
+   Add a region             : copy a whole { key, name, from, to, omg } block.
+                              The home tiles, the top nav and the routes all
+                              pick it up automatically.
+   Change a shared link     : edit LINKS below — it applies to every region.
+   ========================================================================== */
+
+const LINKS = {
+  templates : "https://lushin-inc.github.io/hiring-template-creator/",
+  star      : "https://lushin-inc.github.io/star/",
+  interview : "https://lushin-inc.github.io/interview-guide",
+  book      : "https://meetings.hubspot.com/dan210/30-mins",
+  email     : "mailto:dan@lushin.com"
+};
+
+/* PLACEHOLDER — the Lushin demo license, used for all five regions for now. */
+const OMG_PLACEHOLDER = "https://info.objectivemanagement.com/License.aspx?ID=2885&MI=1&bc1=Search+Licenses&bc1u=Licenses.aspx%3fstatus%3d2%26d1%3d%26d2%3d%26d%3d61%26c%3d357%26pt%3d1%26csr%3d&bc2=Assessments";
+
+const REGIONS = [
+  { key:"uk",       name:"UK",                 from:"#21245C", to:"#00ADED", omg:OMG_PLACEHOLDER },
+  { key:"nordics",  name:"Nordics",            from:"#0045C2", to:"#00ADED", omg:OMG_PLACEHOLDER },
+  { key:"europe",   name:"Continental Europe", from:"#E34554", to:"#F05A28", omg:OMG_PLACEHOLDER },
+  { key:"apac",     name:"Asia Pacific",       from:"#F05A28", to:"#FAB040", omg:OMG_PLACEHOLDER },
+  { key:"us",       name:"US",                 from:"#000000", to:"#21245C", omg:OMG_PLACEHOLDER }
+];
+
+/* ---------- icons ---------- */
+const ICONS = {
+  omg:'<path d="M9 3h6a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M16 4.5h2A1.5 1.5 0 0 1 19.5 6v13A1.5 1.5 0 0 1 18 20.5H6A1.5 1.5 0 0 1 4.5 19V6A1.5 1.5 0 0 1 6 4.5h2"/><path d="M8.5 12.5l2 2 4-4.5"/>',
+  templates:'<rect x="3.5" y="4" width="17" height="16" rx="2"/><path d="M3.5 9h17M9 9v11"/>',
+  star:'<path d="M12 3.6l2.6 5.3 5.9.86-4.25 4.14 1 5.86L12 17l-5.25 2.76 1-5.86L3.5 9.76l5.9-.86z"/>',
+  interview:'<path d="M4 5.5h10a1.5 1.5 0 0 1 1.5 1.5v4A1.5 1.5 0 0 1 14 12.5H8L4.5 15.5V7A1.5 1.5 0 0 1 6 5.5z"/><path d="M17 9.5h1A1.5 1.5 0 0 1 19.5 11v5.5a1.5 1.5 0 0 1-1.5 1.5h-1l-3 2.5V18"/>',
+  book:'<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3.5v3M16 3.5v3"/><path d="M9.5 14.5l1.8 1.8 3.4-3.6"/>',
+  email:'<rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.6 7l7.4 5.4a1.7 1.7 0 0 0 2 0L20.4 7"/>'
+};
+
+/* ---------- helpers ---------- */
+function grad(r){ return "linear-gradient(135deg," + r.from + " 0%," + r.to + " 100%)"; }
+function glow(r){ return "0 18px 42px -20px " + r.to + "99"; }
+function tint(hex,a){
+  const n = parseInt(hex.slice(1),16);
+  return "rgba(" + ((n>>16)&255) + "," + ((n>>8)&255) + "," + (n&255) + "," + a + ")";
+}
+function tile(href,icon,label,r){
+  return '<a class="tile" href="' + href + '" target="_blank" rel="noopener" style="box-shadow:var(--shadow),' + glow(r) + '">' +
+           '<span class="ic" style="background:' + tint(r.to,.13) + '">' +
+             '<svg viewBox="0 0 24 24" style="stroke:' + r.to + '">' + icon + '</svg>' +
+           '</span>' +
+           '<span class="tn">' + label + '</span>' +
+         '</a>';
+}
+
+/* ---------- views ---------- */
+function home(){
+  return '<h1 class="page-title">Hubexo Sales Hiring Hub</h1>' +
+    '<div class="regions">' +
+      REGIONS.map(function(r){
+        return '<a class="region" href="#' + r.key + '" style="background:' + grad(r) + ';box-shadow:' + glow(r) + '">' +
+                 '<span class="rn">' + r.name + '</span>' +
+                 '<svg class="arw" viewBox="0 0 24 24"><path d="M5 12h13M12.5 6l6 6-6 6"/></svg>' +
+               '</a>';
+      }).join("") +
+    '</div>';
+}
+
+function region(r){
+  return '<div class="banner" style="background:' + grad(r) + ';box-shadow:' + glow(r) + '">' +
+           '<p class="eyebrow">Hubexo Sales Hiring Hub</p>' +
+           '<h1>' + r.name + '</h1>' +
+         '</div>' +
+         '<div class="tiles">' +
+           tile(r.omg,           ICONS.omg,       "OMG License",              r) +
+           tile(LINKS.templates, ICONS.templates, "Hiring Template Creator",  r) +
+           tile(LINKS.star,      ICONS.star,      "STAR Training",            r) +
+           tile(LINKS.interview, ICONS.interview, "Interview Guide",          r) +
+         '</div>' +
+         '<p class="grp-label">Dan</p>' +
+         '<div class="tiles">' +
+           tile(LINKS.book,  ICONS.book,  "Book Time",     r) +
+           tile(LINKS.email, ICONS.email, "dan@lushin.com", r) +
+         '</div>';
+}
+
+/* ---------- routing ---------- */
+function nav(key){
+  return '<a href="#"' + (key ? '' : ' class="on"') + '>Home</a>' +
+    REGIONS.map(function(r){
+      return '<a href="#' + r.key + '"' + (key === r.key ? ' class="on"' : '') + '>' + r.name + '</a>';
+    }).join("");
+}
+
+function render(){
+  const key = location.hash.replace("#","");
+  const r = REGIONS.filter(function(x){ return x.key === key; })[0];
+  document.documentElement.setAttribute("data-view", r ? "region" : "home");
+  document.getElementById("view").innerHTML = r ? region(r) : home();
+  document.getElementById("topnav").innerHTML = nav(r ? r.key : "");
+  document.title = r ? r.name + " — Hubexo Sales Hiring Hub" : "Hubexo Sales Hiring Hub";
+  window.scrollTo(0,0);
+}
+window.addEventListener("hashchange", render);
+
+/* ---------- theme ---------- */
+const SUN  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.4 5.4l1.5 1.5M17.1 17.1l1.5 1.5M18.6 5.4l-1.5 1.5M6.9 17.1l-1.5 1.5"/></svg>';
+const MOON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.3A8.6 8.6 0 0 1 9.7 3.5a8.6 8.6 0 1 0 10.8 10.8z"/></svg>';
+function paintTheme(){
+  const dark = document.documentElement.getAttribute("data-theme") === "dark";
+  document.getElementById("theme").innerHTML = dark ? SUN : MOON;
+}
+try{
+  const saved = localStorage.getItem("hubexo-hub-theme");
+  if(saved) document.documentElement.setAttribute("data-theme", saved);
+  else if(matchMedia("(prefers-color-scheme: dark)").matches) document.documentElement.setAttribute("data-theme","dark");
+}catch(e){}
+document.getElementById("theme").addEventListener("click", function(){
+  const next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  document.documentElement.setAttribute("data-theme", next);
+  try{ localStorage.setItem("hubexo-hub-theme", next); }catch(e){}
+  paintTheme();
+});
+
+paintTheme();
+render();
+</script>
+</body>
+</html>
