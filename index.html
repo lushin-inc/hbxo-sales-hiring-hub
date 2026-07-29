@@ -68,16 +68,8 @@ button{font-family:inherit;}
 html[data-theme="dark"] .lu .lt{display:none;}
 html[data-theme="dark"] .lu .dk{display:block;}
 
-.topnav{display:flex;align-items:center;gap:2px;margin-left:auto;flex-wrap:wrap;}
-.topnav a{
-  padding:8px 13px;border-radius:9px;
-  font-size:14px;font-weight:500;color:var(--ink-3);
-  transition:background .12s ease,color .12s ease;
-}
-.topnav a:hover{background:var(--hover);color:var(--ink);}
-.topnav a.on{color:var(--ink);font-weight:600;}
-
 .iconbtn{
+  margin-left:auto;
   border:1px solid var(--line);background:var(--surface);color:var(--ink-2);
   width:38px;height:38px;flex:0 0 38px;border-radius:10px;
   display:inline-flex;align-items:center;justify-content:center;cursor:pointer;
@@ -153,7 +145,6 @@ html[data-theme="dark"] .lu .dk{display:block;}
   .tile{padding:23px 21px;min-height:0;border-radius:16px;gap:17px;}
   .tile .ic{width:52px;height:52px;flex:0 0 52px;border-radius:14px;}
   .tile .tn{font-size:20px;}
-  .topnav{display:none;}
   .hx{height:20px;}
   .lu img{height:24px;}
 }
@@ -171,7 +162,6 @@ html[data-theme="dark"] .lu .dk{display:block;}
         <img class="dk" src="Assets/Lushin Logo Icons/Lushin Logo Icon - Arctic White.svg" alt="Lushin">
       </span>
     </a>
-    <nav class="topnav" id="topnav"></nav>
     <button class="iconbtn" id="theme" title="Toggle light / dark" aria-label="Toggle light or dark theme"></button>
   </div>
   <div id="view"></div>
@@ -185,7 +175,7 @@ html[data-theme="dark"] .lu .dk{display:block;}
                               OMG registration URL. Nothing else changes.
                               (All five point at the Lushin demo license now.)
    Add a region             : copy a whole { key, name, from, to, ink, accent }
-                              block. Home tiles, top nav and routes follow.
+                              block. The home tiles and routes follow.
    Change a shared link     : edit LINKS — it applies to every region.
 
    Colours are Hubexo's own brand palette:
@@ -261,19 +251,11 @@ function region(r){
          '</div>';
 }
 
-function nav(key){
-  return '<a href="#"' + (key ? '' : ' class="on"') + '>Home</a>' +
-    REGIONS.map(function(r){
-      return '<a href="#' + r.key + '"' + (key === r.key ? ' class="on"' : '') + '>' + r.name + '</a>';
-    }).join("");
-}
-
 function render(){
   const key = location.hash.replace("#","");
   const r = REGIONS.filter(function(x){ return x.key === key; })[0];
   document.documentElement.setAttribute("data-view", r ? "region" : "home");
   document.getElementById("view").innerHTML = r ? region(r) : home();
-  document.getElementById("topnav").innerHTML = nav(r ? r.key : "");
   document.title = r ? r.name + " — Hubexo Sales Hiring Hub" : "Hubexo Sales Hiring Hub";
   window.scrollTo(0,0);
 }
