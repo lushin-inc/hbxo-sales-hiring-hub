@@ -8,7 +8,7 @@
 <link rel="icon" href="Assets/OS Icons/Light Blue Lushin.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 <style>
 /* ==========================================================================
    HUBEXO BRAND PALETTE
@@ -18,7 +18,9 @@
 :root{
   --bg:#F7F7F2;
   --surface:#FFFFFF;
+  --plate:#FFFFFF;
   --line:#E7E5DF;
+  --line-soft:#F0EFE9;
   --ink:#321432;
   --ink-2:#6B5A6B;
   --ink-3:#9E909E;
@@ -28,7 +30,9 @@
 html[data-theme="dark"]{
   --bg:#1A0A1A;
   --surface:#261026;
+  --plate:#FFFFFF;
   --line:#3C213C;
+  --line-soft:#2E162E;
   --ink:#F7F7F2;
   --ink-2:#C4B0C4;
   --ink-3:#8F7C8F;
@@ -41,8 +45,7 @@ html,body{margin:0;padding:0;}
 html{-webkit-text-size-adjust:100%;}
 body{
   min-height:100vh;display:flex;flex-direction:column;
-  background:var(--bg);
-  color:var(--ink);
+  background:var(--bg);color:var(--ink);
   font-family:Poppins,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
   font-size:17px;line-height:1.6;
   -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
@@ -56,9 +59,11 @@ button{font-family:inherit;}
 }
 #view{flex:1;display:flex;flex-direction:column;min-height:0;}
 html[data-view="home"] #view{justify-content:center;padding-bottom:3vh;}
+/* section pages read like documents — hold them to a comfortable measure */
+html[data-view="section"] .wrap{max-width:min(1120px,94vw);}
 
 /* ==========================================================================
-   HEADER — Hubexo primary, Lushin secondary, optically matched
+   HEADER
    ========================================================================== */
 .pagehead{display:flex;align-items:center;gap:18px;margin:0 0 26px;flex:0 0 auto;}
 .marks{display:flex;align-items:center;gap:17px;}
@@ -85,53 +90,248 @@ html[data-theme="dark"] .lu .dk{display:block;}
 }
 
 /* ==========================================================================
-   HOME — region chooser, fills the viewport
+   HOME — region chooser
    ========================================================================== */
-.regions{
-  display:grid;grid-template-columns:repeat(5,1fr);gap:20px;
-}
+.regions{display:grid;grid-template-columns:repeat(5,1fr);gap:20px;}
 .region{
-  aspect-ratio:5/7;max-height:68vh;
-  border-radius:24px;
-  display:flex;align-items:flex-end;
-  padding:30px 26px;
+  aspect-ratio:5/7;max-height:68vh;border-radius:24px;
+  display:flex;align-items:flex-end;padding:30px 26px;
   transition:transform .16s ease;
 }
 .region:hover{transform:translateY(-5px);}
-.region .rn{
-  font-size:32px;font-weight:600;letter-spacing:-.022em;line-height:1.12;
-}
+.region .rn{font-size:32px;font-weight:600;letter-spacing:-.022em;line-height:1.12;}
 
 /* ==========================================================================
-   REGION VIEW
+   BANNER — region + section headers
    ========================================================================== */
 .banner{border-radius:24px;padding:42px 36px;margin:0 0 26px;flex:0 0 auto;}
 .banner .eyebrow{font-size:15px;font-weight:200;opacity:.82;margin:0 0 6px;}
 .banner h1{font-size:46px;font-weight:600;letter-spacing:-.026em;line-height:1.08;margin:0;}
+.banner.sec{padding:30px 32px;}
+.banner.sec h1{font-size:34px;}
 
-.tiles{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
-.tile{
-  display:flex;align-items:center;gap:20px;
+.backlink{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:14.5px;font-weight:400;color:var(--ink-3);
+  margin:0 0 18px;transition:color .12s ease;
+}
+.backlink:hover{color:var(--ink);}
+.backlink svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+/* ==========================================================================
+   REGION PAGE — assessment buttons + nav tiles
+   ========================================================================== */
+.roles{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:0 0 30px;}
+.role{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  border-radius:16px;padding:22px 26px;
+  color:#fff;font-size:19px;font-weight:600;letter-spacing:-.012em;
+  transition:transform .14s ease,filter .14s ease;
+}
+.role:hover{transform:translateY(-3px);filter:brightness(1.06);}
+.role svg{width:19px;height:19px;flex:0 0 19px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:.8;}
+
+.navgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.navtile{
+  background:var(--plate);
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:16px;
+  display:flex;align-items:center;justify-content:center;
+  min-height:168px;
+  box-shadow:var(--shadow);
+  transition:transform .14s ease,box-shadow .14s ease;
+}
+.navtile:hover{transform:translateY(-4px);}
+.navtile img{width:100%;max-width:300px;height:auto;display:block;}
+.navtile.wide{
+  grid-column:1/-1;min-height:0;padding:26px 30px;
+  justify-content:flex-start;gap:22px;
+  background:var(--surface);
+}
+.navtile.wide .ic{
+  width:58px;height:58px;flex:0 0 58px;border-radius:15px;
+  display:inline-flex;align-items:center;justify-content:center;
+}
+.navtile.wide .ic svg{width:28px;height:28px;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.navtile.wide .tn{font-size:23px;font-weight:600;letter-spacing:-.018em;color:var(--ink);}
+
+/* ==========================================================================
+   SECTION PAGE — document styling
+   ========================================================================== */
+.panel{
   background:var(--surface);border:1px solid var(--line);
-  border-radius:18px;padding:30px 28px;min-height:130px;
+  border-radius:18px;padding:30px 34px;margin-bottom:18px;
+  box-shadow:var(--shadow);
+}
+.panel h2{
+  font-size:24px;font-weight:600;letter-spacing:-.02em;line-height:1.25;
+  margin:0 0 18px;color:var(--ink);
+}
+.panel h3{
+  font-size:17px;font-weight:600;letter-spacing:-.01em;
+  margin:24px 0 10px;color:var(--ink);
+}
+.panel h3:first-child{margin-top:0;}
+.panel p{font-size:16.5px;line-height:1.68;color:var(--ink-2);margin:0 0 14px;}
+.panel p:last-child{margin-bottom:0;}
+.panel ul{margin:0 0 14px;padding-left:22px;}
+.panel li{font-size:16.5px;line-height:1.68;color:var(--ink-2);margin-bottom:8px;padding-left:4px;}
+.panel li::marker{color:var(--ink-3);}
+.panel strong{font-weight:600;color:var(--ink);}
+.panel a.inline{border-bottom:1.5px solid currentColor;padding-bottom:1px;font-weight:500;}
+
+.lead{font-size:18px;line-height:1.6;color:var(--ink-2);margin:0 0 22px;}
+
+/* numbered steps */
+.step{display:flex;gap:20px;padding:22px 0;}
+.step + .step{border-top:1px solid var(--line-soft);}
+.step:first-child{padding-top:0;}
+.step:last-child{padding-bottom:0;}
+.step .num{
+  width:36px;height:36px;flex:0 0 36px;border-radius:11px;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:15px;font-weight:600;color:#fff;
+}
+.step .sb{min-width:0;flex:1;}
+.step .sb h3{margin-top:0;}
+
+/* checklist */
+.check{display:flex;gap:14px;align-items:flex-start;padding:11px 0;cursor:pointer;}
+.check + .check{border-top:1px solid var(--line-soft);}
+.check input{
+  appearance:none;-webkit-appearance:none;
+  width:21px;height:21px;flex:0 0 21px;margin:3px 0 0;
+  border:1.7px solid var(--ink-3);border-radius:6px;background:var(--surface);
+  cursor:pointer;transition:background .13s ease,border-color .13s ease;
+}
+.check input:checked{border-color:transparent;}
+.check input:checked::after{
+  content:"";display:block;width:5px;height:10px;margin:2px 0 0 6px;
+  border:solid #fff;border-width:0 2.2px 2.2px 0;transform:rotate(43deg);
+}
+.check span{font-size:16.5px;line-height:1.6;color:var(--ink-2);}
+.check input:checked ~ span{color:var(--ink-3);text-decoration:line-through;}
+.check input:checked ~ span strong{color:var(--ink-3);font-weight:500;}
+.check .sub{display:block;font-size:14.5px;color:var(--ink-3);margin-top:3px;}
+
+/* collapsible */
+.fold{border:1px solid var(--line);border-radius:14px;margin-bottom:14px;overflow:hidden;}
+.fold > summary{
+  list-style:none;cursor:pointer;padding:16px 20px;
+  font-size:16px;font-weight:500;color:var(--ink);
+  display:flex;align-items:center;gap:11px;
+}
+.fold > summary::-webkit-details-marker{display:none;}
+.fold > summary::after{
+  content:"";margin-left:auto;width:9px;height:9px;
+  border-right:2px solid var(--ink-3);border-bottom:2px solid var(--ink-3);
+  transform:rotate(45deg);transition:transform .18s ease;
+}
+.fold[open] > summary::after{transform:rotate(-135deg);}
+.fold .foldbody{padding:2px 20px 20px;}
+.fold .foldbody > :last-child{margin-bottom:0;}
+
+/* copyable block */
+.copyblock{margin-bottom:16px;}
+.copyblock .cbhead{
+  display:flex;align-items:center;gap:12px;margin-bottom:8px;
+}
+.copyblock .cblabel{font-size:14px;font-weight:500;color:var(--ink-3);}
+.copybtn{
+  margin-left:auto;border:1px solid var(--line);background:var(--surface);
+  color:var(--ink-2);border-radius:9px;padding:7px 14px;
+  font-size:13.5px;font-weight:500;cursor:pointer;
+  transition:background .12s ease,color .12s ease,border-color .12s ease;
+}
+.copybtn:hover{background:var(--hover);color:var(--ink);}
+.copybtn.done{color:#fff;border-color:transparent;}
+.pre{
+  background:var(--bg);border:1px solid var(--line);border-radius:12px;
+  padding:18px 20px;font-size:15.5px;line-height:1.62;color:var(--ink-2);
+  white-space:pre-wrap;word-break:break-word;
+}
+
+/* callout */
+.note{
+  border-radius:14px;padding:20px 22px;margin-bottom:16px;
+  font-size:16px;line-height:1.62;
+}
+.note strong{font-weight:600;}
+
+/* table */
+.tblwrap{overflow-x:auto;margin-bottom:16px;}
+table{border-collapse:collapse;width:100%;min-width:420px;font-size:15.5px;}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line-soft);color:var(--ink-2);}
+th{font-weight:600;color:var(--ink);font-size:13.5px;letter-spacing:.03em;text-transform:uppercase;}
+
+/* big outbound card */
+.bigcard{
+  display:flex;align-items:center;gap:22px;
+  border-radius:20px;padding:34px;color:#fff;
   transition:transform .14s ease;
 }
-.tile:hover{transform:translateY(-3px);}
-.tile .ic{width:60px;height:60px;flex:0 0 60px;border-radius:16px;display:inline-flex;align-items:center;justify-content:center;}
-.tile .ic svg{width:29px;height:29px;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
-.tile .tn{font-size:23px;font-weight:600;letter-spacing:-.018em;line-height:1.24;color:var(--ink);}
+.bigcard:hover{transform:translateY(-3px);}
+.bigcard .bt{display:block;font-size:26px;font-weight:600;letter-spacing:-.02em;line-height:1.2;}
+.bigcard .bs{display:block;font-size:15px;opacity:.85;margin-top:4px;}
+.bigcard svg{width:26px;height:26px;flex:0 0 26px;margin-left:auto;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
 
-.tiles + .tiles{margin-top:34px;}
+/* ==========================================================================
+   EMAIL TEMPLATE BUILDER
+   ========================================================================== */
+.langrow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:26px;}
+.langbtn{
+  border:1.5px solid var(--line);background:var(--surface);color:var(--ink-2);
+  border-radius:13px;padding:15px 12px;font-size:16px;font-weight:500;
+  cursor:pointer;transition:all .13s ease;
+}
+.langbtn:hover{background:var(--hover);color:var(--ink);}
+.langbtn.on{color:#fff;border-color:transparent;font-weight:600;}
+
+label{display:block;font-size:13.5px;font-weight:500;color:var(--ink);margin:0 0 8px;}
+.field{margin-bottom:22px;}
+input[type=text]{
+  width:100%;font-family:inherit;font-size:16px;color:var(--ink);
+  padding:15px 17px;border:1.5px solid var(--line);border-radius:12px;
+  background:var(--surface);transition:border-color .15s,box-shadow .15s;
+}
+input[type=text]:focus{outline:none;}
+input[type=text]::placeholder{color:var(--ink-3);}
+
+.btn{
+  display:block;width:100%;font-family:inherit;font-size:17px;font-weight:500;
+  padding:19px 24px;border:none;border-radius:999px;cursor:pointer;
+  transition:transform .12s,filter .18s;
+}
+.btn:active{transform:translateY(1px);}
+.btn-primary{color:#fff;margin-top:8px;}
+.btn-primary:hover{filter:brightness(1.07);}
+.btn-outline{color:var(--ink);background:var(--surface);border:1.5px solid var(--line);}
+.btn-outline:hover{background:var(--hover);}
+
+.doc{background:var(--surface);border:1.5px solid var(--line);border-radius:16px;padding:28px 30px;}
+.doc .body{font-size:15.5px;line-height:1.68;color:var(--ink-2);}
+.doc .body p{margin:0 0 15px;}
+.doc .body p.tight{margin:0 0 4px;}
+.doc .body b{font-weight:600;color:var(--ink);}
+.doc .body ul{margin:6px 0 15px;padding-left:22px;}
+.doc .body li{margin-bottom:5px;}
+.doc .body a{color:#008CFF;word-break:break-all;}
+.missing,.token{
+  background:rgba(230,40,75,.13);color:#E6284B;
+  border-radius:4px;padding:1px 5px;font-weight:500;
+}
+.actions{display:flex;flex-direction:column;gap:12px;margin-top:26px;}
+.hidden{display:none;}
 
 /* ==========================================================================
    RESPONSIVE
    ========================================================================== */
-@media (max-height:820px){
-  .region .rn{font-size:28px;}
-}
+@media (max-height:820px){ .region .rn{font-size:28px;} }
 @media (max-width:1180px){
   .regions{grid-template-columns:repeat(3,1fr);}
   .region{aspect-ratio:4/3;max-height:none;}
+  .navgrid{grid-template-columns:repeat(2,1fr);}
 }
 @media (max-width:820px){
   body{font-size:16.5px;}
@@ -141,12 +341,26 @@ html[data-theme="dark"] .lu .dk{display:block;}
   .region .rn{font-size:26px;}
   .banner{padding:30px 24px;border-radius:18px;}
   .banner h1{font-size:33px;}
-  .tiles{grid-template-columns:1fr;gap:13px;}
-  .tile{padding:23px 21px;min-height:0;border-radius:16px;gap:17px;}
-  .tile .ic{width:52px;height:52px;flex:0 0 52px;border-radius:14px;}
-  .tile .tn{font-size:20px;}
+  .banner.sec h1{font-size:27px;}
+  .roles{grid-template-columns:1fr;gap:11px;}
+  .role{padding:19px 22px;font-size:17.5px;}
+  .navgrid{grid-template-columns:1fr;gap:14px;}
+  .navtile{min-height:132px;border-radius:16px;}
+  .navtile.wide{padding:22px;gap:17px;}
+  .navtile.wide .ic{width:50px;height:50px;flex:0 0 50px;border-radius:13px;}
+  .navtile.wide .tn{font-size:20px;}
+  .panel{padding:24px 22px;border-radius:16px;}
+  .panel h2{font-size:21px;}
+  .bigcard{padding:26px;gap:16px;}
+  .bigcard .bt{font-size:22px;}
+  .langrow{grid-template-columns:1fr;gap:10px;}
+  .step{gap:15px;}
   .hx{height:20px;}
   .lu img{height:24px;}
+}
+@media print{
+  .pagehead,.backlink,.copybtn,.actions{display:none!important;}
+  .panel{box-shadow:none;break-inside:avoid;}
 }
 </style>
 </head>
@@ -169,118 +383,935 @@ html[data-theme="dark"] .lu .dk{display:block;}
 
 <script>
 /* ==========================================================================
-   TO EDIT CONTENT — everything lives in the REGIONS array below.
+   TO EDIT CONTENT
 
-   Swap an OMG License link : replace that region's "omg" value with its own
-                              OMG registration URL. Nothing else changes.
-                              (All five point at the Lushin demo license now.)
-   Add a region             : copy a whole { key, name, from, to, ink, accent }
-                              block. The home tiles and routes follow.
-   Change a shared link     : edit LINKS — it applies to every region.
+   Swap a region's assessment links : edit that region's "roles" array below —
+                                      label + url per button. Nothing else moves.
+   Swap the email assessment links  : edit that region's "evals" object.
+   Add a region                     : copy a whole REGIONS block.
+   Change a section's writing       : edit its entry in SECTIONS. Every region
+                                      shares SECTIONS, so one edit updates all five.
 
    Colours are Hubexo's own brand palette:
      plum #321432 · atomic yellow #DCFF3C · earth #F7F7F2
      blue #008CFF · red #E6284B · orange #FF8700 · purple #A54CFF
    ========================================================================== */
 
-const LINKS = {
-  templates : "https://lushin-inc.github.io/hiring-template-creator/",
-  star      : "https://lushin-inc.github.io/star/",
-  interview : "https://lushin-inc.github.io/interview-guide",
-  book      : "https://meetings.hubspot.com/dan210/30-mins",
-  email     : "mailto:dan@lushin.com"
-};
+var STAR_URL      = "https://lushin-inc.github.io/star/";
+var INTERVIEW_URL = "https://lushin-inc.github.io/interview-guide/";
+var TRACKER_URL   = "https://docs.google.com/spreadsheets/d/123oS0ye0pynqgMY-IaLpH_bpdx7j58vAEEdis4_S4Z4/edit?usp=sharing";
 
-/* PLACEHOLDER — the Lushin demo license, used for all five regions for now. */
-const OMG_PLACEHOLDER = "https://info.objectivemanagement.com/License.aspx?ID=2885&MI=1&bc1=Search+Licenses&bc1u=Licenses.aspx%3fstatus%3d2%26d1%3d%26d2%3d%26d%3d61%26c%3d357%26pt%3d1%26csr%3d&bc2=Assessments";
+/* PLACEHOLDER — regions other than Continental Europe still point at the
+   Lushin demo license. Replace each "roles" array as its links come in. */
+var PLACEHOLDER = "https://info.objectivemanagement.com/License.aspx?ID=2885&MI=1&bc1=Search+Licenses&bc1u=Licenses.aspx%3fstatus%3d2%26d1%3d%26d2%3d%26d%3d61%26c%3d357%26pt%3d1%26csr%3d&bc2=Assessments";
+var PLACEHOLDER_ROLES = [
+  {label:"BDM English", url:PLACEHOLDER},
+  {label:"BDM German",  url:PLACEHOLDER},
+  {label:"BDM Spanish", url:PLACEHOLDER}
+];
+var PLACEHOLDER_EVALS = {en:"", de:"", es:""};
 
-/* from/to = tile gradient · ink = text on that gradient · accent = icon colour on white */
-const REGIONS = [
-  { key:"uk",      name:"UK",                 from:"#008CFF", to:"#0057A8", ink:"#FFFFFF", accent:"#008CFF", omg:OMG_PLACEHOLDER },
-  { key:"nordics", name:"Nordics",            from:"#A54CFF", to:"#6B21C9", ink:"#FFFFFF", accent:"#A54CFF", omg:OMG_PLACEHOLDER },
-  { key:"europe",  name:"Continental Europe", from:"#E6284B", to:"#A50F2C", ink:"#FFFFFF", accent:"#E6284B", omg:OMG_PLACEHOLDER },
-  { key:"apac",    name:"Asia Pacific",       from:"#FF8700", to:"#C25400", ink:"#FFFFFF", accent:"#E07600", omg:OMG_PLACEHOLDER },
-  { key:"us",      name:"US",                 from:"#DCFF3C", to:"#A8CC00", ink:"#321432", accent:"#321432", omg:OMG_PLACEHOLDER }
+var REGIONS = [
+  { key:"uk", name:"UK", from:"#008CFF", to:"#0057A8", ink:"#FFFFFF", accent:"#008CFF",
+    roles:PLACEHOLDER_ROLES, evals:PLACEHOLDER_EVALS },
+
+  { key:"nordics", name:"Nordics", from:"#A54CFF", to:"#6B21C9", ink:"#FFFFFF", accent:"#A54CFF",
+    roles:PLACEHOLDER_ROLES, evals:PLACEHOLDER_EVALS },
+
+  { key:"europe", name:"Continental Europe", from:"#E6284B", to:"#A50F2C", ink:"#FFFFFF", accent:"#E6284B",
+    roles:[
+      {label:"BDM English", url:"https://info.objectivemanagement.com/Registration.aspx?ID=2056539"},
+      {label:"BDM German",  url:"https://info.objectivemanagement.com/Registration.aspx?ID=2056536"},
+      {label:"BDM Spanish", url:"https://info.objectivemanagement.com/Registration.aspx?ID=2055688"}
+    ],
+    evals:{
+      en:"https://eval.objectivemanagement.com/XRGHSKV",
+      de:"https://eval.objectivemanagement.com/XRLC4MX",
+      es:"https://eval.objectivemanagement.com/XMKVGGN"
+    } },
+
+  { key:"apac", name:"Asia Pacific", from:"#FF8700", to:"#C25400", ink:"#FFFFFF", accent:"#E07600",
+    roles:PLACEHOLDER_ROLES, evals:PLACEHOLDER_EVALS },
+
+  { key:"us", name:"US", from:"#DCFF3C", to:"#A8CC00", ink:"#321432", accent:"#321432",
+    roles:PLACEHOLDER_ROLES, evals:PLACEHOLDER_EVALS }
 ];
 
-const ICONS = {
-  omg:'<path d="M9 3h6a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M16 4.5h2A1.5 1.5 0 0 1 19.5 6v13A1.5 1.5 0 0 1 18 20.5H6A1.5 1.5 0 0 1 4.5 19V6A1.5 1.5 0 0 1 6 4.5h2"/><path d="M8.5 12.5l2 2 4-4.5"/>',
-  templates:'<rect x="3.5" y="4" width="17" height="16" rx="2"/><path d="M3.5 9h17M9 9v11"/>',
-  star:'<path d="M12 3.6l2.6 5.3 5.9.86-4.25 4.14 1 5.86L12 17l-5.25 2.76 1-5.86L3.5 9.76l5.9-.86z"/>',
-  interview:'<path d="M4 5.5h10a1.5 1.5 0 0 1 1.5 1.5v4A1.5 1.5 0 0 1 14 12.5H8L4.5 15.5V7A1.5 1.5 0 0 1 6 5.5z"/><path d="M17 9.5h1A1.5 1.5 0 0 1 19.5 11v5.5a1.5 1.5 0 0 1-1.5 1.5h-1l-3 2.5V18"/>',
-  book:'<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3.5v3M16 3.5v3"/><path d="M9.5 14.5l1.8 1.8 3.4-3.6"/>',
-  email:'<rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.6 7l7.4 5.4a1.7 1.7 0 0 0 2 0L20.4 7"/>'
-};
-
+/* ==========================================================================
+   HELPERS
+   ========================================================================== */
 function grad(r){ return "linear-gradient(150deg," + r.from + " 0%," + r.to + " 100%)"; }
 function tint(hex,a){
-  const n = parseInt(hex.slice(1),16);
+  var n = parseInt(hex.slice(1),16);
   return "rgba(" + ((n>>16)&255) + "," + ((n>>8)&255) + "," + (n&255) + "," + a + ")";
 }
-function tile(href,icon,label,r){
-  return '<a class="tile" href="' + href + '" target="_blank" rel="noopener" style="box-shadow:var(--shadow),0 16px 38px -22px ' + tint(r.from,.55) + '">' +
-           '<span class="ic" style="background:' + tint(r.from,.14) + '">' +
-             '<svg viewBox="0 0 24 24" style="stroke:' + r.accent + '">' + icon + '</svg>' +
-           '</span><span class="tn">' + label + '</span></a>';
+function esc(s){
+  return String(s == null ? "" : s)
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+var ARROW = '<svg viewBox="0 0 24 24"><path d="M5 12h13M12.5 6l6 6-6 6"/></svg>';
+var BACK  = '<svg viewBox="0 0 24 24"><path d="M19 12H6M11.5 6l-6 6 6 6"/></svg>';
+
+/* panel with a coloured left accent */
+function panel(inner){ return '<div class="panel">' + inner + '</div>'; }
+
+function note(r,inner){
+  return '<div class="note" style="background:' + tint(r.from,.10) +
+         ';border-left:4px solid ' + r.accent + '">' + inner + '</div>';
 }
 
-function home(){
+function steps(r,list){
+  return list.map(function(s,i){
+    return '<div class="step">' +
+      '<span class="num" style="background:' + grad(r) + '">' + (i+1) + '</span>' +
+      '<div class="sb"><h3>' + s.h + '</h3>' + s.b + '</div></div>';
+  }).join("");
+}
+
+function checklist(r,id,list){
+  return '<div data-check="' + id + '">' + list.map(function(c,i){
+    return '<label class="check">' +
+      '<input type="checkbox" data-k="' + id + ':' + i + '" style="--on:' + r.accent + '">' +
+      '<span>' + c.t + (c.s ? '<span class="sub">' + c.s + '</span>' : '') + '</span></label>';
+  }).join("") + '</div>';
+}
+
+function fold(label,inner,open){
+  return '<details class="fold"' + (open ? ' open' : '') + '><summary>' + label + '</summary>' +
+         '<div class="foldbody">' + inner + '</div></details>';
+}
+
+function copyblock(r,label,text){
+  var id = "cb" + (copyblock._n = (copyblock._n||0) + 1);
+  window.__COPY = window.__COPY || {};
+  window.__COPY[id] = text;
+  return '<div class="copyblock"><div class="cbhead"><span class="cblabel">' + label + '</span>' +
+    '<button class="copybtn" data-copy="' + id + '" style="--on:' + r.accent + '">Copy</button></div>' +
+    '<div class="pre">' + esc(text) + '</div></div>';
+}
+
+function bigcard(r,href,title,sub){
+  return '<a class="bigcard" href="' + href + '" target="_blank" rel="noopener" ' +
+    'style="background:' + grad(r) + ';color:' + r.ink +
+    ';box-shadow:0 18px 40px -22px ' + tint(r.from,.7) + '">' +
+    '<span><span class="bt">' + title + '</span><span class="bs">' + sub + '</span></span>' + ARROW + '</a>';
+}
+
+/* ==========================================================================
+   SECTIONS — shared by all five regions
+   ========================================================================== */
+var SECTIONS = [
+
+/* ------------------------------- 1 ------------------------------------- */
+{
+key:"checklist", img:"Assets/nav/process-checklist.png", title:"Process Checklist",
+render:function(r){
+  return panel(
+    "<h2>Run every hire the same way</h2>" +
+    checklist(r,"ce-checklist",[
+      {t:"<strong>Write and post the ad</strong>", s:"Indeed, LinkedIn, ZipRecruiter — whichever platform you use."},
+      {t:"<strong>Applications come in</strong>"},
+      {t:"<strong>Send the assessment email the same day</strong>", s:"Use the Email Templates page — pick the language, paste in the job title and your name."},
+      {t:"<strong>Add every applicant to the tracking sheet immediately</strong>", s:"If you already run an applicant tracking system, use that instead."},
+      {t:"<strong>Mark each resume Yes or No for follow-up</strong>", s:"Strong resume, mark Yes. Weak resume, mark No. Decide once and move on."},
+      {t:"<strong>Chase the Yes list until they take the assessment</strong>", s:"Keep after them. This is the step where most hiring processes leak candidates."},
+      {t:"<strong>When a candidate comes back Recommended, schedule the interview immediately</strong>", s:"Top producers are off the market in about 15 days. Speed is the whole game."},
+      {t:"<strong>Run the interview process</strong>", s:"Phone screen, first interview, final interview, offer."},
+      {t:"<strong>Start the 90-day onboarding plan</strong>", s:"The hire is measured at the first anniversary, not the start date."}
+    ]) +
+    "<p style='margin-top:20px;font-size:14.5px;color:var(--ink-3)'>Ticks are saved in this browser.</p>"
+  ) +
+  panel(
+    "<h2>Tools for these steps</h2>" +
+    "<ul>" +
+    "<li><a class='inline' href='#" + r.key + "/ad-examples' style='color:" + r.accent + "'>Ad Examples</a> — how to write the posting, with a template you can fill in.</li>" +
+    "<li><a class='inline' href='#" + r.key + "/emails' style='color:" + r.accent + "'>Email Templates</a> — the assessment invite in English, German and Spanish.</li>" +
+    "<li><a class='inline' href='" + TRACKER_URL + "' target='_blank' rel='noopener' style='color:" + r.accent + "'>Example applicant tracking sheet</a> — copy it and make it yours.</li>" +
+    "<li><a class='inline' href='#" + r.key + "/interview-process' style='color:" + r.accent + "'>Interview Process</a> — what each interview is for and what to listen for.</li>" +
+    "<li><a class='inline' href='#" + r.key + "/interview-guide' style='color:" + r.accent + "'>Interview Guide</a> — questions by competency, built from the assessment.</li>" +
+    "<li><a class='inline' href='#" + r.key + "/onboarding-plan' style='color:" + r.accent + "'>Onboarding Plan</a> — the 90 days after they say yes.</li>" +
+    "</ul>"
+  );
+}},
+
+/* ------------------------------- 2 ------------------------------------- */
+{
+key:"mini-course", img:"Assets/nav/mini-course.png", title:"Hiring Mini-Course",
+render:function(r){
+  var stages = [
+    {n:"Distinguish", ch:"Chapters 1–5", body:"Why hiring salespeople is different from hiring anyone else. Writing the job description, working out what actually makes you a good place to work, and writing an ad that speaks to top producers rather than to everyone."},
+    {n:"Source", ch:"Chapters 6–9", body:"Where candidates come from when the good ones are not applying — job boards, LinkedIn searches, referrals, recruiters. Choosing selection methods that predict performance, configuring the assessment to the role, and recognising the bias you bring to the process."},
+    {n:"Assess", ch:"Chapters 10–12", body:"Laying out the steps of your process and assigning an owner and a date to each. Setting up your assessment portal, sending candidate instructions, and reading the report you get back."},
+    {n:"Interview", ch:"Chapters 13–16", body:"The 10-minute phone screen, the structured first interview, the final interview where you sell the opportunity, and the reference check and offer."},
+    {n:"Retain", ch:"Chapters 17–19", body:"The 90-day onboarding plan, the career development roadmap, and keeping people through coaching, mentoring and engagement."},
+    {n:"Toolkit", ch:"Chapters 20–22", body:"Troubleshooting a process that is not producing, applicant tracking and templates, and what changes when you are hiring a sales manager rather than a rep."}
+  ];
+  return panel(
+    "<h2>The six stages</h2>" +
+    "<p class='lead'>Each stage below is a group of chapters in the full STAR course. Read the stage here to know what it covers, then open the course for the videos, worksheets and templates.</p>" +
+    steps(r, stages.map(function(s){
+      return {h:s.n + " · " + s.ch, b:"<p>" + s.body + "</p>"};
+    }))
+  ) +
+  bigcard(r, STAR_URL, "Open STAR", "All 22 chapters, with videos and worksheets");
+}},
+
+/* ------------------------------- 3 ------------------------------------- */
+{
+key:"ad-examples", img:"Assets/nav/ad-examples.png", title:"Ad Examples",
+render:function(r){
+  var template =
+"[Sell the vision — one eye-catching, aspirational sentence]\n\n" +
+"You must have prior success selling [what you sell] to [decision maker title] at [target customer].\n\n" +
+"You must excel at [the biggest challenge of the role — sales cycle length, resistant market, hunting].\n\n" +
+"You have [required skills]. Experience with [parallel experience] is helpful but not required.\n\n" +
+"Travel to [where] required. We need you to earn more than [number] and our top producers make [number].\n\n" +
+"Qualifications:\n" +
+"• [qualification]\n" +
+"• [qualification]\n" +
+"• [qualification]\n\n" +
+"About us and why us:\n" +
+"[location, benefits, one or two real differentiators]\n\n" +
+"Steps of our process:\n" +
+"Week 1 — submit an application\n" +
+"Week 2 — screening\n" +
+"Week 3 — first interview\n" +
+"Week 4 — follow-up interviews\n" +
+"Week 5 — final interview and offer\n\n" +
+"[Call to action]";
+
+  var example =
+"Senior Business Development Manager\n\n" +
+"This is an amazing opportunity to live a life that only the top 5% get to live. ABC Co. will show you the way if you have the grit.\n\n" +
+"You must have prior success selling high-end business services to Fortune 1000 CEOs in a competitive or resistant market. You must excel at finding and closing opportunities in a 45-day sales cycle. You must work well independently, be a self-starter, accept tough coaching, and be held accountable to the agreed-upon goals.\n\n" +
+"We need you to earn at least €250,000 (no ceiling) and be willing to travel 35% of the time. Experience with executive recruiting is helpful.\n\n" +
+"Qualifications:\n" +
+"• MBA or Bachelor's degree in business administration, human resources or similar experience.\n" +
+"• Minimum of five years of experience in sales and developing customer partnerships.\n" +
+"• Excellent communication skills, both written and verbal, in English.\n" +
+"• Must be able to speak executive strategy and financial statements.\n\n" +
+"Benefits:\n" +
+"• Flexible working schedule\n" +
+"• Group events, holiday dinners, office social calendar\n" +
+"• Two weeks personal time off, sick days, 10 holidays\n" +
+"• 12-month mentor programme for professional development\n" +
+"• Commission and individual bonus opportunities\n" +
+"• Comprehensive healthcare coverage\n" +
+"• 5% of our profits go to charity\n\n" +
+"Steps of our interview process:\n" +
+"Week one: submit an application\n" +
+"Week two: the screening process\n" +
+"Week three: schedule an in-person interview\n" +
+"Week four: attend the in-person interview\n" +
+"Weeks five and six: follow-up interviews\n" +
+"Week seven: meeting upper management\n" +
+"Week eight: receiving a job offer\n" +
+"Week nine: start the new job\n\n" +
+"Who we are:\n" +
+"Our employees rate us 4.5 out of 5 on Indeed. We are the #1 HR software platform in the world, used by 83% of the Global Fortune 2000.";
+
+  return panel(
+    "<h2>Six things the posting must do</h2>" +
+    "<ul>" +
+    "<li>Sell an exciting vision.</li>" +
+    "<li>Describe the ideal candidate — their experience and your requirements — not the company.</li>" +
+    "<li>Talk about the hard part of the job.</li>" +
+    "<li>Mention only the differentiators that matter. Skip the company history.</li>" +
+    "<li>Include the total compensation you need them to earn, and say whether there is a ceiling.</li>" +
+    "<li>Sound different. If it reads like every other ad, it gets the response rate of every other ad.</li>" +
+    "</ul>"
+  ) +
+  panel(
+    "<h2>Match the pay to the requirements</h2>" +
+    "<p>The two have to move together or the pool collapses to nobody.</p>" +
+    "<p>Advertise a long list of requirements against €125,000 and there is a real pool of people who both qualify and want that number. Keep the same requirements and drop the figure to €50,000 and the pool goes to zero — everyone who qualifies is turned off by the money, and everyone attracted by the money does not qualify.</p>" +
+    note(r,"<strong>Before you post:</strong> look at what your role actually pays in this country and industry, then write the requirements to match it.")
+  ) +
+  panel(
+    "<h2>Fill-in template</h2>" +
+    copyblock(r,"Paste into your job posting draft",template)
+  ) +
+  panel(
+    "<h2>Worked example</h2>" +
+    "<p>An OMG sample posting for a senior BDM role. Note that it names the hard parts, states the money, and publishes the timeline of the hiring process — that last one matters more to candidates than most companies expect.</p>" +
+    copyblock(r,"Paste and rewrite for your role",example)
+  );
+}},
+
+/* ------------------------------- 4 ------------------------------------- */
+{
+key:"interview-process", img:"Assets/nav/interview-process.png", title:"Interview Process",
+render:function(r){
+  return panel(
+    "<h2>The five steps</h2>" +
+    steps(r,[
+      {h:"Five-minute phone interview",
+       b:"<p>Purpose: qualify the candidate quickly.</p><p>What you are listening for:</p><ul>" +
+         "<li>How they sound on the phone — tone, clarity, presence.</li>" +
+         "<li>Whether they can build rapport.</li>" +
+         "<li>Whether their experience matches the ad.</li>" +
+         "<li>How they handle push-back or a put-off.</li></ul>"},
+      {h:"First interview",
+       b:"<p>Objective: validate the assessment and the resume through live conversation.</p><ul>" +
+         "<li>Push back on the resume. Check for accuracy, patterns and truth.</li>" +
+         "<li>Evaluate soft skills and cultural fit.</li>" +
+         "<li>Watch body language, confidence and conversation flow.</li>" +
+         "<li>Do not discuss compensation or benefits at this stage.</li></ul>"},
+      {h:"Final interview",
+       b:"<p>Goals: sell the opportunity, introduce key stakeholders, confirm mutual fit and close the candidate.</p>" +
+         "<p>Cover job expectations, compensation, the sales cycle, who they report to, and what a typical client looks like.</p>"},
+      {h:"Job offer",
+       b:"<p>Be ready to make the offer at the end of the final interview if it has gone well.</p>" +
+         "<p>The offer must match what was discussed. No surprises.</p>"},
+      {h:"Onboarding preparation",
+       b:"<p>Once the offer is accepted, shift straight into onboarding.</p><ul>" +
+         "<li>Clarify daily, weekly and monthly expectations.</li>" +
+         "<li>Train on product, market, competition, sales process and positioning.</li>" +
+         "<li>Assign coaching responsibilities and onboarding milestones.</li></ul>"}
+    ])
+  ) +
+  panel(
+    note(r,"<strong>Recommended does not mean automatic hire.</strong> If the candidate sounds poor on the phone, interviews badly, or lacks the experience the role needs, you can and should say no.")
+  ) +
+  bigcard(r, INTERVIEW_URL, "Open the Interview Guide", "Questions by competency for the first interview");
+}},
+
+/* ------------------------------- 5 ------------------------------------- */
+{
+key:"interview-guide", img:"Assets/nav/interview-guide.png", title:"Interview Guide",
+render:function(r){
+  return panel(
+    "<h2>How to use it</h2>" +
+    "<ul>" +
+    "<li>Open the candidate's assessment before the interview.</li>" +
+    "<li>Pick the competencies they scored weakest on.</li>" +
+    "<li>Pull the questions for those competencies and ask them in the interview.</li>" +
+    "<li>Score what you hear against the outcomes listed under each question.</li>" +
+    "</ul>" +
+    "<p>The guide is organised by the four assessment categories — Will to Sell, Sales DNA, Interpersonal and Tactical Skills — so it maps directly onto the report you are holding.</p>"
+  ) +
+  bigcard(r, INTERVIEW_URL, "Open the Interview Guide", "Questions and scoring by competency");
+}},
+
+/* ------------------------------- 6 ------------------------------------- */
+{
+key:"onboarding-plan", img:"Assets/nav/onboarding-plan.png", title:"Onboarding Plan",
+render:function(r){
+  var topics = [
+    ["The company","Company history · organisation structure · reporting structure · coaching guidelines"],
+    ["The product","Product training · example applications · profile of a typical customer · the problems we solve · our value proposition"],
+    ["The market","Our marketplace · our pricing strategy · our sales process · our sales cycle"],
+    ["The selling","A typical prospecting call · a typical sales call · typical objections and how to handle them"],
+    ["The competition","Who they are · their value proposition · how they position themselves · how we position ourselves · how we are different · how we are the same · what they say about us · what we say about them"],
+    ["The expectations","KPIs · who they are accountable to · the plan to hit quota · where to go for help"]
+  ];
+  return panel(
+    "<h2>Ninety days, not one week</h2>" +
+    "<p>Even experienced salespeople need to be onboarded deliberately. A traded professional athlete still has to learn the playbook, the team and the culture before they play. Your experienced reps are no different.</p>" +
+    note(r,"<strong>Start day one with something that makes them glad they came.</strong> Not paperwork.")
+  ) +
+  panel(
+    "<h2>Every topic that has to be covered</h2>" +
+    "<p>Assign an owner and a date to each one.</p>" +
+    "<div class='tblwrap'><table><tr><th>Area</th><th>Topics</th></tr>" +
+    topics.map(function(t){
+      return "<tr><td><strong>" + t[0] + "</strong></td><td>" + t[1] + "</td></tr>";
+    }).join("") + "</table></div>"
+  ) +
+  panel(
+    "<h2>Sample plan</h2>" +
+    "<h3>Month 1</h3>" +
+    "<ul>" +
+    "<li>Set up accounts — email, CRM, content sharing, knowledge base.</li>" +
+    "<li>Acclimatise them to the business and start product training, so they understand the problems the business solves.</li>" +
+    "<li>Tour the facility and meet everyone relevant, especially the people who will manage them or report to them.</li>" +
+    "<li>Complete any certification the role requires.</li>" +
+    "<li>Build personal goals and a plan with KPIs, required daily activity and tracking. Start pipeline development and CRM use.</li>" +
+    "<li>Upgrade their assessment to a full coaching report, identify the weaknesses that would get in the way of the plan, and write a plan to overcome them.</li>" +
+    "<li>Write positioning statements and start calling prospects. Agree a daily target for meetings, calls and emails with their manager.</li>" +
+    "<li>Debrief daily — challenges, coaching, and the next day's plan. Strategise before calls, debrief after them.</li>" +
+    "</ul>" +
+    "<h3>Months 2 and 3</h3>" +
+    "<ul>" +
+    "<li>Keep building technical depth on products and services.</li>" +
+    "<li>Continue sales training — value proposition, elevator pitch, sales conversations, presentations, proposals, objections.</li>" +
+    "<li>Run joint sales calls.</li>" +
+    "<li>Keep the daily debriefs and coaching going.</li>" +
+    "<li>Review activity at the end of every week and hold them to the agreed KPIs.</li>" +
+    "<li>Break the monthly plan down into weekly goals with their own KPIs.</li>" +
+    "</ul>"
+  ) +
+  panel(
+    "<h2>KPIs must be forward-looking</h2>" +
+    "<p>Measure the activity that drives revenue, not the revenue. For a new salesperson that usually means call attempts, conversations, meetings scheduled, new meetings, referrals, introductions, new opportunities, qualified opportunities, demos, proposals and quotes.</p>" +
+    "<p>Set a goal and record the actual at 30, 60 and 90 days.</p>" +
+    "<div class='tblwrap'><table><tr><th>KPI</th><th>30-day goal</th><th>Actual</th><th>60-day goal</th><th>Actual</th><th>90-day goal</th><th>Actual</th></tr>" +
+    "<tr><td colspan='7' style='color:var(--ink-3)'>Add your rows — one KPI per line.</td></tr></table></div>"
+  );
+}}
+];
+
+/* ==========================================================================
+   EMAIL TEMPLATES — one copy table, three languages
+
+   To reword an email : edit the matching entry in EMAIL_COPY. The preview,
+                        the Copy Text output and the Word download all read
+                        from this one table, so they can never drift apart.
+   ========================================================================== */
+var EMAIL_COPY = {
+
+en:{ name:"English", label:"BDM English", hreflang:"en",
+  subject:  "Hubexo - One more step…",
+  greet:    "Hi {name},",
+  thanks:   "Thank you for applying to {company} for the {job} position!",
+  review:   "We will spend some time reviewing your application over the next couple days, but I wanted to let you know there’s one more step we’re asking you to complete your application.",
+  nextH:    "Next Step:",
+  nextP:    "Please complete a sales assessment via the link below. This will give us better insight into your unique skillset.",
+  tipsH:    "Here are some pointers to help in taking the assessment:",
+  tips:[    "It will take about 45 minutes to complete.",
+            "Set aside the time uninterrupted to complete the assessment (complete in one sitting)",
+            "Answer based on how you do things now.",
+            "If a question does not apply to your current role, answer it based on how you think you would handle the situation."],
+  linkH:    "Assessment Link:",
+  byH:      "Please complete by:",
+  byP:      "Within the next 2 business days",
+  after:    "After you complete this assessment, if we feel like we might be a good fit for each other, we will send an email over to you to invite you to an interview.",
+  closeP:   "Thanks again for your interest in {company}. We’ll be in touch soon.",
+  best:     "Best,",
+  subjectLabel:"SUBJECT:", emailLabel:"EMAIL:" },
+
+de:{ name:"Deutsch", label:"BDM German", hreflang:"de",
+  subject:  "Hubexo – Noch ein letzter Schritt…",
+  greet:    "Hallo {name},",
+  thanks:   "vielen Dank für Ihre Bewerbung bei {company} auf die Position als {job}!",
+  review:   "Wir werden Ihre Bewerbung in den nächsten Tagen in Ruhe prüfen. Vorab möchte ich Ihnen jedoch mitteilen, dass wir Sie um einen weiteren Schritt zur Vervollständigung Ihrer Bewerbung bitten.",
+  nextH:    "Nächster Schritt:",
+  nextP:    "Bitte füllen Sie über den untenstehenden Link eine Vertriebsanalyse aus. Sie gibt uns einen besseren Einblick in Ihre individuellen Stärken.",
+  tipsH:    "Einige Hinweise zur Bearbeitung:",
+  tips:[    "Die Bearbeitung dauert etwa 45 Minuten.",
+            "Nehmen Sie sich die Zeit ohne Unterbrechung und bearbeiten Sie die Analyse in einem Durchgang.",
+            "Antworten Sie so, wie Sie heute tatsächlich vorgehen.",
+            "Falls eine Frage nicht auf Ihre aktuelle Rolle zutrifft, antworten Sie so, wie Sie die Situation Ihrer Einschätzung nach handhaben würden."],
+  linkH:    "Link zur Analyse:",
+  byH:      "Bitte abschließen bis:",
+  byP:      "Innerhalb der nächsten 2 Werktage",
+  after:    "Wenn wir nach Abschluss der Analyse den Eindruck haben, dass wir gut zueinander passen könnten, melden wir uns per E-Mail bei Ihnen und laden Sie zu einem Gespräch ein.",
+  closeP:   "Nochmals vielen Dank für Ihr Interesse an {company}. Wir melden uns in Kürze.",
+  best:     "Mit freundlichen Grüßen",
+  subjectLabel:"BETREFF:", emailLabel:"E-MAIL:" },
+
+es:{ name:"Español", label:"BDM Spanish", hreflang:"es-ES",
+  subject:  "Hubexo – Un último paso…",
+  greet:    "Hola {name}:",
+  thanks:   "Gracias por inscribirse en el proceso de selección de {company} para el puesto de {job}.",
+  review:   "Durante los próximos días revisaremos su candidatura con detenimiento, pero quería avisarle de que le pedimos un último paso para completar su solicitud.",
+  nextH:    "Siguiente paso:",
+  nextP:    "Le pedimos que complete una evaluación comercial a través del enlace que aparece más abajo. Nos permitirá conocer mejor sus capacidades.",
+  tipsH:    "Algunas recomendaciones para realizarla:",
+  tips:[    "Se tarda unos 45 minutos en completarla.",
+            "Reserve ese tiempo sin interrupciones y complétela de una sola vez.",
+            "Responda según cómo trabaja actualmente.",
+            "Si alguna pregunta no se corresponde con su puesto actual, responda según cómo cree que gestionaría la situación."],
+  linkH:    "Enlace a la evaluación:",
+  byH:      "Fecha límite:",
+  byP:      "En los próximos 2 días laborables",
+  after:    "Una vez completada la evaluación, si consideramos que podemos encajar bien, le escribiremos para invitarle a una entrevista.",
+  closeP:   "Gracias de nuevo por su interés en {company}. Estaremos en contacto muy pronto.",
+  best:     "Un saludo,",
+  subjectLabel:"ASUNTO:", emailLabel:"CORREO:" }
+};
+
+var EMAIL_LANGS = ["en","de","es"];
+var COMPANY    = "Hubexo";
+var NAME_TOKEN = "[NAME]";
+var STORE      = "hubexoEmailV1";
+
+var EM = { lang:"en", region:null, data:{} };
+
+function emFill(s,v){
+  return String(s).replace(/\{name\}/g, v.name).replace(/\{company\}/g, v.company)
+                  .replace(/\{job\}/g, v.job);
+}
+function emVals(){
+  /* Read the live input when the form is on screen; fall back to the values
+     saved on "Open Template", since the preview view replaces the form. */
+  function g(id,ph){
+    var el = document.getElementById(id);
+    var t  = el ? (el.value||"").trim() : (EM.data[id] || "").trim();
+    return {v: t || ph, blank: !t};
+  }
+  var job    = g("em-job","[JOB TITLE]");
+  var link   = g("em-link","[ASSESSMENT LINK]");
+  var sender = g("em-sender","[SENDER NAME]");
+  return {
+    job:job.v, job_blank:job.blank,
+    link:link.v, link_blank:link.blank,
+    sender:sender.v, sender_blank:sender.blank,
+    name:NAME_TOKEN, company:COMPANY
+  };
+}
+function emSave(){
+  ["em-job","em-link","em-sender"].forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) EM.data[id] = el.value || "";
+  });
+  try{
+    localStorage.setItem(STORE, JSON.stringify({
+      job:    EM.data["em-job"]    || "",
+      sender: EM.data["em-sender"] || "",
+      lang:   EM.lang
+    }));
+  }catch(e){}
+}
+function emLoad(){
+  try{
+    var o = JSON.parse(localStorage.getItem(STORE) || "{}");
+    if(o.job    && document.getElementById("em-job"))    document.getElementById("em-job").value = o.job;
+    if(o.sender && document.getElementById("em-sender")) document.getElementById("em-sender").value = o.sender;
+    if(o.lang && EMAIL_COPY[o.lang]) EM.lang = o.lang;
+    if(o.job)    EM.data["em-job"]    = o.job;
+    if(o.sender) EM.data["em-sender"] = o.sender;
+  }catch(e){}
+}
+
+/* ---------------- plain text (Copy Text) ---------------- */
+function emText(){
+  var T = EMAIL_COPY[EM.lang], v = emVals();
+  return T.subjectLabel + "\n" + T.subject + "\n\n"
+    + T.emailLabel + "\n\n"
+    + emFill(T.greet,v) + "\n\n"
+    + emFill(T.thanks,v) + "\n\n"
+    + T.review + "\n\n"
+    + T.nextH + "\n\n" + T.nextP + "\n\n"
+    + T.tipsH + "\n" + T.tips.map(function(t){ return "• " + t; }).join("\n") + "\n\n"
+    + T.linkH + "\n\n" + v.link + "\n\n"
+    + T.byH + "\n\n" + T.byP + "\n\n"
+    + T.after + "\n\n"
+    + emFill(T.closeP,v) + "\n\n"
+    + T.best + "\n" + v.sender;
+}
+
+/* ---------------- rendered preview ---------------- */
+function emMark(v,key){
+  return v[key + "_blank"]
+    ? '<span class="missing">' + esc(v[key]) + '</span>'
+    : esc(v[key]);
+}
+function emRender(){
+  var T = EMAIL_COPY[EM.lang], v = emVals();
+  var linkHtml = v.link_blank
+    ? '<span class="missing">' + esc(v.link) + '</span>'
+    : (/^https?:\/\//i.test(v.link)
+        ? '<a href="' + esc(v.link) + '" target="_blank" rel="noopener">' + esc(v.link) + '</a>'
+        : esc(v.link));
+  var jobHtml = emMark(v,"job");
+
+  var el = document.getElementById("em-out");
+  if(!el) return;
+  el.setAttribute("lang", T.hreflang);
+  el.innerHTML =
+      '<p class="tight"><b>' + esc(T.subjectLabel) + '</b></p>'
+    + '<p>' + esc(T.subject) + '</p>'
+    + '<p><b>' + esc(T.emailLabel) + '</b></p>'
+    + '<p>' + esc(emFill(T.greet,v)).replace("[NAME]", '<span class="token">[NAME]</span>') + '</p>'
+    + '<p>' + esc(T.thanks).replace("{company}", esc(v.company)).replace("{job}", jobHtml) + '</p>'
+    + '<p>' + esc(T.review) + '</p>'
+    + '<p><b>' + esc(T.nextH) + '</b></p>'
+    + '<p>' + esc(T.nextP) + '</p>'
+    + '<p class="tight"><b>' + esc(T.tipsH) + '</b></p>'
+    + '<ul>' + T.tips.map(function(t){ return '<li>' + esc(t) + '</li>'; }).join("") + '</ul>'
+    + '<p class="tight"><b>' + esc(T.linkH) + '</b></p>'
+    + '<p>' + linkHtml + '</p>'
+    + '<p class="tight"><b>' + esc(T.byH) + '</b></p>'
+    + '<p>' + esc(T.byP) + '</p>'
+    + '<p>' + esc(T.after) + '</p>'
+    + '<p>' + esc(T.closeP).replace("{company}", esc(v.company)) + '</p>'
+    + '<p class="tight">' + esc(T.best) + '</p>'
+    + '<p>' + emMark(v,"sender") + '</p>';
+}
+
+/* ---------------- the page ---------------- */
+var EMAIL_SECTION = {
+key:"emails", wide:true, title:"Email Templates",
+icon:'<rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.6 7l7.4 5.4a1.7 1.7 0 0 0 2 0L20.4 7"/>',
+render:function(r){
+  EM.region = r;
+  var isTpl = /\/emails\/preview$/.test(location.hash);
+
+  var form = panel(
+    "<h2>Assessment invite</h2>" +
+    "<p class='lead'>Pick the language. The assessment link fills in on its own — the three links are different assessments, one per language.</p>" +
+    '<div class="langrow" id="em-langs"></div>' +
+    '<div class="field"><label for="em-job">Job title</label>' +
+      '<input id="em-job" type="text" placeholder="Business Development Manager" autocomplete="off"></div>' +
+    '<div class="field"><label for="em-link">Assessment link</label>' +
+      '<input id="em-link" type="text" placeholder="https://…" autocomplete="off"></div>' +
+    '<div class="field"><label for="em-sender">Your name</label>' +
+      '<input id="em-sender" type="text" placeholder="Roel" autocomplete="off"></div>' +
+    '<button class="btn btn-primary" id="em-open" style="background:' + grad(r) +
+      ';color:' + r.ink + ';box-shadow:0 12px 28px -14px ' + tint(r.from,.8) + '">Open Template</button>'
+  );
+
+  var preview =
+    '<a class="backlink" href="#' + r.key + '/emails">' + BACK + 'Edit fields</a>' +
+    '<div class="doc"><div class="body" id="em-out"></div></div>' +
+    '<div class="actions">' +
+      '<button class="btn btn-primary" id="em-copy" style="background:' + grad(r) +
+        ';color:' + r.ink + ';box-shadow:0 12px 28px -14px ' + tint(r.from,.8) + '">Copy Text</button>' +
+      '<button class="btn btn-outline" id="em-docx">Download Word Doc</button>' +
+    '</div>';
+
+  return isTpl ? preview : form;
+}};
+
+/* ==========================================================================
+   VIEWS
+   ========================================================================== */
+var ALL_SECTIONS = SECTIONS.concat([EMAIL_SECTION]);
+
+function findRegion(k){
+  for(var i=0;i<REGIONS.length;i++) if(REGIONS[i].key === k) return REGIONS[i];
+  return null;
+}
+function findSection(k){
+  for(var i=0;i<ALL_SECTIONS.length;i++) if(ALL_SECTIONS[i].key === k) return ALL_SECTIONS[i];
+  return null;
+}
+
+function homeView(){
   return '<h1 class="page-title">Hubexo Sales Hiring Hub</h1>' +
     '<div class="regions">' +
       REGIONS.map(function(r){
         return '<a class="region" href="#' + r.key + '" style="background:' + grad(r) +
                ';color:' + r.ink + ';box-shadow:0 20px 46px -22px ' + tint(r.from,.75) + '">' +
-                 '<span class="rn">' + r.name + '</span></a>';
+               '<span class="rn">' + r.name + '</span></a>';
       }).join("") +
     '</div>';
 }
 
-function region(r){
+function regionView(r){
   return '<div class="banner" style="background:' + grad(r) + ';color:' + r.ink +
            ';box-shadow:0 20px 46px -24px ' + tint(r.from,.7) + '">' +
            '<p class="eyebrow">Hubexo Sales Hiring Hub</p><h1>' + r.name + '</h1></div>' +
-         '<div class="tiles">' +
-           tile(r.omg,           ICONS.omg,       "OMG License",             r) +
-           tile(LINKS.templates, ICONS.templates, "Hiring Template Creator", r) +
-           tile(LINKS.star,      ICONS.star,      "STAR Training",           r) +
-           tile(LINKS.interview, ICONS.interview, "Interview Guide",         r) +
-         '</div>' +
-         '<div class="tiles">' +
-           tile(LINKS.book,  ICONS.book,  "Book Time",      r) +
-           tile(LINKS.email, ICONS.email, "dan@lushin.com", r) +
-         '</div>';
+
+    '<div class="roles">' +
+      r.roles.map(function(a){
+        return '<a class="role" href="' + a.url + '" target="_blank" rel="noopener" ' +
+               'style="background:' + grad(r) + ';color:' + r.ink +
+               ';box-shadow:0 14px 32px -18px ' + tint(r.from,.7) + '">' +
+               '<span>' + esc(a.label) + '</span>' + ARROW + '</a>';
+      }).join("") +
+    '</div>' +
+
+    '<div class="navgrid">' +
+      SECTIONS.map(function(s){
+        return '<a class="navtile" href="#' + r.key + '/' + s.key + '">' +
+               '<img src="' + s.img + '" alt="' + esc(s.title) + '"></a>';
+      }).join("") +
+      '<a class="navtile wide" href="#' + r.key + '/' + EMAIL_SECTION.key + '">' +
+        '<span class="ic" style="background:' + tint(r.from,.14) + '">' +
+          '<svg viewBox="0 0 24 24" style="stroke:' + r.accent + '">' + EMAIL_SECTION.icon + '</svg>' +
+        '</span><span class="tn">' + EMAIL_SECTION.title + '</span></a>' +
+    '</div>';
 }
 
-function render(){
-  const key = location.hash.replace("#","");
-  const r = REGIONS.filter(function(x){ return x.key === key; })[0];
-  document.documentElement.setAttribute("data-view", r ? "region" : "home");
-  document.getElementById("view").innerHTML = r ? region(r) : home();
-  document.title = r ? r.name + " — Hubexo Sales Hiring Hub" : "Hubexo Sales Hiring Hub";
+function sectionView(r,s){
+  return '<a class="backlink" href="#' + r.key + '">' + BACK + esc(r.name) + '</a>' +
+    '<div class="banner sec" style="background:' + grad(r) + ';color:' + r.ink +
+      ';box-shadow:0 18px 40px -24px ' + tint(r.from,.7) + '">' +
+      '<p class="eyebrow">' + esc(r.name) + '</p><h1>' + esc(s.title) + '</h1></div>' +
+    s.render(r);
+}
+
+/* ==========================================================================
+   ROUTER
+   ========================================================================== */
+function route(){
+  var parts = location.hash.replace(/^#/,"").split("/").filter(Boolean);
+  var r = parts.length ? findRegion(parts[0]) : null;
+  var s = (r && parts[1]) ? findSection(parts[1]) : null;
+  var view = document.getElementById("view");
+
+  if(!r){
+    document.documentElement.setAttribute("data-view","home");
+    view.innerHTML = homeView();
+    document.title = "Hubexo Sales Hiring Hub";
+  } else if(!s){
+    document.documentElement.setAttribute("data-view","region");
+    view.innerHTML = regionView(r);
+    document.title = r.name + " — Hubexo Sales Hiring Hub";
+  } else {
+    document.documentElement.setAttribute("data-view","section");
+    view.innerHTML = sectionView(r,s);
+    document.title = s.title + " — " + r.name;
+    if(s.key === "emails") wireEmail(r);
+    wireChecks();
+  }
+  wireCopy();
   window.scrollTo(0,0);
 }
-window.addEventListener("hashchange", render);
+window.addEventListener("hashchange", route);
 
-const SUN  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.4 5.4l1.5 1.5M17.1 17.1l1.5 1.5M18.6 5.4l-1.5 1.5M6.9 17.1l-1.5 1.5"/></svg>';
-const MOON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.3A8.6 8.6 0 0 1 9.7 3.5a8.6 8.6 0 1 0 10.8 10.8z"/></svg>';
+/* ==========================================================================
+   WIRING
+   ========================================================================== */
+function wireCopy(){
+  Array.prototype.forEach.call(document.querySelectorAll("[data-copy]"), function(b){
+    b.addEventListener("click", function(){
+      var t = (window.__COPY || {})[b.getAttribute("data-copy")] || "";
+      copyText(t, b, "Copied", "Copy");
+    });
+  });
+}
+
+function wireChecks(){
+  Array.prototype.forEach.call(document.querySelectorAll("input[data-k]"), function(cb){
+    var k = cb.getAttribute("data-k");
+    var on = cb.style.getPropertyValue("--on") || "#321432";
+    try{ if(localStorage.getItem("hx:" + k) === "1") cb.checked = true; }catch(e){}
+    if(cb.checked) cb.style.background = on;
+    cb.addEventListener("change", function(){
+      cb.style.background = cb.checked ? on : "";
+      try{ localStorage.setItem("hx:" + k, cb.checked ? "1" : "0"); }catch(e){}
+    });
+  });
+}
+
+function wireEmail(r){
+  var isTpl = /\/emails\/preview$/.test(location.hash);
+
+  if(!isTpl){
+    emLoad();
+    var box = document.getElementById("em-langs");
+    function paintLangs(){
+      box.innerHTML = EMAIL_LANGS.map(function(L){
+        var on = (L === EM.lang);
+        return '<button class="langbtn' + (on ? " on" : "") + '" data-lang="' + L + '"' +
+               (on ? ' style="background:' + grad(r) + ';color:' + r.ink + '"' : "") + '>' +
+               esc(EMAIL_COPY[L].name) + '</button>';
+      }).join("");
+      Array.prototype.forEach.call(box.querySelectorAll("[data-lang]"), function(b){
+        b.addEventListener("click", function(){
+          EM.lang = b.getAttribute("data-lang");
+          setEval();
+          paintLangs();
+          emSave();
+        });
+      });
+    }
+    function setEval(){
+      var el = document.getElementById("em-link");
+      if(el) el.value = (r.evals && r.evals[EM.lang]) || "";
+    }
+    paintLangs();
+    setEval();
+
+    var focus = function(e){ e.target.style.borderColor = r.accent; };
+    var blur  = function(e){ e.target.style.borderColor = ""; };
+    ["em-job","em-link","em-sender"].forEach(function(id){
+      var el = document.getElementById(id);
+      if(el){ el.addEventListener("focus",focus); el.addEventListener("blur",blur); }
+    });
+
+    document.getElementById("em-open").addEventListener("click", function(){
+      emSave();
+      location.hash = "#" + r.key + "/emails/preview";
+    });
+  } else {
+    /* landing straight on a bookmarked preview: restore what we can */
+    if(!EM.data["em-job"] && !EM.data["em-sender"]) emLoad();
+    if(!EM.data["em-link"]) EM.data["em-link"] = (r.evals && r.evals[EM.lang]) || "";
+    emRender();
+    document.getElementById("em-copy").addEventListener("click", function(){
+      copyText(emText(), this, "Copied", "Copy Text");
+    });
+    document.getElementById("em-docx").addEventListener("click", downloadDocx);
+  }
+}
+
+/* ==========================================================================
+   COPY
+   ========================================================================== */
+function copyText(text, btn, doneLabel, restoreLabel){
+  var prevBg = btn.style.background;
+  function ok(){
+    btn.textContent = doneLabel;
+    btn.classList.add("done");
+    if(!prevBg) btn.style.background = btn.style.getPropertyValue("--on") || "#321432";
+    setTimeout(function(){
+      btn.textContent = restoreLabel;
+      btn.classList.remove("done");
+      btn.style.background = prevBg;
+    }, 1600);
+  }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(ok, function(){ fallbackCopy(text, ok); });
+  } else { fallbackCopy(text, ok); }
+}
+function fallbackCopy(text, ok){
+  var ta = document.createElement("textarea");
+  ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand("copy"); ok(); }catch(e){}
+  document.body.removeChild(ta);
+}
+
+/* ==========================================================================
+   Word (.docx) builder — no libraries, builds a real zip
+   ========================================================================== */
+var CRC_TABLE=(function(){var t=new Uint32Array(256);for(var n=0;n<256;n++){var c=n;for(var k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0;}return t;})();
+function crc32(b){var c=0xFFFFFFFF;for(var i=0;i<b.length;i++)c=CRC_TABLE[(c^b[i])&0xFF]^(c>>>8);return (c^0xFFFFFFFF)>>>0;}
+function sb(s){var o=[],i,cp;for(i=0;i<s.length;i++){cp=s.charCodeAt(i);
+  if(cp<0x80)o.push(cp);
+  else if(cp<0x800){o.push(0xC0|(cp>>6),0x80|(cp&63));}
+  else if(cp>=0xD800&&cp<=0xDBFF){var lo=s.charCodeAt(++i);var u=0x10000+((cp-0xD800)<<10)+(lo-0xDC00);o.push(0xF0|(u>>18),0x80|((u>>12)&63),0x80|((u>>6)&63),0x80|(u&63));}
+  else{o.push(0xE0|(cp>>12),0x80|((cp>>6)&63),0x80|(cp&63));}}
+  return new Uint8Array(o);}
+function zipFiles(files){
+  var chunks=[],central=[],offset=0;
+  function u16(n){return [n&255,(n>>8)&255];}
+  function u32(n){return [n&255,(n>>8)&255,(n>>16)&255,(n>>>24)&255];}
+  files.forEach(function(f){
+    var name=sb(f.name),data=sb(f.data),c=crc32(data);
+    var lh=[].concat([80,75,3,4],u16(20),u16(0),u16(0),u16(0),u16(0),u32(c),u32(data.length),u32(data.length),u16(name.length),u16(0));
+    chunks.push(new Uint8Array(lh),name,data);
+    central.push([].concat([80,75,1,2],u16(20),u16(20),u16(0),u16(0),u16(0),u16(0),u32(c),u32(data.length),u32(data.length),u16(name.length),u16(0),u16(0),u16(0),u16(0),u32(0),u32(offset)),name);
+    offset+=lh.length+name.length+data.length;
+  });
+  var cd=[],cdStart=offset,cdLen=0;
+  for(var i=0;i<central.length;i+=2){cd.push(new Uint8Array(central[i]),central[i+1]);}
+  cd.forEach(function(b){cdLen+=b.length;});
+  var eocd=new Uint8Array([].concat([80,75,5,6],u16(0),u16(0),u16(files.length),u16(files.length),u32(cdLen),u32(cdStart),u16(0)));
+  var all=chunks.concat(cd,[eocd]),total=0;
+  all.forEach(function(b){total+=b.length;});
+  var out=new Uint8Array(total),p=0;
+  all.forEach(function(b){out.set(b,p);p+=b.length;});
+  return out;
+}
+function xe(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&apos;");}
+function wr(t,b){return '<w:r><w:rPr><w:rFonts w:ascii="Calibri" w:hAnsi="Calibri"/><w:sz w:val="22"/>'+(b?'<w:b/>':'')+'</w:rPr><w:t xml:space="preserve">'+xe(t)+'</w:t></w:r>';}
+function wp(r,bullet){
+  return '<w:p><w:pPr>'+(bullet?'<w:numPr><w:ilvl w:val="0"/><w:numId w:val="1"/></w:numPr>':'')+'<w:spacing w:after="0" w:line="259" w:lineRule="auto"/></w:pPr>'+r+'</w:p>';
+}
+function wblank(){return wp("");}
+
+function buildDocx(){
+  var T = EMAIL_COPY[EM.lang], v = emVals();
+  var isUrl = /^https?:\/\//i.test(v.link);
+  var b = "";
+  b += wp(wr(T.subjectLabel,true));
+  b += wp(wr(T.subject));
+  b += wblank();
+  b += wp(wr(T.emailLabel,true));
+  b += wblank();
+  b += wp(wr(emFill(T.greet,v)));
+  b += wblank();
+  b += wp(wr(emFill(T.thanks,v)));
+  b += wblank();
+  b += wp(wr(T.review));
+  b += wblank();
+  b += wp(wr(T.nextH,true));
+  b += wblank();
+  b += wp(wr(T.nextP));
+  b += wblank();
+  b += wp(wr(T.tipsH,true));
+  T.tips.forEach(function(x){ b += wp(wr(x),true); });
+  b += wblank();
+  b += wp(wr(T.linkH,true));
+  b += wblank();
+  if(isUrl){
+    b += '<w:p><w:pPr><w:spacing w:after="0" w:line="259" w:lineRule="auto"/></w:pPr><w:hyperlink r:id="rIdLink">'
+      + '<w:r><w:rPr><w:rFonts w:ascii="Calibri" w:hAnsi="Calibri"/><w:sz w:val="22"/><w:color w:val="0563C1"/><w:u w:val="single"/></w:rPr>'
+      + '<w:t xml:space="preserve">' + xe(v.link) + '</w:t></w:r></w:hyperlink></w:p>';
+  } else { b += wp(wr(v.link)); }
+  b += wblank();
+  b += wp(wr(T.byH,true));
+  b += wblank();
+  b += wp(wr(T.byP));
+  b += wblank();
+  b += wp(wr(T.after));
+  b += wblank();
+  b += wp(wr(emFill(T.closeP,v)));
+  b += wblank();
+  b += wp(wr(T.best));
+  b += wp(wr(v.sender));
+
+  var doc = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+    + '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><w:body>'
+    + b + '<w:sectPr><w:pgSz w:w="12240" w:h="15840"/><w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440" w:header="720" w:footer="720" w:gutter="0"/></w:sectPr></w:body></w:document>';
+
+  var ct = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'
+    + '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>'
+    + '<Default Extension="xml" ContentType="application/xml"/>'
+    + '<Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>'
+    + '<Override PartName="/word/numbering.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.numbering+xml"/>'
+    + '<Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/></Types>';
+
+  var rels = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
+    + '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>';
+
+  var drels = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
+    + '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/numbering" Target="numbering.xml"/>'
+    + '<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>'
+    + (isUrl ? '<Relationship Id="rIdLink" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink" Target="' + xe(v.link) + '" TargetMode="External"/>' : "")
+    + '</Relationships>';
+
+  var numbering = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+    + '<w:numbering xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">'
+    + '<w:abstractNum w:abstractNumId="0"><w:lvl w:ilvl="0"><w:start w:val="1"/><w:numFmt w:val="bullet"/><w:lvlText w:val="&#8226;"/>'
+    + '<w:lvlJc w:val="left"/><w:pPr><w:ind w:left="720" w:hanging="360"/></w:pPr>'
+    + '<w:rPr><w:rFonts w:ascii="Symbol" w:hAnsi="Symbol" w:hint="default"/></w:rPr></w:lvl></w:abstractNum>'
+    + '<w:num w:numId="1"><w:abstractNumId w:val="0"/></w:num></w:numbering>';
+
+  var styles = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+    + '<w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">'
+    + '<w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="Calibri" w:hAnsi="Calibri"/><w:sz w:val="22"/></w:rPr></w:rPrDefault></w:docDefaults>'
+    + '<w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/></w:style></w:styles>';
+
+  return zipFiles([
+    {name:"[Content_Types].xml",     data:ct},
+    {name:"_rels/.rels",             data:rels},
+    {name:"word/document.xml",       data:doc},
+    {name:"word/_rels/document.xml.rels", data:drels},
+    {name:"word/numbering.xml",      data:numbering},
+    {name:"word/styles.xml",         data:styles}
+  ]);
+}
+
+function downloadDocx(){
+  var bytes = buildDocx();
+  var blob  = new Blob([bytes], {type:"application/vnd.openxmlformats-officedocument.wordprocessingml.document"});
+  var a     = document.createElement("a");
+  var name  = "Email Template - " + (EMAIL_COPY[EM.lang].label || "BDM") + ".docx";
+  a.href = URL.createObjectURL(blob);
+  a.download = name;
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); document.body.removeChild(a); }, 400);
+}
+
+/* ==========================================================================
+   THEME
+   ========================================================================== */
+var SUN  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.4 5.4l1.5 1.5M17.1 17.1l1.5 1.5M18.6 5.4l-1.5 1.5M6.9 17.1l-1.5 1.5"/></svg>';
+var MOON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.3A8.6 8.6 0 0 1 9.7 3.5a8.6 8.6 0 1 0 10.8 10.8z"/></svg>';
 function paintTheme(){
   document.getElementById("theme").innerHTML =
     document.documentElement.getAttribute("data-theme") === "dark" ? SUN : MOON;
 }
 /* Always opens light. Dark only if the reader has toggled it on this browser. */
 try{
-  const saved = localStorage.getItem("hubexo-hub-theme");
-  if(saved === "dark") document.documentElement.setAttribute("data-theme","dark");
+  if(localStorage.getItem("hubexo-hub-theme") === "dark")
+    document.documentElement.setAttribute("data-theme","dark");
 }catch(e){}
 document.getElementById("theme").addEventListener("click", function(){
-  const next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  var next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
   document.documentElement.setAttribute("data-theme", next);
   try{ localStorage.setItem("hubexo-hub-theme", next); }catch(e){}
   paintTheme();
 });
 
 paintTheme();
-render();
+route();
 </script>
 </body>
 </html>
