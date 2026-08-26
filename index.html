@@ -775,85 +775,9 @@ render:function(r){ return TRAINING_SECTION.render(r); }},
 
 /* ------------------------------- 4 ------------------------------------- */
 {
-key:"ad-examples", img:"Assets/nav/ad-examples.svg", title:"Ad Examples",
-render:function(r){
-  var template =
-"[Sell the vision — one eye-catching, aspirational sentence]\n\n" +
-"You must have prior success selling [what you sell] to [decision maker title] at [target customer].\n\n" +
-"You must excel at [the biggest challenge of the role — sales cycle length, resistant market, hunting].\n\n" +
-"You have [required skills]. Experience with [parallel experience] is helpful but not required.\n\n" +
-"Travel to [where] required. We need you to earn more than [number] and our top producers make [number].\n\n" +
-"Qualifications:\n" +
-"• [qualification]\n" +
-"• [qualification]\n" +
-"• [qualification]\n\n" +
-"About us and why us:\n" +
-"[location, benefits, one or two real differentiators]\n\n" +
-"Steps of our process:\n" +
-"Week 1 — submit an application\n" +
-"Week 2 — screening\n" +
-"Week 3 — first interview\n" +
-"Week 4 — follow-up interviews\n" +
-"Week 5 — final interview and offer\n\n" +
-"[Call to action]";
-
-  var example =
-"Senior Business Development Manager\n\n" +
-"This is an amazing opportunity to live a life that only the top 5% get to live. ABC Co. will show you the way if you have the grit.\n\n" +
-"You must have prior success selling high-end business services to Fortune 1000 CEOs in a competitive or resistant market. You must excel at finding and closing opportunities in a 45-day sales cycle. You must work well independently, be a self-starter, accept tough coaching, and be held accountable to the agreed-upon goals.\n\n" +
-"We need you to earn at least €250,000 (no ceiling) and be willing to travel 35% of the time. Experience with executive recruiting is helpful.\n\n" +
-"Qualifications:\n" +
-"• MBA or Bachelor's degree in business administration, human resources or similar experience.\n" +
-"• Minimum of five years of experience in sales and developing customer partnerships.\n" +
-"• Excellent communication skills, both written and verbal, in English.\n" +
-"• Must be able to speak executive strategy and financial statements.\n\n" +
-"Benefits:\n" +
-"• Flexible working schedule\n" +
-"• Group events, holiday dinners, office social calendar\n" +
-"• Two weeks personal time off, sick days, 10 holidays\n" +
-"• 12-month mentor programme for professional development\n" +
-"• Commission and individual bonus opportunities\n" +
-"• Comprehensive healthcare coverage\n" +
-"• 5% of our profits go to charity\n\n" +
-"Steps of our interview process:\n" +
-"Week one: submit an application\n" +
-"Week two: the screening process\n" +
-"Week three: schedule an in-person interview\n" +
-"Week four: attend the in-person interview\n" +
-"Weeks five and six: follow-up interviews\n" +
-"Week seven: meeting upper management\n" +
-"Week eight: receiving a job offer\n" +
-"Week nine: start the new job\n\n" +
-"Who we are:\n" +
-"Our employees rate us 4.5 out of 5 on Indeed. We are the #1 HR software platform in the world, used by 83% of the Global Fortune 2000.";
-
-  return panel(
-    "<h2>Six things the posting must do</h2>" +
-    "<ul>" +
-    "<li>Sell an exciting vision.</li>" +
-    "<li>Describe the ideal candidate — their experience and your requirements — not the company.</li>" +
-    "<li>Talk about the hard part of the job.</li>" +
-    "<li>Mention only the differentiators that matter. Skip the company history.</li>" +
-    "<li>Include the total compensation you need them to earn, and say whether there is a ceiling.</li>" +
-    "<li>Sound different. If it reads like every other ad, it gets the response rate of every other ad.</li>" +
-    "</ul>"
-  ) +
-  panel(
-    "<h2>Match the pay to the requirements</h2>" +
-    "<p>The two have to move together or the pool collapses to nobody.</p>" +
-    "<p>Advertise a long list of requirements against €125,000 and there is a real pool of people who both qualify and want that number. Keep the same requirements and drop the figure to €50,000 and the pool goes to zero — everyone who qualifies is turned off by the money, and everyone attracted by the money does not qualify.</p>" +
-    note(r,"<strong>Before you post:</strong> look at what your role actually pays in this country and industry, then write the requirements to match it.")
-  ) +
-  panel(
-    "<h2>Fill-in template</h2>" +
-    copyblock(r,"Paste into your job posting draft",template)
-  ) +
-  panel(
-    "<h2>Worked example</h2>" +
-    "<p>An OMG sample posting for a senior BDM role. Note that it names the hard parts, states the money, and publishes the timeline of the hiring process — that last one matters more to candidates than most companies expect.</p>" +
-    copyblock(r,"Paste and rewrite for your role",example)
-  );
-}},
+key:"ad-examples", img:"Assets/nav/ad-examples.svg", title:"Writing The Ad",
+/* Straight into STAR chapter 5 — Writing The Ad. */
+href:STAR_URL + "#distinguish/5"},
 
 /* ------------------------------- 4 ------------------------------------- */
 {
