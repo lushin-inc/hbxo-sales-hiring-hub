@@ -183,6 +183,37 @@ html[data-theme="dark"] .lu .dk{display:block;}
 
 .lead{font-size:18px;line-height:1.6;color:var(--ink-2);margin:0 0 22px;}
 
+/* ---- Process Checklist outline ---- */
+.outline{margin:0;padding-left:26px;}
+.outline > li{
+  font-size:17.5px;line-height:1.55;color:var(--ink);
+  margin:0 0 22px;padding-left:6px;
+}
+.outline > li:last-child{margin-bottom:0;}
+.outline > li::marker{color:var(--ink-3);font-weight:600;}
+.outline .o1{font-weight:600;color:var(--ink);}
+.outline .o-note{font-weight:400;color:var(--ink-3);font-size:15.5px;}
+.outline ul{list-style:none;margin:10px 0 0;padding-left:0;}
+.outline ul li{
+  position:relative;
+  font-size:16.5px;line-height:1.6;font-weight:400;color:var(--ink-2);
+  margin:0 0 7px;padding-left:18px;
+}
+.outline ul li::before{
+  content:"";position:absolute;left:2px;top:.72em;
+  width:5px;height:5px;border-radius:50%;background:var(--ink-3);opacity:.55;
+}
+.outline ul ul{margin-top:6px;}
+.outline ul ul li{font-size:15.5px;color:var(--ink-3);}
+a.lnk{
+  display:inline-block;
+  font-size:13px;font-weight:600;letter-spacing:.01em;
+  padding:1px 9px 2px;margin-left:4px;
+  border:1.5px solid;border-radius:999px;
+  vertical-align:1px;
+}
+a.lnk:hover{filter:brightness(.88);}
+
 /* numbered steps */
 .step{display:flex;gap:20px;padding:22px 0;}
 .step + .step{border-top:1px solid var(--line-soft);}
@@ -401,40 +432,74 @@ var STAR_URL      = "https://lushin-inc.github.io/star/";
 var INTERVIEW_URL = "https://lushin-inc.github.io/interview-guide/";
 var TRACKER_URL   = "https://docs.google.com/spreadsheets/d/123oS0ye0pynqgMY-IaLpH_bpdx7j58vAEEdis4_S4Z4/edit?usp=sharing";
 
-/* PLACEHOLDER — regions other than Continental Europe still point at the
-   Lushin demo license. Replace each "roles" array as its links come in. */
+/* PLACEHOLDER — regions whose links have not come in yet still point at the
+   Lushin demo license. Replace that region's "options" array as they arrive. */
 var PLACEHOLDER = "https://info.objectivemanagement.com/License.aspx?ID=2885&MI=1&bc1=Search+Licenses&bc1u=Licenses.aspx%3fstatus%3d2%26d1%3d%26d2%3d%26d%3d61%26c%3d357%26pt%3d1%26csr%3d&bc2=Assessments";
-var PLACEHOLDER_ROLES = [
-  {label:"BDM English", url:PLACEHOLDER},
-  {label:"BDM German",  url:PLACEHOLDER},
-  {label:"BDM Spanish", url:PLACEHOLDER}
+
+/* Each option is one button across the top of the region page AND one choice
+   on the Email Templates page.
+     label — the button text
+     job   — the role title written into the email
+     copy  — which language the email is written in (en / de / es)
+     reg   — OMG registration page (the top button)
+     eval  — candidate assessment link (fills the email)                       */
+var PLACEHOLDER_OPTIONS = [
+  {key:"bdm", label:"BDM", job:"Business Development Manager", copy:"en", reg:PLACEHOLDER, eval:""}
 ];
-var PLACEHOLDER_EVALS = {en:"", de:"", es:""};
+
+/* Home keeps five colours so each region is recognisable at a glance.
+   Every page BELOW home runs on one blue theme with a gold accent —
+   edit PAGE_THEME once and all five regions follow. */
+var PAGE_THEME = {
+  from:"#008CFF",      /* banners, buttons, gradients            */
+  to:"#0057A8",
+  ink:"#FFFFFF",       /* text on those gradients                */
+  accent:"#FAB040",    /* icon strokes, rules, focus rings       */
+  accentText:"#B07407" /* the same gold, deepened so small text and
+                          white-on-gold buttons stay readable    */
+};
+function themed(r){
+  var o = {}; for(var k in r) o[k] = r[k];
+  o.from = PAGE_THEME.from; o.to = PAGE_THEME.to; o.ink = PAGE_THEME.ink;
+  o.accent = PAGE_THEME.accent; o.accentText = PAGE_THEME.accentText;
+  return o;
+}
 
 var REGIONS = [
   { key:"uk", name:"UK", from:"#008CFF", to:"#0057A8", ink:"#FFFFFF", accent:"#008CFF",
-    roles:PLACEHOLDER_ROLES, evals:PLACEHOLDER_EVALS },
+    options:[
+      {key:"bdm",     label:"BDM",     job:"Business Development Manager",     copy:"en",
+       reg:"https://info.objectivemanagement.com/Registration.aspx?ID=2053976",
+       eval:"https://eval.objectivemanagement.com/X6JNYVH"},
+      {key:"manager", label:"Manager", job:"Sales Manager",                    copy:"en",
+       reg:"https://info.objectivemanagement.com/Registration.aspx?ID=2055276",
+       eval:"https://eval.objectivemanagement.com/XY7QB55"},
+      {key:"sdr",     label:"SDR",     job:"Sales Development Representative", copy:"en",
+       reg:"https://info.objectivemanagement.com/Registration.aspx?ID=2055280",
+       eval:"https://eval.objectivemanagement.com/XQ5DZ86"}
+    ] },
 
   { key:"nordics", name:"Nordics", from:"#A54CFF", to:"#6B21C9", ink:"#FFFFFF", accent:"#A54CFF",
-    roles:PLACEHOLDER_ROLES, evals:PLACEHOLDER_EVALS },
+    options:PLACEHOLDER_OPTIONS },
 
   { key:"europe", name:"Continental Europe", from:"#E6284B", to:"#A50F2C", ink:"#FFFFFF", accent:"#E6284B",
-    roles:[
-      {label:"BDM English", url:"https://info.objectivemanagement.com/Registration.aspx?ID=2056539"},
-      {label:"BDM German",  url:"https://info.objectivemanagement.com/Registration.aspx?ID=2056536"},
-      {label:"BDM Spanish", url:"https://info.objectivemanagement.com/Registration.aspx?ID=2055688"}
-    ],
-    evals:{
-      en:"https://eval.objectivemanagement.com/XRGHSKV",
-      de:"https://eval.objectivemanagement.com/XRLC4MX",
-      es:"https://eval.objectivemanagement.com/XMKVGGN"
-    } },
+    options:[
+      {key:"en", label:"BDM English", job:"Business Development Manager", copy:"en",
+       reg:"https://info.objectivemanagement.com/Registration.aspx?ID=2056539",
+       eval:"https://eval.objectivemanagement.com/XRGHSKV"},
+      {key:"de", label:"BDM German",  job:"Business Development Manager", copy:"de",
+       reg:"https://info.objectivemanagement.com/Registration.aspx?ID=2056536",
+       eval:"https://eval.objectivemanagement.com/XRLC4MX"},
+      {key:"es", label:"BDM Spanish", job:"Business Development Manager", copy:"es",
+       reg:"https://info.objectivemanagement.com/Registration.aspx?ID=2055688",
+       eval:"https://eval.objectivemanagement.com/XMKVGGN"}
+    ] },
 
   { key:"apac", name:"Asia Pacific", from:"#FF8700", to:"#C25400", ink:"#FFFFFF", accent:"#E07600",
-    roles:PLACEHOLDER_ROLES, evals:PLACEHOLDER_EVALS },
+    options:PLACEHOLDER_OPTIONS },
 
   { key:"us", name:"US", from:"#DCFF3C", to:"#A8CC00", ink:"#321432", accent:"#321432",
-    roles:PLACEHOLDER_ROLES, evals:PLACEHOLDER_EVALS }
+    options:PLACEHOLDER_OPTIONS }
 ];
 
 /* ==========================================================================
@@ -471,7 +536,7 @@ function steps(r,list){
 function checklist(r,id,list){
   return '<div data-check="' + id + '">' + list.map(function(c,i){
     return '<label class="check">' +
-      '<input type="checkbox" data-k="' + id + ':' + i + '" style="--on:' + r.accent + '">' +
+      '<input type="checkbox" data-k="' + id + ':' + i + '" style="--on:' + (r.accentText||r.accent) + '">' +
       '<span>' + c.t + (c.s ? '<span class="sub">' + c.s + '</span>' : '') + '</span></label>';
   }).join("") + '</div>';
 }
@@ -486,7 +551,7 @@ function copyblock(r,label,text){
   window.__COPY = window.__COPY || {};
   window.__COPY[id] = text;
   return '<div class="copyblock"><div class="cbhead"><span class="cblabel">' + label + '</span>' +
-    '<button class="copybtn" data-copy="' + id + '" style="--on:' + r.accent + '">Copy</button></div>' +
+    '<button class="copybtn" data-copy="' + id + '" style="--on:' + (r.accentText||r.accent) + '">Copy</button></div>' +
     '<div class="pre">' + esc(text) + '</div></div>';
 }
 
@@ -506,55 +571,69 @@ var SECTIONS = [
 {
 key:"checklist", img:"Assets/nav/process-checklist.png", title:"Process Checklist",
 render:function(r){
+  /* Dan's outline, verbatim. "link" markers below become real links.
+     STAR chapter routes: distinguish 1-5 · source 6-9 · assess 10-12
+                          interview 13-16 · retain 17-19 · tools 20-22   */
+  var L = function(href, out){
+    return '<a class="lnk" href="' + href + '"' +
+           (out ? ' target="_blank" rel="noopener"' : '') +
+           ' style="color:' + (r.accentText||r.accent) + ';border-color:' + tint(r.accent,.55) + '">link</a>';
+  };
+  var star = function(route){ return L(STAR_URL + "#" + route, true); };
+  var hub  = function(key){ return L("#" + r.key + "/" + key, false); };
+
   return panel(
-    "<h2>Run every hire the same way</h2>" +
-    checklist(r,"ce-checklist",[
-      {t:"<strong>Write and post the ad</strong>", s:"Indeed, LinkedIn, ZipRecruiter — whichever platform you use."},
-      {t:"<strong>Applications come in</strong>"},
-      {t:"<strong>Send the assessment email the same day</strong>", s:"Use the Email Templates page — pick the language, paste in the job title and your name."},
-      {t:"<strong>Add every applicant to the tracking sheet immediately</strong>", s:"If you already run an applicant tracking system, use that instead."},
-      {t:"<strong>Mark each resume Yes or No for follow-up</strong>", s:"Strong resume, mark Yes. Weak resume, mark No. Decide once and move on."},
-      {t:"<strong>Chase the Yes list until they take the assessment</strong>", s:"Keep after them. This is the step where most hiring processes leak candidates."},
-      {t:"<strong>When a candidate comes back Recommended, schedule the interview immediately</strong>", s:"Top producers are off the market in about 15 days. Speed is the whole game."},
-      {t:"<strong>Run the interview process</strong>", s:"Phone screen, first interview, final interview, offer."},
-      {t:"<strong>Start the 90-day onboarding plan</strong>", s:"The hire is measured at the first anniversary, not the start date."}
-    ]) +
-    "<p style='margin-top:20px;font-size:14.5px;color:var(--ink-3)'>Ticks are saved in this browser.</p>"
+    "<h2>Hiring Process - Simple Checklist:</h2>" +
+    "<ol class='outline'>" +
+
+      "<li><span class='o1'>Write &amp; Post The Ad</span> " +
+        "<span class='o-note'>(Indeed/LinkedIn/ZipRecruiter… whatever platform you use)</span>" +
+        "<ul>" +
+          "<li>How to Write the Ad " + star("distinguish/5") + "</li>" +
+          "<li>Ad Examples " + hub("ad-examples") + "</li>" +
+        "</ul></li>" +
+
+      "<li><span class='o1'>Applications Come In</span>" +
+        "<ul>" +
+          "<li>Send The Assessment Email " + hub("emails") + "</li>" +
+          "<li>Add to Tracking Sheet Immediately " +
+            "<span class='o-note'>(If you have an Applicant Tracking System, use that)</span>" +
+            "<ul>" +
+              "<li>If resume looks great, put &ldquo;Yes&rdquo; for follow up</li>" +
+              "<li>If resume looks like a pile of garbage, put &ldquo;No&rdquo; for follow up</li>" +
+            "</ul></li>" +
+          "<li>Follow up with the good ones 3-5 times. The goal is to get as many completed assessments as possible.</li>" +
+        "</ul></li>" +
+
+      "<li><span class='o1'>When you get a &ldquo;Recommended&rdquo; Candidate, Schedule interview ASAP</span></li>" +
+
+      "<li><span class='o1'>Interview Process:</span>" +
+        "<ul>" +
+          "<li>5 Minute Phone Screen " + star("interview/13") + "</li>" +
+          "<li>Interview #1 " + star("interview/14") +
+            "<ul>" +
+              "<li>They prove to you</li>" +
+              "<li>Use interview questions tool</li>" +
+              "<li>Open assessment</li>" +
+              "<li>Pick areas they&rsquo;re weak in</li>" +
+              "<li>Follow interview questions tool " + hub("interview-guide") + "</li>" +
+            "</ul></li>" +
+          "<li>Final Interview " + star("interview/15") + "</li>" +
+          "<li>Job Offer " + star("interview/16") + "</li>" +
+        "</ul></li>" +
+
+      "<li><span class='o1'>90 Day Onboarding - Absolutely Key</span> " + hub("onboarding-plan") + "</li>" +
+
+    "</ol>"
   ) +
-  panel(
-    "<h2>Tools for these steps</h2>" +
-    "<ul>" +
-    "<li><a class='inline' href='#" + r.key + "/ad-examples' style='color:" + r.accent + "'>Ad Examples</a> — how to write the posting, with a template you can fill in.</li>" +
-    "<li><a class='inline' href='#" + r.key + "/emails' style='color:" + r.accent + "'>Email Templates</a> — the assessment invite in English, German and Spanish.</li>" +
-    "<li><a class='inline' href='" + TRACKER_URL + "' target='_blank' rel='noopener' style='color:" + r.accent + "'>Example applicant tracking sheet</a> — copy it and make it yours.</li>" +
-    "<li><a class='inline' href='#" + r.key + "/interview-process' style='color:" + r.accent + "'>Interview Process</a> — what each interview is for and what to listen for.</li>" +
-    "<li><a class='inline' href='#" + r.key + "/interview-guide' style='color:" + r.accent + "'>Interview Guide</a> — questions by competency, built from the assessment.</li>" +
-    "<li><a class='inline' href='#" + r.key + "/onboarding-plan' style='color:" + r.accent + "'>Onboarding Plan</a> — the 90 days after they say yes.</li>" +
-    "</ul>"
-  );
+  bigcard(r, TRACKER_URL, "Example Applicant Tracking Sheet", "Copy it and make it yours");
 }},
 
 /* ------------------------------- 2 ------------------------------------- */
 {
 key:"mini-course", img:"Assets/nav/mini-course.png", title:"Hiring Mini-Course",
-render:function(r){
-  var stages = [
-    {n:"Distinguish", ch:"Chapters 1–5", body:"Why hiring salespeople is different from hiring anyone else. Writing the job description, working out what actually makes you a good place to work, and writing an ad that speaks to top producers rather than to everyone."},
-    {n:"Source", ch:"Chapters 6–9", body:"Where candidates come from when the good ones are not applying — job boards, LinkedIn searches, referrals, recruiters. Choosing selection methods that predict performance, configuring the assessment to the role, and recognising the bias you bring to the process."},
-    {n:"Assess", ch:"Chapters 10–12", body:"Laying out the steps of your process and assigning an owner and a date to each. Setting up your assessment portal, sending candidate instructions, and reading the report you get back."},
-    {n:"Interview", ch:"Chapters 13–16", body:"The 10-minute phone screen, the structured first interview, the final interview where you sell the opportunity, and the reference check and offer."},
-    {n:"Retain", ch:"Chapters 17–19", body:"The 90-day onboarding plan, the career development roadmap, and keeping people through coaching, mentoring and engagement."},
-    {n:"Toolkit", ch:"Chapters 20–22", body:"Troubleshooting a process that is not producing, applicant tracking and templates, and what changes when you are hiring a sales manager rather than a rep."}
-  ];
-  return panel(
-    "<h2>The six stages</h2>" +
-    "<p class='lead'>Each stage below is a group of chapters in the full STAR course. Read the stage here to know what it covers, then open the course for the videos, worksheets and templates.</p>" +
-    steps(r, stages.map(function(s){
-      return {h:s.n + " · " + s.ch, b:"<p>" + s.body + "</p>"};
-    }))
-  ) +
-  bigcard(r, STAR_URL, "Open STAR", "All 22 chapters, with videos and worksheets");
-}},
+/* href = the tile opens STAR directly; there is no page inside the hub. */
+href:STAR_URL},
 
 /* ------------------------------- 3 ------------------------------------- */
 {
@@ -821,12 +900,18 @@ es:{ name:"Español", label:"BDM Spanish", hreflang:"es-ES",
   subjectLabel:"ASUNTO:", emailLabel:"CORREO:" }
 };
 
-var EMAIL_LANGS = ["en","de","es"];
+/* the option currently selected on the Email Templates page */
+function emOpt(){
+  var opts = (EM.region && EM.region.options) || [];
+  for(var i=0;i<opts.length;i++) if(opts[i].key === EM.opt) return opts[i];
+  return opts[0] || {key:"", label:"", job:"", copy:"en", eval:""};
+}
+function emCopy(){ return EMAIL_COPY[emOpt().copy] || EMAIL_COPY.en; }
 var COMPANY    = "Hubexo";
 var NAME_TOKEN = "[NAME]";
 var STORE      = "hubexoEmailV1";
 
-var EM = { lang:"en", region:null, data:{} };
+var EM = { opt:null, region:null, data:{} };
 
 function emFill(s,v){
   return String(s).replace(/\{name\}/g, v.name).replace(/\{company\}/g, v.company)
@@ -859,7 +944,7 @@ function emSave(){
     localStorage.setItem(STORE, JSON.stringify({
       job:    EM.data["em-job"]    || "",
       sender: EM.data["em-sender"] || "",
-      lang:   EM.lang
+      opt:    EM.opt
     }));
   }catch(e){}
 }
@@ -868,7 +953,7 @@ function emLoad(){
     var o = JSON.parse(localStorage.getItem(STORE) || "{}");
     if(o.job    && document.getElementById("em-job"))    document.getElementById("em-job").value = o.job;
     if(o.sender && document.getElementById("em-sender")) document.getElementById("em-sender").value = o.sender;
-    if(o.lang && EMAIL_COPY[o.lang]) EM.lang = o.lang;
+    if(o.opt) EM.opt = o.opt;
     if(o.job)    EM.data["em-job"]    = o.job;
     if(o.sender) EM.data["em-sender"] = o.sender;
   }catch(e){}
@@ -876,7 +961,7 @@ function emLoad(){
 
 /* ---------------- plain text (Copy Text) ---------------- */
 function emText(){
-  var T = EMAIL_COPY[EM.lang], v = emVals();
+  var T = emCopy(), v = emVals();
   return T.subjectLabel + "\n" + T.subject + "\n\n"
     + T.emailLabel + "\n\n"
     + emFill(T.greet,v) + "\n\n"
@@ -898,7 +983,7 @@ function emMark(v,key){
     : esc(v[key]);
 }
 function emRender(){
-  var T = EMAIL_COPY[EM.lang], v = emVals();
+  var T = emCopy(), v = emVals();
   var linkHtml = v.link_blank
     ? '<span class="missing">' + esc(v.link) + '</span>'
     : (/^https?:\/\//i.test(v.link)
@@ -940,7 +1025,7 @@ render:function(r){
 
   var form = panel(
     "<h2>Assessment invite</h2>" +
-    "<p class='lead'>Pick the language. The assessment link fills in on its own — the three links are different assessments, one per language.</p>" +
+    "<p class='lead'>Pick the role. The job title and the assessment link fill in on their own — each option is a different assessment.</p>" +
     '<div class="langrow" id="em-langs"></div>' +
     '<div class="field"><label for="em-job">Job title</label>' +
       '<input id="em-job" type="text" placeholder="Business Development Manager" autocomplete="off"></div>' +
@@ -995,8 +1080,8 @@ function regionView(r){
            '<p class="eyebrow">Hubexo Sales Hiring Hub</p><h1>' + r.name + '</h1></div>' +
 
     '<div class="roles">' +
-      r.roles.map(function(a){
-        return '<a class="role" href="' + a.url + '" target="_blank" rel="noopener" ' +
+      r.options.map(function(a){
+        return '<a class="role" href="' + a.reg + '" target="_blank" rel="noopener" ' +
                'style="background:' + grad(r) + ';color:' + r.ink +
                ';box-shadow:0 14px 32px -18px ' + tint(r.from,.7) + '">' +
                '<span>' + esc(a.label) + '</span>' + ARROW + '</a>';
@@ -1005,12 +1090,14 @@ function regionView(r){
 
     '<div class="navgrid">' +
       SECTIONS.map(function(s){
-        return '<a class="navtile" href="#' + r.key + '/' + s.key + '">' +
+        var href = s.href ? s.href : '#' + r.key + '/' + s.key;
+        var out  = s.href ? ' target="_blank" rel="noopener"' : '';
+        return '<a class="navtile" href="' + href + '"' + out + '>' +
                '<img src="' + s.img + '" alt="' + esc(s.title) + '"></a>';
       }).join("") +
       '<a class="navtile wide" href="#' + r.key + '/' + EMAIL_SECTION.key + '">' +
-        '<span class="ic" style="background:' + tint(r.from,.14) + '">' +
-          '<svg viewBox="0 0 24 24" style="stroke:' + r.accent + '">' + EMAIL_SECTION.icon + '</svg>' +
+        '<span class="ic" style="background:' + tint(r.accent,.20) + '">' +
+          '<svg viewBox="0 0 24 24" style="stroke:' + (r.accentText||r.accent) + '">' + EMAIL_SECTION.icon + '</svg>' +
         '</span><span class="tn">' + EMAIL_SECTION.title + '</span></a>' +
     '</div>';
 }
@@ -1038,13 +1125,17 @@ function route(){
     document.title = "Hubexo Sales Hiring Hub";
   } else if(!s){
     document.documentElement.setAttribute("data-view","region");
-    view.innerHTML = regionView(r);
+    view.innerHTML = regionView(themed(r));
     document.title = r.name + " — Hubexo Sales Hiring Hub";
+  } else if(s.href){
+    /* link-only section (Hiring Mini-Course) — bounce straight out */
+    window.location.replace(s.href);
+    return;
   } else {
     document.documentElement.setAttribute("data-view","section");
-    view.innerHTML = sectionView(r,s);
+    view.innerHTML = sectionView(themed(r),s);
     document.title = s.title + " — " + r.name;
-    if(s.key === "emails") wireEmail(r);
+    if(s.key === "emails") wireEmail(themed(r));
     wireChecks();
   }
   wireCopy();
@@ -1078,33 +1169,40 @@ function wireChecks(){
 }
 
 function wireEmail(r){
+  EM.region = r;
+  if(!EM.opt) EM.opt = (r.options[0] || {}).key;
   var isTpl = /\/emails\/preview$/.test(location.hash);
 
   if(!isTpl){
     emLoad();
     var box = document.getElementById("em-langs");
     function paintLangs(){
-      box.innerHTML = EMAIL_LANGS.map(function(L){
-        var on = (L === EM.lang);
-        return '<button class="langbtn' + (on ? " on" : "") + '" data-lang="' + L + '"' +
+      box.innerHTML = r.options.map(function(o){
+        var on = (o.key === EM.opt);
+        return '<button class="langbtn' + (on ? " on" : "") + '" data-opt="' + o.key + '"' +
                (on ? ' style="background:' + grad(r) + ';color:' + r.ink + '"' : "") + '>' +
-               esc(EMAIL_COPY[L].name) + '</button>';
+               esc(o.label) + '</button>';
       }).join("");
-      Array.prototype.forEach.call(box.querySelectorAll("[data-lang]"), function(b){
+      Array.prototype.forEach.call(box.querySelectorAll("[data-opt]"), function(b){
         b.addEventListener("click", function(){
-          EM.lang = b.getAttribute("data-lang");
-          setEval();
+          EM.opt = b.getAttribute("data-opt");
+          fillFromOpt(true);
           paintLangs();
           emSave();
         });
       });
     }
-    function setEval(){
-      var el = document.getElementById("em-link");
-      if(el) el.value = (r.evals && r.evals[EM.lang]) || "";
+    /* force = the reader picked an option, so overwrite what is in the fields */
+    function fillFromOpt(force){
+      var o = emOpt();
+      var link = document.getElementById("em-link");
+      var job  = document.getElementById("em-job");
+      if(link && (force || !link.value)) link.value = o.eval || "";
+      if(job  && (force || !job.value))  job.value  = o.job  || "";
     }
+    if(!EM.opt) EM.opt = (r.options[0] || {}).key;
     paintLangs();
-    setEval();
+    fillFromOpt(false);
 
     var focus = function(e){ e.target.style.borderColor = r.accent; };
     var blur  = function(e){ e.target.style.borderColor = ""; };
@@ -1120,7 +1218,7 @@ function wireEmail(r){
   } else {
     /* landing straight on a bookmarked preview: restore what we can */
     if(!EM.data["em-job"] && !EM.data["em-sender"]) emLoad();
-    if(!EM.data["em-link"]) EM.data["em-link"] = (r.evals && r.evals[EM.lang]) || "";
+    if(!EM.data["em-link"]) EM.data["em-link"] = emOpt().eval || "";
     emRender();
     document.getElementById("em-copy").addEventListener("click", function(){
       copyText(emText(), this, "Copied", "Copy Text");
@@ -1196,7 +1294,7 @@ function wp(r,bullet){
 function wblank(){return wp("");}
 
 function buildDocx(){
-  var T = EMAIL_COPY[EM.lang], v = emVals();
+  var T = emCopy(), v = emVals();
   var isUrl = /^https?:\/\//i.test(v.link);
   var b = "";
   b += wp(wr(T.subjectLabel,true));
@@ -1282,7 +1380,7 @@ function downloadDocx(){
   var bytes = buildDocx();
   var blob  = new Blob([bytes], {type:"application/vnd.openxmlformats-officedocument.wordprocessingml.document"});
   var a     = document.createElement("a");
-  var name  = "Email Template - " + (EMAIL_COPY[EM.lang].label || "BDM") + ".docx";
+  var name  = "Email Template - " + (emOpt().label || "BDM") + ".docx";
   a.href = URL.createObjectURL(blob);
   a.download = name;
   document.body.appendChild(a); a.click();
