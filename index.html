@@ -495,6 +495,46 @@ input[type=text]::placeholder{color:var(--ink-3);}
   border-radius:4px;padding:1px 5px;font-weight:500;
 }
 .actions{display:flex;flex-direction:column;gap:12px;margin-top:26px;}
+
+/* ---- Re-written ads ---- */
+.adpick{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.adpick .p{
+  display:flex;flex-direction:column;justify-content:flex-end;
+  min-height:250px;border-radius:18px;padding:26px 24px;
+  transition:transform .16s ease,box-shadow .16s ease;
+}
+.adpick .p:hover{transform:translateY(-4px);}
+.adpick .p .sc{font-size:13.5px;font-weight:500;opacity:.85;margin:0 0 7px;}
+.adpick .p .nm{font-size:26px;font-weight:600;letter-spacing:-.022em;line-height:1.15;}
+.adhead{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:0 0 18px;}
+.adhead h2{font-size:19px;font-weight:600;letter-spacing:-.018em;margin:0;color:var(--ink);}
+.adnote{font-size:15.5px;line-height:1.62;color:var(--ink-2);margin:0 0 18px;}
+.adtbl{width:100%;border-collapse:collapse;font-size:14.5px;margin:2px 0 0;}
+.adtbl th{
+  text-align:left;text-transform:none;font-size:12px;font-weight:700;letter-spacing:.06em;
+  color:var(--ink-3);padding:0 14px 9px 0;border-bottom:1px solid var(--line);white-space:nowrap;
+}
+.adtbl td{padding:11px 14px 11px 0;border-bottom:1px solid var(--line-soft);
+  vertical-align:top;color:var(--ink-2);line-height:1.5;}
+.adtbl td:first-child{color:var(--ink);font-weight:600;}
+.adtbl td.num{font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap;}
+.adtbl tr:last-child td{border-bottom:0;}
+.fixlist{list-style:none;margin:0;padding:0;counter-reset:fx;}
+.fixlist li{position:relative;padding-left:38px;margin:0 0 16px;counter-increment:fx;}
+.fixlist li:last-child{margin-bottom:0;}
+.fixlist li::before{
+  content:counter(fx);position:absolute;left:0;top:1px;
+  width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;color:#fff;
+}
+.fixlist .fh{display:block;font-size:16px;font-weight:600;color:var(--ink);line-height:1.4;}
+.fixlist .fb{display:block;font-size:15.5px;color:var(--ink-2);line-height:1.6;margin-top:3px;}
+@media (max-width:820px){
+  .adpick{grid-template-columns:1fr;gap:14px;}
+  .adpick .p{min-height:150px;}
+  .adtbl{font-size:14px;}
+  .adtbl th:nth-child(3),.adtbl td:nth-child(3){display:none;}
+}
 .hidden{display:none;}
 
 /* ==========================================================================
@@ -648,7 +688,17 @@ var REGIONS = [
     options:PLACEHOLDER_OPTIONS },
 
   { key:"us", name:"US", from:"#DCFF3C", to:"#A8CC00", ink:"#321432", accent:"#321432",
-    options:PLACEHOLDER_OPTIONS }
+    options:[
+      {key:"bdr", label:"BDR", job:"Business Development Representative", copy:"en",
+       reg:"https://info.objectivemanagement.com/Registration.aspx?ID=2057531",
+       eval:"https://eval.objectivemanagement.com/X5944P3"},
+      {key:"inside", label:"Inside Sales", job:"Inside Sales Representative", copy:"en",
+       reg:"https://info.objectivemanagement.com/Registration.aspx?ID=2057527",
+       eval:"https://eval.objectivemanagement.com/XHS8DT9"},
+      {key:"strategic", label:"Strategic Sales", job:"Strategic Sales Representative", copy:"en",
+       reg:"https://info.objectivemanagement.com/Registration.aspx?ID=2057526",
+       eval:"https://eval.objectivemanagement.com/XVST6BF"}
+    ] }
 ];
 
 /* ==========================================================================
@@ -711,6 +761,42 @@ function bigcard(r,href,title,sub){
     '<span><span class="bt">' + title + '</span><span class="bs">' + sub + '</span></span>' + ARROW + '</a>';
 }
 
+
+/* The interview detail lives on the checklist now — step 4 is where a reader
+   actually needs it. INTERVIEW_SECTION keeps its own URL working. */
+function interviewSteps(r){
+  return steps(r,[
+    {h:"Five-minute phone interview",
+     b:"<p>Purpose: qualify the candidate quickly.</p><p>What you are listening for:</p><ul>" +
+       "<li>How they sound on the phone \u2014 tone, clarity, presence.</li>" +
+       "<li>Whether they can build rapport.</li>" +
+       "<li>Whether their experience matches the ad.</li>" +
+       "<li>How they handle push-back or a put-off.</li></ul>"},
+    {h:"First interview",
+     b:"<p>Objective: validate the assessment and the resume through live conversation.</p><ul>" +
+       "<li>Push back on the resume. Check for accuracy, patterns and truth.</li>" +
+       "<li>Evaluate soft skills and cultural fit.</li>" +
+       "<li>Watch body language, confidence and conversation flow.</li>" +
+       "<li>Do not discuss compensation or benefits at this stage.</li></ul>"},
+    {h:"Final interview",
+     b:"<p>Goals: sell the opportunity, introduce key stakeholders, confirm mutual fit and close the candidate.</p>" +
+       "<p>Cover job expectations, compensation, the sales cycle, who they report to, and what a typical client looks like.</p>"},
+    {h:"Job offer",
+     b:"<p>Be ready to make the offer at the end of the final interview if it has gone well.</p>" +
+       "<p>The offer must match what was discussed. No surprises.</p>"},
+    {h:"Onboarding preparation",
+     b:"<p>Once the offer is accepted, shift straight into onboarding.</p><ul>" +
+       "<li>Clarify daily, weekly and monthly expectations.</li>" +
+       "<li>Train on product, market, competition, sales process and positioning.</li>" +
+       "<li>Assign coaching responsibilities and onboarding milestones.</li></ul>"}
+  ]);
+}
+function interviewNote(r){
+  return note(r,"<strong>&ldquo;Recommended&rdquo; does not mean automatic hire.</strong> If the candidate " +
+    "sounds poor on the phone, interviews badly, or lacks the experience the role needs, you can and should " +
+    "say no. And &ldquo;Not Recommended&rdquo; does not mean the process failed &mdash; it did its job.");
+}
+
 /* ==========================================================================
    SECTIONS — shared by all five regions
    ========================================================================== */
@@ -757,13 +843,19 @@ render:function(r){
 
       "<li><span class='o1'>When you get a &ldquo;Recommended&rdquo; Candidate, Schedule interview ASAP</span></li>" +
 
-      "<li><span class='o1'>Interview Process</span> " + hub("interview-process") + "</li>" +
+      "<li><span class='o1'>Interview Process</span> " +
+        "<span class='o-note'>(the five steps are below)</span></li>" +
 
       "<li><span class='o1'>90 Day Onboarding - Absolutely Key</span> " + star("retain/17") + "</li>" +
 
     "</ol>"
   ) +
-  bigcard(r, "#" + r.key + "/tracking", "Example Applicant Tracking Sheet", "Fill it in here, or download it as a spreadsheet");
+  bigcard(r, "#" + r.key + "/tracking", "Example Applicant Tracking Sheet",
+          "Fill it in here, or download it as a spreadsheet") +
+  fold("Interview Process \u2014 the five steps",
+       interviewSteps(r) + interviewNote(r)) +
+  bigcard(r, INTERVIEW_URL, "Open the Interview Guide",
+          "Questions by competency for the first interview");
 }},
 
 /* ------------------------------- 2 ------------------------------------- */
@@ -780,50 +872,36 @@ render:function(r){ return TRAINING_SECTION.render(r); }},
 /* ------------------------------- 4 ------------------------------------- */
 {
 key:"ad-examples", img:"Assets/nav/ad-examples.svg", title:"Writing The Ad",
-/* Straight into STAR chapter 5 — Writing The Ad. */
+/* Straight into STAR chapter 5 — Writing The Ad. UK swaps it for the rewrites. */
+not:"uk",
 href:STAR_URL + "#distinguish/5"},
+
+/* ---------------------------- 4b (UK only) ------------------------------ */
+{
+key:"rewritten-ads", img:"Assets/nav/rewritten-ads.svg", title:"Re-Written Ads", only:"uk",
+render:function(r){
+  var parts = location.hash.replace(/^#/,"").split("/");
+  var a = parts[2] ? findAd(parts[2]) : null;
+  return a ? adView(r, a) : adIndex(r);
+}},
 
 /* ------------------------------- 4 ------------------------------------- */
 {
 key:"interview-process", img:"Assets/nav/interview-process.svg", title:"Interview Process",
+/* folded into Process Checklist step 4 — route stays live, tile is gone */
+hidden:true,
 render:function(r){
-  return panel(
-    "<h2>The five steps</h2>" +
-    steps(r,[
-      {h:"Five-minute phone interview",
-       b:"<p>Purpose: qualify the candidate quickly.</p><p>What you are listening for:</p><ul>" +
-         "<li>How they sound on the phone — tone, clarity, presence.</li>" +
-         "<li>Whether they can build rapport.</li>" +
-         "<li>Whether their experience matches the ad.</li>" +
-         "<li>How they handle push-back or a put-off.</li></ul>"},
-      {h:"First interview",
-       b:"<p>Objective: validate the assessment and the resume through live conversation.</p><ul>" +
-         "<li>Push back on the resume. Check for accuracy, patterns and truth.</li>" +
-         "<li>Evaluate soft skills and cultural fit.</li>" +
-         "<li>Watch body language, confidence and conversation flow.</li>" +
-         "<li>Do not discuss compensation or benefits at this stage.</li></ul>"},
-      {h:"Final interview",
-       b:"<p>Goals: sell the opportunity, introduce key stakeholders, confirm mutual fit and close the candidate.</p>" +
-         "<p>Cover job expectations, compensation, the sales cycle, who they report to, and what a typical client looks like.</p>"},
-      {h:"Job offer",
-       b:"<p>Be ready to make the offer at the end of the final interview if it has gone well.</p>" +
-         "<p>The offer must match what was discussed. No surprises.</p>"},
-      {h:"Onboarding preparation",
-       b:"<p>Once the offer is accepted, shift straight into onboarding.</p><ul>" +
-         "<li>Clarify daily, weekly and monthly expectations.</li>" +
-         "<li>Train on product, market, competition, sales process and positioning.</li>" +
-         "<li>Assign coaching responsibilities and onboarding milestones.</li></ul>"}
-    ])
-  ) +
-  panel(
-    note(r,"<strong>&ldquo;Recommended&rdquo; does not mean automatic hire.</strong> If the candidate sounds poor on the phone, interviews badly, or lacks the experience the role needs, you can and should say no. And &ldquo;Not Recommended&rdquo; does not mean the process failed &mdash; it did its job.")
-  ) +
-  bigcard(r, INTERVIEW_URL, "Open the Interview Guide", "Questions by competency for the first interview");
+  return panel("<h2>The five steps</h2>" + interviewSteps(r)) +
+    panel(interviewNote(r)) +
+    bigcard(r, INTERVIEW_URL, "Open the Interview Guide",
+            "Questions by competency for the first interview");
 }},
 
 /* ------------------------------- 5 ------------------------------------- */
 {
 key:"interview-guide", img:"Assets/nav/interview-guide.svg", title:"Interview Guide",
+/* reached from the checklist, where it is actually needed */
+hidden:true,
 /* href = the tile opens the Interview Guide tool directly. */
 href:INTERVIEW_URL},
 
@@ -996,8 +1074,9 @@ function emRender(){
 }
 
 /* ---------------- plain text, read back off the edited page ---------------- */
-function emText(){
-  var el = document.getElementById("em-out");
+function emText(){ return docText("em-out"); }
+function docText(id){
+  var el = document.getElementById(id);
   if(!el) return "";
   var out = [];
   Array.prototype.forEach.call(el.childNodes, function(n){
@@ -1033,6 +1112,119 @@ render:function(r){
     '</div>'
   );
 }};
+
+var ADS = [{"key":"bdm","label":"Business Development Manager","short":"BDM","score":32,"grade":"F","verdict":"The ad explains the mechanics of the role reasonably well, but it is not yet a strong recruiting ad for a high-performing salesperson. It starts with job facts instead of a career vision, defines the sales background too broadly, never names the hard part of winning this market, does not give candidates enough compensation context to judge upside, and omits both company differentiators and the hiring process. The result is likely to attract competent generalist B2B applicants while doing too little to make proven new-business sellers stop and self-select in.","pool":"This ad is not yet calibrated tightly enough to run a clean pool test. The experience requirement is broad ('proven B2B sales experience') while the money is only partially defined (£55.3k Year 1 OTE / £70.3k Year 2 OTE, with no stated basic salary, top-producer earnings or ceiling). That makes the likely failure mode too much applicant volume from generalist B2B sellers, not a precise pool of proven sellers to the target buyer. Tighten the experience number first: define the minimum prior success required and the exact sales context. Then validate the £55.3k/£70.3k OTE against that pool. If qualified candidates already earning above that level will not move, the compensation number must rise; the source ad does not provide enough evidence to invent the correct figure.","fixes":[{"h":"Define the seller you actually need.","b":"Replace generic B2B experience with prior success selling a named category to a named decision-maker at a named customer type. This is the biggest self-selection lever."},{"h":"Put the hard part and the money in plain English.","b":"Say what makes winning new NBS Specifier customers difficult, then state target earnings, top-producer earnings and whether there is a ceiling."},{"h":"Give a proven seller a reason to move.","b":"Add a candidate-focused vision, 3-6 real Hubexo differentiators and a transparent hiring process with timeframes."}],"scorecard":[["Opening hook","2/10","The title and location are immediately clear.","Open with a specific, aspirational reason a proven new-business seller should care. The current opening is administrative, not magnetic."],["Candidate-centered","5/10","Most of the copy describes what the person will do rather than telling company history.","It still reads mainly as a responsibility list. Add the earnings, career opportunity, working experience and reasons this move improves the candidate's future."],["Ideal candidate defined","4/10","It asks for B2B, full-cycle, new-business and consultative selling experience with senior buyers.","It never states what the candidate must already have sold, the exact decision-maker title, or the customer type. 'B2B sales experience' is too broad."],["The hard part","1/10","The ad makes clear that pipeline creation and new-logo acquisition are part of the job.","It does not say what makes those activities difficult here: buyer resistance, competition, territory maturity, sales-cycle complexity, prospecting intensity, or another real obstacle."],["Self-selection","4/10","Full-cycle ownership, pipeline creation and CRM discipline provide some filters.","The requirements are broad enough that many generic B2B sellers can plausibly apply. Make prior success and required sales environment checkable."],["Compensation stated","5/10","Year 1 OTE of £55.3k and Year 2 OTE of £70.3k are stated.","'Competitive basic salary' is vague. State the earnings level you need the hire to achieve, top-producer earnings, and whether commission is capped."],["Pool test","4/10","The published OTE gives candidates at least some economic signal, and the requirements are not excessively heavy.","The ad does not provide enough evidence to prove the requirements-money match. The experience bar is vague and the pay picture is incomplete, so the pool cannot be deliberately calibrated."],["Differentiators, not history","3/10","It avoids irrelevant corporate history and gives a hybrid work pattern.","There are almost no reasons to choose Hubexo over another employer. Add 3-6 factual differentiators such as development, flexibility, culture, product position or support."],["Process transparency","0/10","Nothing in the ad creates a misleading promise about the process.","No hiring steps or timeframes are provided."],["Distinctiveness","4/10","NBS Specifier, architects/specifiers, ROI-led demos and the two-year OTE progression add some specificity.","Most wording could still be moved to another SaaS/B2B BDM ad with minimal edits. The vision, challenge and employer proposition need a distinct point of view."]],"missing":[["Missing fact","Who supplies it","What is needed"],["Vision line","Hiring manager / sales leadership","What career, earnings or professional opportunity should make a proven seller stop and consider this role?"],["Required prior sale","Sales leadership","What must the candidate have sold successfully before?"],["Decision-maker title","Sales leadership","Which buyer title must they already know how to sell to?"],["Target customer type","Sales leadership","What type/size/segment of customer must they have sold into?"],["Biggest challenge","Sales leadership / current top performers","What genuinely makes this sale hard?"],["Parallel experience","Sales leadership","What adjacent background is useful but not mandatory?"],["Travel requirement","Hiring manager","Percentage and/or region."],["Target earnings","Sales leadership / Finance","The earnings level the company needs this person to achieve; reconcile it with the published Year 1 and Year 2 OTE."],["Commission ceiling","Sales leadership / Finance","State capped or no ceiling."],["Top-producer earnings","Sales leadership / Finance","What top producers actually make."],["Additional qualifications","Hiring manager / HR","Any truly required, checkable qualifications not in the source ad."],["Employer differentiators","HR / hiring manager / sales team","3-6 factual reasons a strong seller would choose Hubexo."],["Benefits","HR","Actual benefits available for this role."],["Hiring process","Recruiting / hiring manager","Every step and expected timeframe."],["Call to action","Recruiting","Exact application instruction and destination."]],"ad":[{"t":"h","x":"Business Development Manager — Hubexo | NBS Specifier"},{"t":"c","x":"[Vision: the career or earnings opportunity this role makes possible.]"},{"t":"p","x":"Newcastle upon Tyne | Hybrid: 3 days per week in the Newcastle office | Monday-Friday, 9:00 AM-5:00 PM"},{"t":"p","x":"You must have prior success selling [what must they have sold] to [required decision-maker title] at [target customer type]."},{"t":"p","x":"You will be doing this in [the biggest challenge in this market — for example, a resistant buyer group, competitive market, long sales cycle or new territory]."},{"t":"p","x":"You must be able to create new-business pipeline, run structured discovery, demonstrate value and ROI, build commercial proposals, negotiate and close. You will own opportunities through the full sales cycle, work independently, be a self-starter, accept direct coaching and be held to agreed-upon goals. Salesforce must stay current so activity, pipeline and forecasts remain reliable."},{"t":"p","x":"Experience with [parallel sales experience that is helpful but not required] is helpful but not required."},{"t":"p","x":"Travel: [travel percentage and/or region]."},{"t":"p","x":"We need you to earn at least [target earnings]. The current role information states OTE of £55.3k in Year 1 and £70.3k in Year 2. Commission is [capped/no ceiling], and top producers make [top-producer earnings]."},{"t":"h","x":"Qualifications"},{"t":"ul","x":["Proven success owning a full B2B new-business sales cycle.","Proven ability to create and maintain a healthy new-business pipeline.","Demonstrated consultative selling capability with senior buyers and stakeholders.","Strong discovery, value-selling, presentation, proposal, negotiation and closing capability.","Commercial discipline and experience working in a structured CRM-led sales process.","[Any required education, sector experience, right-to-work, technical knowledge or other checkable qualification.]"]},{"t":"h","x":"Who we are"},{"t":"ul","x":["You will sell NBS Specifier in a true new-business role focused on winning new customers.","The role combines qualified opportunities with direct pipeline creation.","You will work with Marketing and internal teams to improve momentum and conversion.","Hybrid working: 3 days per week in the Newcastle office.","[Differentiator 1 — a factual reason a strong salesperson would choose Hubexo.]","[Differentiator 2 — a factual reason a strong salesperson would choose Hubexo.]"]},{"t":"h","x":"Benefits"},{"t":"ul","x":["[Benefit 1]","[Benefit 2]","[Benefit 3]"]},{"t":"h","x":"Our hiring process"},{"t":"ul","x":["[Step 1] — [timeframe]","[Step 2] — [timeframe]","[Step 3] — [timeframe]","[Final decision/offer] — [timeframe]"]},{"t":"h","x":"Next step"},{"t":"p","x":"If this matches what you have already done successfully, [exact application instruction and destination]."}]},{"key":"manager","label":"Sales Team Manager","short":"Manager","score":42,"grade":"F","verdict":"This ad is clearer than the average management posting about what the person will do, but it is still primarily a role description rather than a recruiting ad for a proven sales leader. The build-and-improve mandate is useful and the £105k realistic OTE gives candidates one concrete number, yet the ad does not define the selling environment precisely enough, does not lead with a candidate aspiration, does not state the genuinely difficult market condition, and gives no hiring-process transparency. The biggest risk is not applicant volume alone: strong sales leaders cannot quickly tell whether their exact background matches the role or whether the economics are compelling enough to move.","pool":"Direction of failure: underspecified rather than clearly underpaid or overpaid. The ad asks for an experienced new-business leader, but the experience requirement is broad enough to admit managers from many adjacent categories while the economics stop at “competitive salary + commission; realistic OTE £105k.” That combination makes it difficult to know whether the qualified pool and the money truly match. The first number to clarify is compensation: state the target earnings requirement, top-producer/top-performer earnings and whether there is a ceiling. Then tighten the experience bar by naming what this person must have led or sold, to whom, and in what customer environment. Until both sides are explicit, Hubexo cannot tell whether £105k is attracting the intended leadership tier or merely generating interest from people who meet the broad wording.","fixes":[{"h":"Define the exact prior-success pattern.","b":"what they must have sold or led, the buyer titles involved, and the target customer type."},{"h":"Complete the compensation story.","b":"target earnings, top-performer earnings, ceiling/no ceiling, and ideally the salary/commission structure."},{"h":"Replace the role-summary opening with a candidate-facing vision, then add the real external selling challenge and a timed hiring process.","b":""}],"scorecard":[["Opening hook","2/10","The title, location, hybrid pattern and OTE are immediately visible.","There is no aspirational first sentence. “Role Overview” opens with the company’s mandate, not the candidate’s career opportunity."],["Candidate-centered","4/10","Candidates can see the hybrid pattern, OTE and the scope to lead both BDMs and BDRs.","Most of the copy describes what Hubexo needs improved. Add what a proven leader gets to build, influence, earn and become."],["Ideal candidate defined","4/10","It correctly rules out first-time managers and asks for new-business leadership, ARR, outbound, forecasting and mixed-team experience.","It never states what the candidate must previously have sold, to which decision-maker titles, or at what type of customer. The industry list is too broad to function as a filter."],["The hard part","6/10","“Build-and-improve,” weak pipeline, poor qualification, forecast risk and conversion problems are unusually candid signals.","The ad describes internal problems but not the external selling challenge: buyer resistance, competitive intensity, territory maturity, cycle length or another concrete difficulty."],["Self-selection","6/10","Experienced-leader language, BDM/BDR scope and specific coaching expectations will screen out some weak fits.","Without prior selling context, cycle length, customer profile and checkable qualifications, too many adjacent managers can still convince themselves they qualify."],["Compensation stated","5/10","A realistic OTE of £105k is stated, which is materially better than “competitive compensation” alone.","The base salary is only described as competitive, and the ad does not state the earnings level Hubexo needs this person to hit, top-performer earnings, or whether there is a ceiling."],["Pool test","6/10","The £105k OTE gives the market enough information to begin judging the opportunity against the experienced-manager requirement.","The match cannot be validated from the ad because the salary split, top-end earnings and exact experience bar are missing. The likely failure is an underspecified pool: broad requirements invite marginal fits while strong leaders lack enough economic detail to opt in."],["Differentiators, not history","4/10","There is no corporate-history dump. Hybrid working and a genuine build mandate are useful differentiators.","The ad gives almost no reasons to choose Hubexo over another employer: no verified culture, development, flexibility beyond hybrid, benefits, or other candidate-facing advantages."],["Process transparency","0/10","Nothing in the ad creates false expectations about a process.","There are no interview steps or timeframes at all."],["Distinctiveness","5/10","The language around productive activity, challenging weak pipeline and direct coaching is sharper than generic sales-management copy.","Much of the posting could still carry another SaaS/data company name unchanged. The opening, candidate promise and selling challenge need to make it unmistakably Hubexo."]],"missing":[["Placeholder","Who needs to supply it / what is needed"],["[what Hubexo sells]","Hiring manager / VP New Business — specify the product/service category this manager must already understand or have led."],["[decision-maker title(s)]","VP New Business / sales leadership — name the buyer titles the team sells to."],["[target customer type]","Sales leadership — define the target account profile, such as company size, sector or segment."],["[biggest external selling challenge]","VP New Business — state the real market difficulty candidates will face."],["[sales-cycle length]","Revenue Operations / VP New Business — provide the typical new-logo sales cycle in days."],["[travel percentage/region]","Hiring manager — state required travel as a percentage and/or region."],["[target earnings]","Compensation owner / HR — state what Hubexo needs the successful person to earn."],["[ceiling/no-ceiling statement]","Compensation owner / HR — confirm whether variable earnings are capped."],["[top-performer earnings]","Compensation owner / HR — provide a credible top-performer earnings figure."],["[required degree, certification, right-to-work, location or other checkable qualification]","HR / hiring manager — include only requirements that are genuinely mandatory."],["[one or two additional verified reasons a proven sales leader would choose Hubexo]","HR / leadership — provide verified culture, development, flexibility, growth or employer-value differentiators."],["[additional verified benefits]","HR — provide the actual benefits package."],["[hiring process steps and timeframes]","Recruiting / hiring manager — list every stage and expected elapsed time."],["[exact call to action and application destination]","Recruiting — provide the precise application instruction and destination."]],"ad":[{"t":"h","x":"Sales Team Manager — Hubexo | Newcastle Quayside, UK"},{"t":"p","x":"Build the new-business leadership track record that comes from turning a developing BDR/BDM team into a disciplined, predictable ARR-growth engine."},{"t":"p","x":"You must have prior success leading new-business sales of [what Hubexo sells] to [decision-maker title(s)] at [target customer type]."},{"t":"p","x":"You will be doing this in [biggest external selling challenge — e.g., competitive market, resistant buyers, new territory or long sales cycle]."},{"t":"p","x":"You must be able to improve both sides of the new-business engine: targeted prospecting and qualification from BDRs, and discovery, value selling, stakeholder control, close planning and conversion from BDMs. You must be able to find and close business inside a [sales-cycle length]-day cycle, work independently, self-start, accept direct coaching, and be held to agreed-upon goals. You will be expected to challenge weak pipeline, test forecasts, use CRM data to make decisions, and manage performance clearly and fairly."},{"t":"p","x":"Experience with SaaS, data, insights, market intelligence, subscriptions, workflow software, construction, specification or building products is helpful but not required."},{"t":"p","x":"Travel: [travel percentage/region]. The normal work pattern is hybrid: 3 days in person at Newcastle Quayside and 2 days working from home."},{"t":"p","x":"We need you to earn at least [target earnings]. [Ceiling/no-ceiling statement]. Our top performers make [top-performer earnings]. The current advertised realistic OTE is £105k."},{"t":"h","x":"Qualifications"},{"t":"ul","x":["Proven new-business sales leadership experience; this is not a first-time manager role.","Prior success leading people at different stages, from early-career BDRs through experienced BDMs.","Strong command of ARR, pipeline creation, new-logo acquisition, outbound sales and forecasting.","Demonstrated ability to review calls, challenge deals, test forecasts and give direct coaching feedback.","Demonstrated use of HubSpot or another CRM as a leadership and decision-making tool.","[Any required degree, certification, right-to-work, location or other checkable qualification]."]},{"t":"h","x":"Who we are"},{"t":"ul","x":["This is a build-and-improve mandate, not a maintenance role.","You will lead a mixed new-business team of BDRs and BDMs.","You will work closely with the VP New Business to turn commercial priorities into team execution.","You will partner across Marketing, Product, Customer Success and Revenue Operations to improve how the business positions, sells and wins.","Hybrid working: 3 days in person / 2 days working from home.","[One or two additional verified reasons a proven sales leader would choose Hubexo]."]},{"t":"h","x":"Benefits"},{"t":"ul","x":["Commission opportunity with a currently advertised realistic OTE of £105k.","Hybrid work pattern: 3 days in person / 2 days working from home.","[Additional verified benefits]."]},{"t":"h","x":"Our hiring process"},{"t":"ul","x":["[Step 1] — [timeframe]","[Step 2] — [timeframe]","[Step 3] — [timeframe]","[Final decision/offer] — [timeframe]"]},{"t":"c","x":"Ready to build a stronger new-business engine? [Exact call to action and application destination]."}]},{"key":"bdr","label":"Business Development Representative","short":"BDR","score":42,"grade":"F","verdict":"The ad is clear, readable and unusually honest that this is an entry point into B2B new-business sales. It also gives candidates a real OTE and a hybrid work pattern. But it is still primarily a job description, not a filtering sales ad. It does not define the evidence of prior success Hubexo actually needs, does not make the difficulty of sustained outbound prospecting vivid, omits the hiring process, and gives too little compensation detail to let strong candidates judge the upside. The likely result is application volume rather than a small, self-selecting pool of people who are genuinely suited to phone-led new-business work.","pool":"This ad does not fail because it asks for too much experience for the money. It fails in the opposite direction: the £32,000 OTE is paired with a very broad, mostly behavioural entry bar. That can attract plenty of people, but the ad gives them too little objective evidence by which to self-select. The first number to change is not necessarily the pay number; it is the qualification bar. Define the minimum evidence of prior success Hubexo will accept for an entry-level BDR. Then validate that £32,000 OTE, including its base/variable split, is competitive for candidates who meet that bar. If Hubexo truly requires prior successful B2B selling, the compensation must be re-tested because the current pool could shrink sharply.","fixes":[{"h":"Define the candidate with checkable evidence.","b":"State the minimum prior success required, the buyer titles contacted, and the customer type. If prior sales experience is genuinely not required, define the equivalent evidence of outbound, customer-facing or target-driven success that is acceptable."},{"h":"Make the hard part explicit.","b":"Say what sustained outbound work actually demands: cold prospecting, rejection, activity expectations, resistant buyers, meeting-quality standards, or the real challenge Hubexo measures."},{"h":"Complete the candidate proposition.","b":"Add base/variable compensation detail, target and top-producer earnings, cap/no-cap status, real differentiators and the hiring steps with timeframes."}],"scorecard":[["Opening hook","4/10","“Entry point into B2B new-business sales” gives the role a career-development angle.","The first impression is title/location/role description, not an aspirational reason for a strong early-career seller to stop scrolling."],["Candidate-centered","6/10","Training, product education, commission and commercial development are candidate benefits.","Much of the copy describes tasks and why the role matters to Hubexo/NBS rather than the candidate’s earnings, trajectory and future."],["Ideal candidate defined","4/10","The target market is clear: construction product manufacturers and suppliers. The ad names useful behaviours such as curiosity, resilience and objection handling.","It does not say what prior success is actually required, which decision-maker titles the BDR will contact, or what evidence separates a promising applicant from a merely confident one."],["The hard part","3/10","It does disclose that the environment is phone-led, outbound and target-driven, with self-sourced prospects and lapsed-customer re-engagement.","It never says plainly why this is hard: repeated cold outreach, rejection, resistance, activity expectations, meeting-quality pressure, or whatever the real challenge is."],["Self-selection","4/10","Hybrid attendance and comfort with outbound calls give candidates some basis to opt out.","The requirements are mostly traits. They are not checkable enough to make weak-fit candidates disqualify themselves."],["Compensation stated","5/10","OTE of £32,000 and monthly commission are stated.","The ad does not state base salary/commission split, the earnings level Hubexo needs the person to achieve, top-producer earnings, or whether commission is capped."],["Pool test","8/10","An entry-level positioning and modest OTE broadly match each other; this is not the classic heavy-requirements/low-pay mismatch.","The bar is so broad that the ad risks a large pool of unproven applicants. Tighten the evidence-of-success requirement before increasing applicant volume; confirm that £32,000 OTE is competitive for the exact Newcastle talent pool."],["Differentiators, not history","5/10","There is no corporate-history dump. Hybrid work, structured sales training and product education are relevant reasons to consider the role.","The candidate proposition is thin. Add only real, specific differentiators such as progression path, coaching cadence, team environment or benefits."],["Process transparency","0/10","Nothing material is provided.","Add every hiring step and the expected timeframe for each."],["Distinctiveness","3/10","The construction/specification context gives the ad some identity.","Most wording could be swapped into another BDR ad with little change. The career vision, challenge and success profile need to sound unmistakably like this opportunity."]],"missing":[["Missing fact","Who needs to supply it"],["Minimum prior-success evidence","Hiring manager / sales leader"],["Type of selling, outbound or customer-facing activity that counts","Hiring manager / sales leader"],["Decision-maker titles the BDR typically contacts","Sales leader / current BDR or BDM"],["Typical BDR qualification/meeting-booking cycle","Sales leader / RevOps"],["Travel requirement, if any","Hiring manager / HR"],["Target earnings Hubexo needs the person to achieve","Sales leader / Finance / HR"],["Base salary and variable compensation split","HR / Finance"],["Whether commission is capped","HR / Finance"],["Top-producer earnings","Sales leader / Finance"],["1-2 additional candidate-facing differentiators","Hiring manager / HR"],["Confirmed benefits beyond those stated in the source ad","HR"],["Hiring steps and timeframe for each","Recruiter / hiring manager"],["Exact application instruction and destination","Recruiter / HR"]],"ad":[{"t":"h","x":"Business Development Representative — Hubexo | NBS Supplier"},{"t":"p","x":"Build the foundation for a B2B sales career in the construction sector, with structured training, monthly commission and hands-on experience creating new-business opportunities."},{"t":"p","x":"You must have prior success [confirm the minimum evidence of success required; the current ad positions prior sales experience as optional] with [type of selling/outbound/customer-facing activity] to [decision-maker titles] at construction product manufacturers and suppliers."},{"t":"p","x":"You will be doing this in a phone-led outbound environment where you must create conversations from cold and lapsed prospects, handle resistance and consistently turn relevant interest into well-qualified BDM meetings."},{"t":"p","x":"You must be able to self-source prospects, ask useful questions, listen carefully, handle objections and work independently toward agreed targets. You will need to be a self-starter, accept direct coaching, maintain accurate Salesforce records and be accountable for both activity and meeting quality. You must be able to find and progress opportunities inside a [typical BDR qualification/booking cycle] cycle."},{"t":"p","x":"Experience with construction, building products, manufacturing, specification or the built environment is helpful but not required."},{"t":"p","x":"Travel: [confirm travel requirement]. This is a hybrid role based at One Trinity Gardens, Newcastle upon Tyne, with three days per week in the Newcastle hub."},{"t":"p","x":"We need you to earn at least [target earnings required by Hubexo]. The advertised OTE is £32,000 with monthly commission. [Confirm base salary and variable split.] [Confirm whether commission is capped.] Top producers make [top-producer earnings]."},{"t":"h","x":"Qualifications"},{"t":"ul","x":["Able to work Monday-Friday and attend the Newcastle hub three days per week.","Confident initiating conversations with new people and B2B decision-makers.","Willing and motivated to work toward targets in a phone-led outbound environment.","Able to self-source prospects and use LinkedIn and other prospecting channels.","Able to ask strong questions, listen, handle objections and qualify potential needs.","Able to maintain accurate activity, meeting and opportunity records in Salesforce.","[Minimum prior-success evidence Hubexo will require.]"]},{"t":"h","x":"Who we are"},{"t":"ul","x":["A clear entry point into B2B new-business sales within the NBS Supplier proposition.","Structured sales training and product education.","Defined performance expectations and direct experience working with Business Development Managers.","Hybrid working: three days per week in the Newcastle hub.","Opportunity to build commercial confidence while earning monthly commission.","[Add 1-2 additional real reasons a strong candidate would choose Hubexo over another BDR role.]"]},{"t":"h","x":"Benefits"},{"t":"ul","x":["Monthly commission.","Hybrid work pattern.","Sales training and product education.","[Add confirmed benefits.]"]},{"t":"h","x":"Our hiring process"},{"t":"ul","x":["Step 1 — [application/screening step and timeframe].","Step 2 — [interview/assessment step and timeframe].","Step 3 — [final interview step and timeframe].","Decision — [expected decision/offer timeframe]."]},{"t":"h","x":"Ready to apply?"},{"t":"p","x":"[Exact call to action: what the candidate should send or complete, where to send/submit it, and by when if there is a deadline.]"}]}];
+
+var AD_STORE = "hubexoAdsV1";
+
+function findAd(k){
+  for(var i=0;i<ADS.length;i++) if(ADS[i].key === k) return ADS[i];
+  return null;
+}
+
+/* every [bracketed] item in the rewrite is something Hubexo still has to supply,
+   so it renders red and turns black the moment it is typed over */
+function adLine(str){
+  var out = "", rest = String(str), m;
+  while((m = rest.match(/\[[^\]\n]+\]/))){
+    out += esc(rest.slice(0, m.index));
+    out += '<span class="token" data-ph="' + esc(m[0]) + '">' + esc(m[0]) + '</span>';
+    rest = rest.slice(m.index + m[0].length);
+  }
+  return out + esc(rest);
+}
+
+function adRender(a){
+  var el = document.getElementById("ad-out");
+  if(!el) return;
+  el.innerHTML = a.ad.map(function(b){
+    if(b.t === "h")  return '<p class="tight"><b>' + adLine(b.x) + '</b></p>';
+    if(b.t === "ul") return '<ul>' + b.x.map(function(li){
+                              return '<li>' + adLine(li) + '</li>'; }).join("") + '</ul>';
+    return '<p>' + adLine(b.x) + '</p>';
+  }).join("");
+}
+
+/* ---------------- the chooser ---------------- */
+function adIndex(r){
+  return '<div class="adpick">' + ADS.map(function(a){
+    return '<a class="p" href="#' + r.key + '/rewritten-ads/' + a.key + '" ' +
+      'style="background:' + grad(r) + ';color:' + r.ink +
+      ';box-shadow:0 18px 40px -22px ' + tint(r.from,.7) + '">' +
+      '<span class="sc">Current ad scored ' + a.score + '/100</span>' +
+      '<span class="nm">' + esc(a.label) + '</span></a>';
+  }).join("") + '</div>';
+}
+
+/* ---------------- one rewritten ad ---------------- */
+function adView(r, a){
+  var acc = r.accentText || r.accent;
+
+  var fixes = '<ol class="fixlist">' + a.fixes.map(function(f){
+    return '<li><span class="fh">' + esc(f.h) + '</span>' +
+           (f.b ? '<span class="fb">' + esc(f.b) + '</span>' : '') + '</li>';
+  }).join("") + '</ol>';
+
+  var score = '<table class="adtbl"><tr><th>What was measured</th><th>Score</th>' +
+    '<th>What to fix</th></tr>' + a.scorecard.map(function(row){
+      return '<tr><td>' + esc(row[0]) + '</td><td class="num" style="color:' + acc + '">' +
+             esc(row[1]) + '</td><td>' + esc(row[3]) + '</td></tr>';
+    }).join("") + '</table>';
+
+  var mhead = a.missing[0] || [];
+  var missing = '<table class="adtbl"><tr>' + mhead.map(function(h){
+      return '<th>' + esc(h) + '</th>'; }).join("") + '</tr>' +
+    a.missing.slice(1).map(function(row){
+      return '<tr>' + row.map(function(c){ return '<td>' + esc(c) + '</td>'; }).join("") + '</tr>';
+    }).join("") + '</table>';
+
+  return panel(
+      '<div class="adhead"><h2>What to fix first</h2></div>' +
+      fixes
+    ) +
+    panel(
+      '<div class="doc"><div class="body" id="ad-out" contenteditable="true" spellcheck="false"></div></div>' +
+      '<p class="edithint">Anything in red is a placeholder \u2014 click it and type over it. ' +
+        'You can edit any other line too.</p>' +
+      '<div class="actions">' +
+        '<button class="btn btn-primary" id="ad-copy" style="background:' + grad(r) +
+          ';color:' + r.ink + ';box-shadow:0 12px 28px -14px ' + tint(r.from,.8) + '">Copy Text</button>' +
+        '<button class="btn btn-outline" id="ad-docx">Download Word Doc</button>' +
+        '<button class="btn btn-outline" id="ad-reset">Start over</button>' +
+      '</div>'
+    ) +
+    fold("What is still missing \u2014 and who to ask for it", missing) +
+    fold("How the current ad scored (" + a.score + "/100)",
+         '<p class="adnote">' + esc(a.verdict) + '</p>' + score);
+}
+
+function wireAds(r){
+  var parts = location.hash.replace(/^#/,"").split("/");
+  var a = parts[2] ? findAd(parts[2]) : null;
+  if(!a) return;
+  adRender(a);
+
+  var out = document.getElementById("ad-out");
+  out.addEventListener("input", function(){
+    Array.prototype.forEach.call(out.querySelectorAll("[data-ph]"), function(sp){
+      if(sp.textContent.trim() !== sp.getAttribute("data-ph")){
+        sp.className = sp.className.replace(/\btoken\b/, "").trim();
+        sp.removeAttribute("data-ph");
+      }
+    });
+  });
+
+  document.getElementById("ad-copy").addEventListener("click", function(){
+    copyText(docText("ad-out"), this, "Copied", "Copy Text");
+  });
+  document.getElementById("ad-docx").addEventListener("click", function(){
+    downloadDocx("ad-out", "Job Ad - " + a.label + ".docx");
+  });
+  document.getElementById("ad-reset").addEventListener("click", function(){
+    if(!confirm("Put the ad back the way it started?")) return;
+    adRender(a);
+  });
+}
 
 /* ==========================================================================
    APPLICANT TRACKING SHEET — mirrors the example spreadsheet.
@@ -1299,6 +1491,15 @@ function findRegion(k){
   for(var i=0;i<REGIONS.length;i++) if(REGIONS[i].key === k) return REGIONS[i];
   return null;
 }
+/* a section marked `only` shows for that region alone; `not` hides it there */
+function sectionsFor(r){
+  return SECTIONS.filter(function(s){
+    if(s.hidden) return false;
+    if(s.only && s.only !== r.key) return false;
+    if(s.not  && s.not  === r.key) return false;
+    return true;
+  });
+}
 function findSection(k){
   for(var i=0;i<ALL_SECTIONS.length;i++) if(ALL_SECTIONS[i].key === k) return ALL_SECTIONS[i];
   return null;
@@ -1333,7 +1534,7 @@ function regionView(r){
       '<img src="' + EMAIL_SECTION.img + '" alt="' + esc(EMAIL_SECTION.title) + '"></a>' +
 
     '<div class="navgrid">' +
-      SECTIONS.map(function(s){
+      sectionsFor(r).map(function(s){
         var href = s.href ? s.href : '#' + r.key + '/' + s.key;
         var out  = s.href ? ' target="_blank" rel="noopener"' : '';
         return '<a class="navtile" href="' + href + '"' + out + '>' +
@@ -1344,6 +1545,11 @@ function regionView(r){
 
 /* a training session names itself in the banner rather than the section */
 function sectionHeading(s){
+  if(s.key === "rewritten-ads"){
+    var p = location.hash.replace(/^#/,"").split("/");
+    var a = p[2] ? findAd(p[2]) : null;
+    if(a) return a.label;
+  }
   if(s.key === "training"){
     var parts = location.hash.replace(/^#/,"").split("/");
     var ses = parts[2] ? findSession(parts[2]) : null;
@@ -1353,10 +1559,11 @@ function sectionHeading(s){
 }
 function sectionView(r,s){
   var back = {href:"#" + r.key, label:r.name};
-  if(s.key === "training"){
-    var parts = location.hash.replace(/^#/,"").split("/");
-    if(parts[2]) back = {href:"#" + r.key + "/training", label:"All sessions"};
-  }
+  var parts = location.hash.replace(/^#/,"").split("/");
+  if(s.key === "training" && parts[2])
+    back = {href:"#" + r.key + "/training", label:"All sessions"};
+  if(s.key === "rewritten-ads" && parts[2])
+    back = {href:"#" + r.key + "/rewritten-ads", label:"All three ads"};
   return '<a class="backlink" href="' + back.href + '">' + BACK + esc(back.label) + '</a>' +
     '<div class="banner sec" style="background:' + grad(r) + ';color:' + r.ink +
       ';box-shadow:0 18px 40px -24px ' + tint(r.from,.7) + '">' +
@@ -1392,6 +1599,7 @@ function route(){
     if(s.key === "emails")   wireEmail(themed(r));
     if(s.key === "tracking") wireTracking(themed(r));
     if(s.key === "training") wireTraining(themed(r));
+    if(s.key === "rewritten-ads") wireAds(themed(r));
     wireChecks();
   }
   wireCopy();
@@ -1462,7 +1670,7 @@ function wireEmail(r){
   document.getElementById("em-copy").addEventListener("click", function(){
     copyText(emText(), this, "Copied", "Copy Text");
   });
-  document.getElementById("em-docx").addEventListener("click", downloadDocx);
+  document.getElementById("em-docx").addEventListener("click", function(){ downloadDocx("em-out"); });
   document.getElementById("em-reset").addEventListener("click", function(){
     if(!confirm("Put the template back the way it started?")) return;
     emRender();
@@ -1553,9 +1761,9 @@ function runsFrom(node){
   });
   return s;
 }
-function buildDocx(){
+function buildDocx(id){
   /* built from what is on screen, so the reader's edits come through */
-  var el = document.getElementById("em-out");
+  var el = document.getElementById(id || "em-out");
   var a  = el ? el.querySelector("a[href]") : null;
   var isUrl = !!(a && /^https?:\/\//i.test(a.getAttribute("href") || ""));
   DOCX_LINK = isUrl ? a.getAttribute("href") : "";
@@ -1612,11 +1820,11 @@ function buildDocx(){
   ]);
 }
 
-function downloadDocx(){
-  var bytes = buildDocx();
+function downloadDocx(id, filename){
+  var bytes = buildDocx(id);
   var blob  = new Blob([bytes], {type:"application/vnd.openxmlformats-officedocument.wordprocessingml.document"});
   var a     = document.createElement("a");
-  var name  = "Email Template - " + (emOpt().label || "BDM") + ".docx";
+  var name  = filename || ("Email Template - " + (emOpt().label || "BDM") + ".docx");
   a.href = URL.createObjectURL(blob);
   a.download = name;
   document.body.appendChild(a); a.click();
