@@ -25,6 +25,8 @@
   --ink-2:#6B5A6B;
   --ink-3:#9E909E;
   --hover:#EFEEE8;
+  --zebra:#F7F8FA;
+  --accentring:rgba(0,140,255,.45);
   --shadow:0 1px 2px rgba(50,20,50,.05), 0 10px 28px -18px rgba(50,20,50,.4);
 }
 html[data-theme="dark"]{
@@ -37,6 +39,8 @@ html[data-theme="dark"]{
   --ink-2:#C4B0C4;
   --ink-3:#8F7C8F;
   --hover:#301630;
+  --zebra:#20122A;
+  --accentring:rgba(0,140,255,.55);
   --shadow:0 1px 2px rgba(0,0,0,.4), 0 12px 30px -18px rgba(0,0,0,.75);
 }
 
@@ -133,7 +137,7 @@ html[data-theme="dark"] .lu .dk{display:block;}
 
 .navgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
 .navtile{
-  background:var(--plate);
+  background:var(--surface);
   border:1px solid var(--line);
   border-radius:20px;
   padding:16px;
@@ -144,17 +148,11 @@ html[data-theme="dark"] .lu .dk{display:block;}
 }
 .navtile:hover{transform:translateY(-4px);}
 .navtile img{width:100%;max-width:300px;height:auto;display:block;}
-.navtile.wide{
-  grid-column:1/-1;min-height:0;padding:26px 30px;
-  justify-content:flex-start;gap:22px;
-  background:var(--surface);
-}
-.navtile.wide .ic{
-  width:58px;height:58px;flex:0 0 58px;border-radius:15px;
-  display:inline-flex;align-items:center;justify-content:center;
-}
-.navtile.wide .ic svg{width:28px;height:28px;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
-.navtile.wide .tn{font-size:23px;font-weight:600;letter-spacing:-.018em;color:var(--ink);}
+/* the artwork is transparent with dark ink — flip its lightness in dark mode
+   so it reads on the dark tile while keeping the icon hues */
+html[data-theme="dark"] .navtile img{filter:invert(1) hue-rotate(180deg) brightness(1.08);}
+.navtile.wide{min-height:96px;padding:12px;margin:0 0 20px;}
+.navtile.wide img{max-width:196px;}
 
 /* ==========================================================================
    SECTION PAGE — document styling
@@ -182,6 +180,47 @@ html[data-theme="dark"] .lu .dk{display:block;}
 .panel a.inline{border-bottom:1.5px solid currentColor;padding-bottom:1px;font-weight:500;}
 
 .lead{font-size:18px;line-height:1.6;color:var(--ink-2);margin:0 0 22px;}
+
+/* ---- Applicant tracking sheet ---- */
+.trkbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:0 0 18px;}
+.trkbar .sp{margin-left:auto;}
+.tbtn{
+  border:1.5px solid var(--line);background:var(--surface);color:var(--ink-2);
+  border-radius:10px;padding:10px 16px;font-size:14.5px;font-weight:600;
+  cursor:pointer;transition:border-color .12s ease,color .12s ease,background .12s ease;
+}
+.tbtn:hover{color:var(--ink);border-color:var(--ink-3);background:var(--hover);}
+.tbtn.go{color:#fff;border-color:transparent;}
+.trkwrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface);}
+table.trk{border-collapse:separate;border-spacing:0;width:100%;min-width:1060px;font-size:14.5px;}
+table.trk th{
+  position:sticky;top:0;z-index:2;
+  background:#5B95F9;color:#fff;
+  font-weight:600;text-align:left;white-space:nowrap;
+  padding:12px 11px;font-size:13.5px;letter-spacing:.01em;
+  text-transform:none;                       /* keep the sheet's own casing */
+}
+table.trk th:first-child{border-top-left-radius:13px;}
+table.trk th:last-child{border-top-right-radius:13px;}
+table.trk td{padding:0;border-bottom:1px solid var(--line-soft);vertical-align:middle;}
+table.trk tbody tr:nth-child(even){background:var(--zebra);}
+table.trk tbody tr:hover{background:var(--hover);}
+table.trk input{
+  width:100%;border:0;background:transparent;color:var(--ink);
+  font-family:inherit;font-size:14.5px;padding:12px;outline:none;
+}
+table.trk input:focus{box-shadow:inset 0 0 0 2px var(--accentring);border-radius:8px;}
+table.trk td.mark{text-align:center;cursor:pointer;user-select:none;width:74px;}
+table.trk td.mark span{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;margin:9px auto;border-radius:8px;
+  border:1.5px solid var(--line);color:transparent;font-size:15px;font-weight:700;
+  transition:background .12s ease,color .12s ease,border-color .12s ease;
+}
+table.trk td.mark.on span{color:#fff;border-color:transparent;}
+table.trk td.yn{text-align:center;cursor:pointer;user-select:none;width:104px;font-weight:600;}
+table.trk td.yn span{display:inline-block;padding:5px 14px;border-radius:999px;font-size:13px;}
+.trknote{font-size:14px;color:var(--ink-3);margin:14px 0 0;}
 
 /* ---- Process Checklist outline ---- */
 .outline{margin:0;padding-left:26px;}
@@ -377,9 +416,8 @@ input[type=text]::placeholder{color:var(--ink-3);}
   .role{padding:19px 22px;font-size:17.5px;}
   .navgrid{grid-template-columns:1fr;gap:14px;}
   .navtile{min-height:132px;border-radius:16px;}
-  .navtile.wide{padding:22px;gap:17px;}
-  .navtile.wide .ic{width:50px;height:50px;flex:0 0 50px;border-radius:13px;}
-  .navtile.wide .tn{font-size:20px;}
+  .navtile.wide{min-height:104px;padding:12px;margin-bottom:14px;}
+  .navtile.wide img{max-width:200px;}
   .panel{padding:24px 22px;border-radius:16px;}
   .panel h2{font-size:21px;}
   .bigcard{padding:26px;gap:16px;}
@@ -569,7 +607,7 @@ var SECTIONS = [
 
 /* ------------------------------- 1 ------------------------------------- */
 {
-key:"checklist", img:"Assets/nav/process-checklist.png", title:"Process Checklist",
+key:"checklist", img:"Assets/nav/process-checklist.svg", title:"Process Checklist",
 render:function(r){
   /* Dan's outline, verbatim. "link" markers below become real links.
      STAR chapter routes: distinguish 1-5 · source 6-9 · assess 10-12
@@ -580,6 +618,7 @@ render:function(r){
            ' style="color:' + (r.accentText||r.accent) + ';border-color:' + tint(r.accent,.55) + '">link</a>';
   };
   var star = function(route){ return L(STAR_URL + "#" + route, true); };
+  var out  = function(href){ return L(href, true); };
   var hub  = function(key){ return L("#" + r.key + "/" + key, false); };
 
   return panel(
@@ -590,54 +629,54 @@ render:function(r){
         "<span class='o-note'>(Indeed/LinkedIn/ZipRecruiter… whatever platform you use)</span>" +
         "<ul>" +
           "<li>How to Write the Ad " + star("distinguish/5") + "</li>" +
-          "<li>Ad Examples " + hub("ad-examples") + "</li>" +
         "</ul></li>" +
 
       "<li><span class='o1'>Applications Come In</span>" +
         "<ul>" +
           "<li>Send The Assessment Email " + hub("emails") + "</li>" +
-          "<li>Add to Tracking Sheet Immediately " +
+          "<li>Add to Tracking Sheet Immediately " + hub("tracking") + " " +
             "<span class='o-note'>(If you have an Applicant Tracking System, use that)</span>" +
             "<ul>" +
               "<li>If resume looks great, put &ldquo;Yes&rdquo; for follow up</li>" +
-              "<li>If resume looks like a pile of garbage, put &ldquo;No&rdquo; for follow up</li>" +
+              "<li>If resume doesn&rsquo;t look great, put &ldquo;No&rdquo; for follow up</li>" +
             "</ul></li>" +
-          "<li>Follow up with the good ones 3-5 times. The goal is to get as many completed assessments as possible.</li>" +
+          "<li>Follow up with the good ones 3-5 times</li>" +
+          "<li>The goal is to get as many completed assessments as possible.</li>" +
         "</ul></li>" +
 
       "<li><span class='o1'>When you get a &ldquo;Recommended&rdquo; Candidate, Schedule interview ASAP</span></li>" +
 
       "<li><span class='o1'>Interview Process:</span>" +
         "<ul>" +
-          "<li>5 Minute Phone Screen " + star("interview/13") + "</li>" +
+          "<li>The 10-Minute Phone / Video Interview " + star("interview/13") + "</li>" +
           "<li>Interview #1 " + star("interview/14") +
             "<ul>" +
-              "<li>They prove to you</li>" +
-              "<li>Use interview questions tool</li>" +
+              "<li>Incorporate role play / Match pressure they&rsquo;ll experience in the role</li>" +
+              "<li>Use interview questions tool " + out(INTERVIEW_URL) + "</li>" +
               "<li>Open assessment</li>" +
               "<li>Pick areas they&rsquo;re weak in</li>" +
-              "<li>Follow interview questions tool " + hub("interview-guide") + "</li>" +
+              "<li>Follow interview questions tool " + out(INTERVIEW_URL) + "</li>" +
             "</ul></li>" +
           "<li>Final Interview " + star("interview/15") + "</li>" +
           "<li>Job Offer " + star("interview/16") + "</li>" +
         "</ul></li>" +
 
-      "<li><span class='o1'>90 Day Onboarding - Absolutely Key</span> " + hub("onboarding-plan") + "</li>" +
+      "<li><span class='o1'>90 Day Onboarding - Absolutely Key</span> " + star("retain/17") + "</li>" +
 
     "</ol>"
   ) +
-  bigcard(r, TRACKER_URL, "Example Applicant Tracking Sheet", "Copy it and make it yours");
+  bigcard(r, "#" + r.key + "/tracking", "Example Applicant Tracking Sheet", "Fill it in here, or download it as a spreadsheet");
 }},
 
 /* ------------------------------- 2 ------------------------------------- */
 {
-key:"mini-course", img:"Assets/nav/mini-course.png", title:"Hiring Mini-Course",
+key:"mini-course", img:"Assets/nav/mini-course.svg", title:"Hiring Mini-Course",
 /* href = the tile opens STAR directly; there is no page inside the hub. */
 href:STAR_URL},
 
 /* ------------------------------- 3 ------------------------------------- */
 {
-key:"ad-examples", img:"Assets/nav/ad-examples.png", title:"Ad Examples",
+key:"ad-examples", img:"Assets/nav/ad-examples.svg", title:"Ad Examples",
 render:function(r){
   var template =
 "[Sell the vision — one eye-catching, aspirational sentence]\n\n" +
@@ -719,7 +758,7 @@ render:function(r){
 
 /* ------------------------------- 4 ------------------------------------- */
 {
-key:"interview-process", img:"Assets/nav/interview-process.png", title:"Interview Process",
+key:"interview-process", img:"Assets/nav/interview-process.svg", title:"Interview Process",
 render:function(r){
   return panel(
     "<h2>The five steps</h2>" +
@@ -750,84 +789,23 @@ render:function(r){
     ])
   ) +
   panel(
-    note(r,"<strong>Recommended does not mean automatic hire.</strong> If the candidate sounds poor on the phone, interviews badly, or lacks the experience the role needs, you can and should say no.")
+    note(r,"<strong>&ldquo;Recommended&rdquo; does not mean automatic hire.</strong> If the candidate sounds poor on the phone, interviews badly, or lacks the experience the role needs, you can and should say no. And &ldquo;Not Recommended&rdquo; does not mean the process failed &mdash; it did its job.")
   ) +
   bigcard(r, INTERVIEW_URL, "Open the Interview Guide", "Questions by competency for the first interview");
 }},
 
 /* ------------------------------- 5 ------------------------------------- */
 {
-key:"interview-guide", img:"Assets/nav/interview-guide.png", title:"Interview Guide",
-render:function(r){
-  return panel(
-    "<h2>How to use it</h2>" +
-    "<ul>" +
-    "<li>Open the candidate's assessment before the interview.</li>" +
-    "<li>Pick the competencies they scored weakest on.</li>" +
-    "<li>Pull the questions for those competencies and ask them in the interview.</li>" +
-    "<li>Score what you hear against the outcomes listed under each question.</li>" +
-    "</ul>" +
-    "<p>The guide is organised by the four assessment categories — Will to Sell, Sales DNA, Interpersonal and Tactical Skills — so it maps directly onto the report you are holding.</p>"
-  ) +
-  bigcard(r, INTERVIEW_URL, "Open the Interview Guide", "Questions and scoring by competency");
-}},
+key:"interview-guide", img:"Assets/nav/interview-guide.svg", title:"Interview Guide",
+/* href = the tile opens the Interview Guide tool directly. */
+href:INTERVIEW_URL},
 
 /* ------------------------------- 6 ------------------------------------- */
 {
-key:"onboarding-plan", img:"Assets/nav/onboarding-plan.png", title:"Onboarding Plan",
-render:function(r){
-  var topics = [
-    ["The company","Company history · organisation structure · reporting structure · coaching guidelines"],
-    ["The product","Product training · example applications · profile of a typical customer · the problems we solve · our value proposition"],
-    ["The market","Our marketplace · our pricing strategy · our sales process · our sales cycle"],
-    ["The selling","A typical prospecting call · a typical sales call · typical objections and how to handle them"],
-    ["The competition","Who they are · their value proposition · how they position themselves · how we position ourselves · how we are different · how we are the same · what they say about us · what we say about them"],
-    ["The expectations","KPIs · who they are accountable to · the plan to hit quota · where to go for help"]
-  ];
-  return panel(
-    "<h2>Ninety days, not one week</h2>" +
-    "<p>Even experienced salespeople need to be onboarded deliberately. A traded professional athlete still has to learn the playbook, the team and the culture before they play. Your experienced reps are no different.</p>" +
-    note(r,"<strong>Start day one with something that makes them glad they came.</strong> Not paperwork.")
-  ) +
-  panel(
-    "<h2>Every topic that has to be covered</h2>" +
-    "<p>Assign an owner and a date to each one.</p>" +
-    "<div class='tblwrap'><table><tr><th>Area</th><th>Topics</th></tr>" +
-    topics.map(function(t){
-      return "<tr><td><strong>" + t[0] + "</strong></td><td>" + t[1] + "</td></tr>";
-    }).join("") + "</table></div>"
-  ) +
-  panel(
-    "<h2>Sample plan</h2>" +
-    "<h3>Month 1</h3>" +
-    "<ul>" +
-    "<li>Set up accounts — email, CRM, content sharing, knowledge base.</li>" +
-    "<li>Acclimatise them to the business and start product training, so they understand the problems the business solves.</li>" +
-    "<li>Tour the facility and meet everyone relevant, especially the people who will manage them or report to them.</li>" +
-    "<li>Complete any certification the role requires.</li>" +
-    "<li>Build personal goals and a plan with KPIs, required daily activity and tracking. Start pipeline development and CRM use.</li>" +
-    "<li>Upgrade their assessment to a full coaching report, identify the weaknesses that would get in the way of the plan, and write a plan to overcome them.</li>" +
-    "<li>Write positioning statements and start calling prospects. Agree a daily target for meetings, calls and emails with their manager.</li>" +
-    "<li>Debrief daily — challenges, coaching, and the next day's plan. Strategise before calls, debrief after them.</li>" +
-    "</ul>" +
-    "<h3>Months 2 and 3</h3>" +
-    "<ul>" +
-    "<li>Keep building technical depth on products and services.</li>" +
-    "<li>Continue sales training — value proposition, elevator pitch, sales conversations, presentations, proposals, objections.</li>" +
-    "<li>Run joint sales calls.</li>" +
-    "<li>Keep the daily debriefs and coaching going.</li>" +
-    "<li>Review activity at the end of every week and hold them to the agreed KPIs.</li>" +
-    "<li>Break the monthly plan down into weekly goals with their own KPIs.</li>" +
-    "</ul>"
-  ) +
-  panel(
-    "<h2>KPIs must be forward-looking</h2>" +
-    "<p>Measure the activity that drives revenue, not the revenue. For a new salesperson that usually means call attempts, conversations, meetings scheduled, new meetings, referrals, introductions, new opportunities, qualified opportunities, demos, proposals and quotes.</p>" +
-    "<p>Set a goal and record the actual at 30, 60 and 90 days.</p>" +
-    "<div class='tblwrap'><table><tr><th>KPI</th><th>30-day goal</th><th>Actual</th><th>60-day goal</th><th>Actual</th><th>90-day goal</th><th>Actual</th></tr>" +
-    "<tr><td colspan='7' style='color:var(--ink-3)'>Add your rows — one KPI per line.</td></tr></table></div>"
-  );
-}}
+key:"onboarding-plan", img:"Assets/nav/onboarding-plan.svg", title:"Onboarding Plan",
+/* href = the tile opens the Onboarding chapter of STAR directly. */
+href:STAR_URL + "#retain/17"}
+
 ];
 
 /* ==========================================================================
@@ -959,6 +937,7 @@ function emLoad(){
   }catch(e){}
 }
 
+
 /* ---------------- plain text (Copy Text) ---------------- */
 function emText(){
   var T = emCopy(), v = emVals();
@@ -1017,7 +996,7 @@ function emRender(){
 
 /* ---------------- the page ---------------- */
 var EMAIL_SECTION = {
-key:"emails", wide:true, title:"Email Templates",
+key:"emails", wide:true, title:"Email Templates", img:"Assets/nav/email-templates.svg",
 icon:'<rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.6 7l7.4 5.4a1.7 1.7 0 0 0 2 0L20.4 7"/>',
 render:function(r){
   EM.region = r;
@@ -1052,7 +1031,127 @@ render:function(r){
 /* ==========================================================================
    VIEWS
    ========================================================================== */
-var ALL_SECTIONS = SECTIONS.concat([EMAIL_SECTION]);
+/* ==========================================================================
+   APPLICANT TRACKING SHEET — mirrors the example spreadsheet.
+   Add a column: add it to TRK_COLS. type "text" = typed in,
+   "yn" = Yes/No, "mark" = click to tick.
+   ========================================================================== */
+var TRK_COLS = [
+  {k:"name",  h:"Name",                 type:"text"},
+  {k:"email", h:"Email",                type:"text"},
+  {k:"phone", h:"Phone",                type:"text"},
+  {k:"recv",  h:"Application Received", type:"text"},
+  {k:"sent",  h:"Sent Assessment?",     type:"yn"},
+  {k:"fu",    h:"Follow Up?",           type:"yn"},
+  {k:"e1",    h:"EMAIL 1",              type:"mark"},
+  {k:"c1",    h:"CALL 1",               type:"mark"},
+  {k:"e2",    h:"EMAIL 2",              type:"mark"},
+  {k:"e3",    h:"EMAIL 3",              type:"mark"},
+  {k:"c2",    h:"CALL 2",               type:"mark"}
+];
+var TRK_START_ROWS = 7;
+var TRK = { rows:[], key:"" };
+
+function trkLoad(r){
+  TRK.key = "hx:trk:" + r.key;
+  var rows = null;
+  try{ rows = JSON.parse(localStorage.getItem(TRK.key) || "null"); }catch(e){}
+  if(!rows || !rows.length){
+    rows = [];
+    for(var i=0;i<TRK_START_ROWS;i++) rows.push({});
+  }
+  TRK.rows = rows;
+}
+function trkSave(){ try{ localStorage.setItem(TRK.key, JSON.stringify(TRK.rows)); }catch(e){} }
+
+function trkTable(r){
+  var head = TRK_COLS.map(function(c){ return "<th>" + esc(c.h) + "</th>"; }).join("");
+  var body = TRK.rows.map(function(row,i){
+    return "<tr>" + TRK_COLS.map(function(c){
+      var v = row[c.k] || "";
+      if(c.type === "text"){
+        return '<td><input type="text" data-r="' + i + '" data-c="' + c.k + '" value="' + esc(v) + '"></td>';
+      }
+      if(c.type === "yn"){
+        var on = v === "Yes", off = v === "No";
+        var st = on  ? 'background:' + tint(r.from,.16) + ';color:' + r.from
+               : off ? 'background:rgba(150,150,160,.16);color:var(--ink-3)'
+                     : 'color:var(--ink-3)';
+        return '<td class="yn" data-r="' + i + '" data-c="' + c.k + '"><span style="' + st + '">' +
+               (v || "—") + '</span></td>';
+      }
+      return '<td class="mark' + (v ? " on" : "") + '" data-r="' + i + '" data-c="' + c.k + '">' +
+             '<span style="' + (v ? "background:" + r.from : "") + '">\u2713</span></td>';
+    }).join("") + "</tr>";
+  }).join("");
+  return '<div class="trkwrap"><table class="trk"><thead><tr>' + head +
+         '</tr></thead><tbody>' + body + '</tbody></table></div>';
+}
+
+var TRACKING_SECTION = {
+key:"tracking", title:"Applicant Tracking Sheet",
+render:function(r){
+  trkLoad(r);
+  return panel(
+    '<div class="trkbar">' +
+      '<button class="tbtn go" id="trk-add" style="background:' + grad(r) + '">Add row</button>' +
+      '<button class="tbtn" id="trk-csv">Download as spreadsheet</button>' +
+      '<span class="sp"></span>' +
+      '<button class="tbtn" id="trk-clear">Clear</button>' +
+    '</div>' +
+    '<div id="trk-host">' + trkTable(r) + '</div>' +
+    '<p class="trknote">Click the tick columns to mark a touch. Yes / No cycles when you click it. Everything you type is saved in this browser.</p>'
+  );
+}};
+
+function wireTracking(r){
+  var host = document.getElementById("trk-host");
+  function paint(){ host.innerHTML = trkTable(r); wire(); }
+  function wire(){
+    Array.prototype.forEach.call(host.querySelectorAll("input[data-c]"), function(el){
+      el.addEventListener("input", function(){
+        TRK.rows[+el.getAttribute("data-r")][el.getAttribute("data-c")] = el.value;
+        trkSave();
+      });
+    });
+    Array.prototype.forEach.call(host.querySelectorAll("td.mark,td.yn"), function(td){
+      td.addEventListener("click", function(){
+        var i = +td.getAttribute("data-r"), c = td.getAttribute("data-c");
+        var cur = TRK.rows[i][c] || "";
+        if(td.className.indexOf("yn") > -1){
+          TRK.rows[i][c] = cur === "" ? "Yes" : cur === "Yes" ? "No" : "";
+        } else {
+          TRK.rows[i][c] = cur ? "" : "x";
+        }
+        trkSave(); paint();
+      });
+    });
+  }
+  wire();
+  document.getElementById("trk-add").addEventListener("click", function(){
+    TRK.rows.push({}); trkSave(); paint();
+  });
+  document.getElementById("trk-clear").addEventListener("click", function(){
+    if(!confirm("Clear every row on this device?")) return;
+    TRK.rows = []; for(var i=0;i<TRK_START_ROWS;i++) TRK.rows.push({});
+    trkSave(); paint();
+  });
+  document.getElementById("trk-csv").addEventListener("click", function(){
+    var q = function(v){ return '"' + String(v == null ? "" : v).replace(/"/g,'""') + '"'; };
+    var lines = [TRK_COLS.map(function(c){ return q(c.h); }).join(",")];
+    TRK.rows.forEach(function(row){
+      lines.push(TRK_COLS.map(function(c){ return q(row[c.k] || ""); }).join(","));
+    });
+    var blob = new Blob(["\ufeff" + lines.join("\r\n")], {type:"text/csv;charset=utf-8;"});
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "Applicant Tracking Sheet - " + r.name + ".csv";
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 2000);
+  });
+}
+
+var ALL_SECTIONS = SECTIONS.concat([EMAIL_SECTION, TRACKING_SECTION]);
 
 function findRegion(k){
   for(var i=0;i<REGIONS.length;i++) if(REGIONS[i].key === k) return REGIONS[i];
@@ -1088,6 +1187,9 @@ function regionView(r){
       }).join("") +
     '</div>' +
 
+    '<a class="navtile wide" href="#' + r.key + '/' + EMAIL_SECTION.key + '">' +
+      '<img src="' + EMAIL_SECTION.img + '" alt="' + esc(EMAIL_SECTION.title) + '"></a>' +
+
     '<div class="navgrid">' +
       SECTIONS.map(function(s){
         var href = s.href ? s.href : '#' + r.key + '/' + s.key;
@@ -1095,10 +1197,6 @@ function regionView(r){
         return '<a class="navtile" href="' + href + '"' + out + '>' +
                '<img src="' + s.img + '" alt="' + esc(s.title) + '"></a>';
       }).join("") +
-      '<a class="navtile wide" href="#' + r.key + '/' + EMAIL_SECTION.key + '">' +
-        '<span class="ic" style="background:' + tint(r.accent,.20) + '">' +
-          '<svg viewBox="0 0 24 24" style="stroke:' + (r.accentText||r.accent) + '">' + EMAIL_SECTION.icon + '</svg>' +
-        '</span><span class="tn">' + EMAIL_SECTION.title + '</span></a>' +
     '</div>';
 }
 
@@ -1135,7 +1233,8 @@ function route(){
     document.documentElement.setAttribute("data-view","section");
     view.innerHTML = sectionView(themed(r),s);
     document.title = s.title + " — " + r.name;
-    if(s.key === "emails") wireEmail(themed(r));
+    if(s.key === "emails")   wireEmail(themed(r));
+    if(s.key === "tracking") wireTracking(themed(r));
     wireChecks();
   }
   wireCopy();
