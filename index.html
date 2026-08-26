@@ -521,7 +521,11 @@ var REGIONS = [
     ] },
 
   { key:"nordics", name:"Nordics", from:"#A54CFF", to:"#6B21C9", ink:"#FFFFFF", accent:"#A54CFF",
-    options:PLACEHOLDER_OPTIONS },
+    options:[
+      {key:"bdm", label:"BDM", job:"Business Development Manager", copy:"en",
+       reg:"https://info.objectivemanagement.com/Registration.aspx?ID=2055198",
+       eval:"https://eval.objectivemanagement.com/XYBYNPN"}
+    ] },
 
   { key:"europe", name:"Continental Europe", from:"#E6284B", to:"#A50F2C", ink:"#FFFFFF", accent:"#E6284B",
     options:[
@@ -649,20 +653,7 @@ render:function(r){
 
       "<li><span class='o1'>When you get a &ldquo;Recommended&rdquo; Candidate, Schedule interview ASAP</span></li>" +
 
-      "<li><span class='o1'>Interview Process:</span>" +
-        "<ul>" +
-          "<li>The 10-Minute Phone / Video Interview " + star("interview/13") + "</li>" +
-          "<li>Interview #1 " + star("interview/14") +
-            "<ul>" +
-              "<li>Incorporate role play / Match pressure they&rsquo;ll experience in the role</li>" +
-              "<li>Use interview questions tool " + out(INTERVIEW_URL) + "</li>" +
-              "<li>Open assessment</li>" +
-              "<li>Pick areas they&rsquo;re weak in</li>" +
-              "<li>Follow interview questions tool " + out(INTERVIEW_URL) + "</li>" +
-            "</ul></li>" +
-          "<li>Final Interview " + star("interview/15") + "</li>" +
-          "<li>Job Offer " + star("interview/16") + "</li>" +
-        "</ul></li>" +
+      "<li><span class='o1'>Interview Process</span> " + hub("interview-process") + "</li>" +
 
       "<li><span class='o1'>90 Day Onboarding - Absolutely Key</span> " + star("retain/17") + "</li>" +
 
@@ -674,8 +665,8 @@ render:function(r){
 /* ------------------------------- 2 ------------------------------------- */
 {
 key:"mini-course", img:"Assets/nav/mini-course.svg", title:"Hiring Mini-Course",
-/* href = the tile opens STAR directly; there is no page inside the hub. */
-href:STAR_URL},
+/* Straight into the first stage of the course — never the /star/ root. */
+href:STAR_URL + "#distinguish"},
 
 /* ------------------------------- 3 ------------------------------------- */
 {
