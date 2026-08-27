@@ -685,7 +685,11 @@ var REGIONS = [
     ] },
 
   { key:"apac", name:"Asia Pacific", from:"#FF8700", to:"#C25400", ink:"#FFFFFF", accent:"#E07600",
-    options:PLACEHOLDER_OPTIONS },
+    options:[
+      {key:"bdm", label:"BDM", job:"Business Development Manager", copy:"en",
+       reg:"https://info.objectivemanagement.com/Registration.aspx?ID=2058245",
+       eval:"https://eval.objectivemanagement.com/X29VLRL"}
+    ] },
 
   { key:"us", name:"US", from:"#DCFF3C", to:"#A8CC00", ink:"#321432", accent:"#321432",
     options:[
@@ -1491,9 +1495,21 @@ function findRegion(k){
   for(var i=0;i<REGIONS.length;i++) if(REGIONS[i].key === k) return REGIONS[i];
   return null;
 }
+/* The region grid, read top-left to bottom-right. Writing The Ad and
+   Re-Written Ads are mutually exclusive per region, so exactly six survive.
+   Add a tile: put its key in this list. */
+var NAV_ORDER = [
+  "checklist", "emails",       "training",
+  "mini-course", "ad-examples", "rewritten-ads", "onboarding-plan"
+];
+
 /* a section marked `only` shows for that region alone; `not` hides it there */
 function sectionsFor(r){
-  return SECTIONS.filter(function(s){
+  var all = SECTIONS.concat([EMAIL_SECTION]);
+  var byKey = {};
+  for(var i=0;i<all.length;i++) byKey[all[i].key] = all[i];
+  return NAV_ORDER.map(function(k){ return byKey[k]; }).filter(function(s){
+    if(!s) return false;
     if(s.hidden) return false;
     if(s.only && s.only !== r.key) return false;
     if(s.not  && s.not  === r.key) return false;
@@ -1529,9 +1545,6 @@ function regionView(r){
                '<span>' + esc(a.label) + '</span>' + ARROW + '</a>';
       }).join("") +
     '</div>' +
-
-    '<a class="navtile wide" href="#' + r.key + '/' + EMAIL_SECTION.key + '">' +
-      '<img src="' + EMAIL_SECTION.img + '" alt="' + esc(EMAIL_SECTION.title) + '"></a>' +
 
     '<div class="navgrid">' +
       sectionsFor(r).map(function(s){
