@@ -452,7 +452,7 @@ th{font-weight:600;color:var(--ink);font-size:13.5px;letter-spacing:.03em;text-t
 /* ==========================================================================
    EMAIL TEMPLATE BUILDER
    ========================================================================== */
-.langrow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:26px;}
+.langrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:26px;}
 .langbtn{
   border:1.5px solid var(--line);background:var(--surface);color:var(--ink-2);
   border-radius:13px;padding:15px 12px;font-size:16px;font-weight:500;
@@ -684,11 +684,23 @@ var REGIONS = [
        eval:"https://eval.objectivemanagement.com/XMKVGGN"}
     ] },
 
-  { key:"apac", name:"Asia Pacific", from:"#FF8700", to:"#C25400", ink:"#FFFFFF", accent:"#E07600",
+  /* key stays "apac" so the #apac links already sent keep working */
+  { key:"apac", name:"AUS/NZ", from:"#FF8700", to:"#C25400", ink:"#FFFFFF", accent:"#E07600",
     options:[
-      {key:"bdm", label:"BDM", job:"Business Development Manager", copy:"en",
+      {key:"bdm1", label:"BDM 1", job:"Business Development Manager", copy:"en",
        reg:"https://info.objectivemanagement.com/Registration.aspx?ID=2058245",
-       eval:"https://eval.objectivemanagement.com/X29VLRL"}
+       eval:"https://eval.objectivemanagement.com/X29VLRL"},
+      /* one registration, two email templates — same assessment link on both */
+      {key:"kam", label:"KAM/CSM", emLabel:"KAM", job:"Account Manager", copy:"en",
+       reg:"https://info.objectivemanagement.com/Registration.aspx?ID=2058250",
+       eval:"https://eval.objectivemanagement.com/XH8T6C3"},
+      {key:"csm", label:"KAM/CSM", emLabel:"CSM", job:"Customer Success Manager", copy:"en",
+       hideRole:true,
+       reg:"https://info.objectivemanagement.com/Registration.aspx?ID=2058250",
+       eval:"https://eval.objectivemanagement.com/XH8T6C3"},
+      {key:"bdm2", label:"BDM 2", job:"Business Development Manager", copy:"en",
+       reg:"https://info.objectivemanagement.com/Registration.aspx?ID=2058259",
+       eval:"https://eval.objectivemanagement.com/X4TX284"}
     ] },
 
   { key:"us", name:"US", from:"#DCFF3C", to:"#A8CC00", ink:"#321432", accent:"#321432",
