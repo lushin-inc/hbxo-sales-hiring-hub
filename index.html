@@ -86,6 +86,24 @@ html[data-theme="dark"] .lu .dk{display:block;}
   transition:background .12s ease,color .12s ease;
 }
 .iconbtn:hover{background:var(--hover);color:var(--ink);}
+
+/* ---- language toggle (Continental Europe) ---- */
+.langpick{
+  margin-left:auto;display:inline-flex;gap:2px;padding:3px;
+  border:1px solid var(--line);background:var(--surface);border-radius:11px;
+}
+.langpick + .iconbtn{margin-left:10px;}
+.langpick button{
+  border:0;background:transparent;color:var(--ink-3);cursor:pointer;
+  font:inherit;font-size:12.5px;font-weight:700;letter-spacing:.04em;
+  padding:6px 11px;border-radius:8px;line-height:1;
+  transition:background .12s ease,color .12s ease;
+}
+.langpick button:hover{color:var(--ink);}
+.langpick button.on{color:#fff;}
+@media (max-width:820px){
+  .langpick button{padding:6px 9px;font-size:12px;}
+}
 .iconbtn svg{width:18px;height:18px;display:block;}
 
 .page-title{
@@ -588,6 +606,7 @@ input[type=text]::placeholder{color:var(--ink-3);}
         <img class="dk" src="Assets/Lushin Logo Icons/Lushin Logo Icon - Arctic White.svg" alt="Lushin">
       </span>
     </a>
+    <div class="langpick" id="langpick" hidden></div>
     <button class="iconbtn" id="theme" title="Toggle light / dark" aria-label="Toggle light or dark theme"></button>
   </div>
   <div id="view"></div>
@@ -671,7 +690,9 @@ var REGIONS = [
        eval:"https://eval.objectivemanagement.com/XYBYNPN"}
     ] },
 
+  /* langs: adds the EN/ES/DE toggle to this region's pages */
   { key:"europe", name:"Continental Europe", from:"#E6284B", to:"#A50F2C", ink:"#FFFFFF", accent:"#E6284B",
+    langs:["en","es","de"],
     options:[
       {key:"en", label:"BDM English", job:"Business Development Manager", copy:"en",
        reg:"https://info.objectivemanagement.com/Registration.aspx?ID=2056539",
@@ -1231,7 +1252,7 @@ function wireAds(r){
   });
 
   document.getElementById("ad-copy").addEventListener("click", function(){
-    copyText(docText("ad-out"), this, "Copied", "Copy Text");
+    copyText(docText("ad-out"), this, tr("Copied"), tr("Copy Text"));
   });
   document.getElementById("ad-docx").addEventListener("click", function(){
     downloadDocx("ad-out", "Job Ad - " + a.label + ".docx");
@@ -1317,7 +1338,8 @@ render:function(r){
 
 function wireTracking(r){
   var host = document.getElementById("trk-host");
-  function paint(){ host.innerHTML = trkTable(r); wire(); }
+  function paint(){ host.innerHTML = trkTable(r); wire();
+    if(LANG !== "en") translateTree(host); }
   function wire(){
     Array.prototype.forEach.call(host.querySelectorAll("input[data-c]"), function(el){
       el.addEventListener("input", function(){
@@ -1596,6 +1618,87 @@ function sectionView(r,s){
     s.render(r);
 }
 
+
+/* ==========================================================================
+   LANGUAGE — Continental Europe only.
+   Pages render in English, then one pass over the text nodes swaps them.
+   Add a phrase: put the exact English string in I18N.es / I18N.de below.
+   ========================================================================== */
+var I18N = {"es":{"Hubexo Sales Hiring Hub":"Hubexo · Portal de Contratación Comercial","Continental Europe":"Europa Continental","All sessions":"Todas las sesiones","Chapters":"Capítulos","Outline":"Esquema","Process Checklist":"Lista de proceso","Email Templates":"Plantillas de correo","Training Sessions":"Sesiones de formación","Hiring Mini-Course":"Minicurso de selección","Writing The Ad":"Redactar el anuncio","Onboarding Plan":"Plan de acogida","Applicant Tracking Sheet":"Hoja de seguimiento de candidatos","Hiring Process - Simple Checklist:":"Proceso de contratación: lista sencilla","Write & Post The Ad":"Redacta y publica el anuncio","(Indeed/LinkedIn/ZipRecruiter… whatever platform you use)":"(Indeed/LinkedIn/ZipRecruiter… la plataforma que uses)","How to Write the Ad":"Cómo redactar el anuncio","link":"enlace","Applications Come In":"Llegan las candidaturas","Send The Assessment Email":"Envía el correo con la evaluación","Add to Tracking Sheet Immediately":"Añádelo a la hoja de seguimiento de inmediato","(If you have an Applicant Tracking System, use that)":"(Si tienes un ATS, úsalo)","If resume looks great, put “Yes” for follow up":"Si el CV es bueno, marca «Sí» en seguimiento","If resume doesn’t look great, put “No” for follow up":"Si el CV no convence, marca «No» en seguimiento","Follow up with the good ones 3-5 times":"Haz seguimiento a los buenos entre 3 y 5 veces","The goal is to get as many completed assessments as possible.":"El objetivo es conseguir el mayor número posible de evaluaciones completadas.","When you get a “Recommended” Candidate, Schedule interview ASAP":"Cuando recibas un candidato «Recomendado», programa la entrevista cuanto antes","Interview Process":"Proceso de entrevista","(the five steps are below)":"(los cinco pasos están más abajo)","90 Day Onboarding - Absolutely Key":"Acogida de 90 días: absolutamente clave","Example Applicant Tracking Sheet":"Ejemplo de hoja de seguimiento","Fill it in here, or download it as a spreadsheet":"Rellénala aquí o descárgala como hoja de cálculo","Open the Interview Guide":"Abrir la guía de entrevista","Questions by competency for the first interview":"Preguntas por competencia para la primera entrevista","Interview Process — the five steps":"Proceso de entrevista: los cinco pasos","The five steps":"Los cinco pasos","Five-minute phone interview":"Entrevista telefónica de cinco minutos","Purpose: qualify the candidate quickly.":"Objetivo: cualificar al candidato rápidamente.","What you are listening for:":"Qué debes escuchar:","How they sound on the phone — tone, clarity, presence.":"Cómo suena al teléfono: tono, claridad, presencia.","Whether they can build rapport.":"Si sabe generar confianza.","Whether their experience matches the ad.":"Si su experiencia encaja con el anuncio.","How they handle push-back or a put-off.":"Cómo gestiona una objeción o un largas.","First interview":"Primera entrevista","Objective: validate the assessment and the resume through live conversation.":"Objetivo: validar la evaluación y el CV en una conversación real.","Push back on the resume. Check for accuracy, patterns and truth.":"Cuestiona el CV. Comprueba exactitud, patrones y veracidad.","Evaluate soft skills and cultural fit.":"Valora las habilidades personales y el encaje cultural.","Watch body language, confidence and conversation flow.":"Observa el lenguaje corporal, la seguridad y el ritmo de la conversación.","Do not discuss compensation or benefits at this stage.":"No hables de retribución ni de beneficios en esta fase.","Final interview":"Entrevista final","Goals: sell the opportunity, introduce key stakeholders, confirm mutual fit and close the candidate.":"Objetivos: vender la oportunidad, presentar a las personas clave, confirmar el encaje mutuo y cerrar al candidato.","Cover job expectations, compensation, the sales cycle, who they report to, and what a typical client looks like.":"Cubre expectativas del puesto, retribución, ciclo de venta, a quién reporta y cómo es un cliente tipo.","Job offer":"Oferta","Be ready to make the offer at the end of the final interview if it has gone well.":"Prepárate para hacer la oferta al final de la entrevista si ha ido bien.","The offer must match what was discussed. No surprises.":"La oferta debe coincidir con lo hablado. Sin sorpresas.","Onboarding preparation":"Preparar la acogida","Once the offer is accepted, shift straight into onboarding.":"En cuanto acepte la oferta, pasa directamente a la acogida.","Clarify daily, weekly and monthly expectations.":"Deja claras las expectativas diarias, semanales y mensuales.","Train on product, market, competition, sales process and positioning.":"Forma en producto, mercado, competencia, proceso de venta y posicionamiento.","Assign coaching responsibilities and onboarding milestones.":"Asigna responsables de acompañamiento e hitos de acogida.","“Recommended” does not mean automatic hire.":"«Recomendado» no significa contratación automática.","If the candidate sounds poor on the phone, interviews badly, or lacks the experience the role needs, you can and should say no. And “Not Recommended” does not mean the process failed — it did its job.":"Si el candidato suena mal al teléfono, entrevista mal o no tiene la experiencia que exige el puesto, puedes y debes decir que no. Y «No recomendado» no significa que el proceso haya fallado: ha hecho su trabajo.","Add row":"Añadir fila","Download as spreadsheet":"Descargar como hoja de cálculo","Clear":"Vaciar","Click the tick columns to mark a touch. Yes / No cycles when you click it. Everything you type is saved in this browser.":"Haz clic en las columnas de marca para registrar un contacto. Sí / No cambia al hacer clic. Todo lo que escribas se guarda en este navegador.","Name":"Nombre","Email":"Correo","Phone":"Teléfono","Application Received":"Candidatura recibida","Sent Assessment?":"¿Evaluación enviada?","Follow Up?":"¿Seguimiento?","EMAIL 1":"CORREO 1","EMAIL 2":"CORREO 2","EMAIL 3":"CORREO 3","CALL 1":"LLAMADA 1","CALL 2":"LLAMADA 2","Yes":"Sí","No":"No","Anything in red is a placeholder — click it and type over it. You can edit any other line too.":"Todo lo que está en rojo es un campo por rellenar: haz clic y escribe encima. También puedes editar cualquier otra línea.","Copy Text":"Copiar texto","Download Word Doc":"Descargar en Word","Start over":"Empezar de nuevo","Copied":"Copiado","Copy":"Copiar","BDM English":"BDM Inglés","BDM German":"BDM Alemán","BDM Spanish":"BDM Español"},"de":{"Hubexo Sales Hiring Hub":"Hubexo · Portal für Vertriebsrecruiting","Continental Europe":"Kontinentaleuropa","All sessions":"Alle Sessions","Chapters":"Kapitel","Outline":"Übersicht","Process Checklist":"Prozess-Checkliste","Email Templates":"E-Mail-Vorlagen","Training Sessions":"Schulungsvideos","Hiring Mini-Course":"Minikurs Recruiting","Writing The Ad":"Anzeige schreiben","Onboarding Plan":"Onboarding-Plan","Applicant Tracking Sheet":"Bewerber-Tracking","Hiring Process - Simple Checklist:":"Einstellungsprozess – die einfache Checkliste","Write & Post The Ad":"Anzeige schreiben und veröffentlichen","(Indeed/LinkedIn/ZipRecruiter… whatever platform you use)":"(Indeed/LinkedIn/ZipRecruiter… welche Plattform Sie auch nutzen)","How to Write the Ad":"So schreiben Sie die Anzeige","link":"Link","Applications Come In":"Bewerbungen gehen ein","Send The Assessment Email":"Assessment-E-Mail versenden","Add to Tracking Sheet Immediately":"Sofort in die Tracking-Liste eintragen","(If you have an Applicant Tracking System, use that)":"(Wenn Sie ein Bewerbermanagementsystem haben, nutzen Sie das)","If resume looks great, put “Yes” for follow up":"Wenn der Lebenslauf überzeugt: «Ja» beim Nachfassen","If resume doesn’t look great, put “No” for follow up":"Wenn der Lebenslauf nicht überzeugt: «Nein» beim Nachfassen","Follow up with the good ones 3-5 times":"Bei den Guten drei- bis fünfmal nachfassen","The goal is to get as many completed assessments as possible.":"Ziel sind so viele abgeschlossene Assessments wie möglich.","When you get a “Recommended” Candidate, Schedule interview ASAP":"Sobald ein Kandidat als «Empfohlen» zurückkommt: Gespräch schnellstmöglich ansetzen","Interview Process":"Interviewprozess","(the five steps are below)":"(die fünf Schritte stehen unten)","90 Day Onboarding - Absolutely Key":"90-Tage-Onboarding – absolut entscheidend","Example Applicant Tracking Sheet":"Beispiel Bewerber-Tracking","Fill it in here, or download it as a spreadsheet":"Hier ausfüllen oder als Tabelle herunterladen","Open the Interview Guide":"Interview-Leitfaden öffnen","Questions by competency for the first interview":"Fragen nach Kompetenz für das erste Gespräch","Interview Process — the five steps":"Interviewprozess – die fünf Schritte","The five steps":"Die fünf Schritte","Five-minute phone interview":"Fünfminütiges Telefoninterview","Purpose: qualify the candidate quickly.":"Zweck: den Kandidaten schnell qualifizieren.","What you are listening for:":"Worauf Sie achten:","How they sound on the phone — tone, clarity, presence.":"Wie er am Telefon klingt – Ton, Klarheit, Präsenz.","Whether they can build rapport.":"Ob er einen Draht aufbauen kann.","Whether their experience matches the ad.":"Ob seine Erfahrung zur Anzeige passt.","How they handle push-back or a put-off.":"Wie er mit Widerspruch oder einer Vertröstung umgeht.","First interview":"Erstes Gespräch","Objective: validate the assessment and the resume through live conversation.":"Ziel: Assessment und Lebenslauf im echten Gespräch überprüfen.","Push back on the resume. Check for accuracy, patterns and truth.":"Hinterfragen Sie den Lebenslauf. Prüfen Sie Genauigkeit, Muster und Wahrheitsgehalt.","Evaluate soft skills and cultural fit.":"Bewerten Sie Soft Skills und kulturelle Passung.","Watch body language, confidence and conversation flow.":"Achten Sie auf Körpersprache, Selbstsicherheit und Gesprächsfluss.","Do not discuss compensation or benefits at this stage.":"Sprechen Sie in dieser Phase nicht über Vergütung oder Zusatzleistungen.","Final interview":"Abschlussgespräch","Goals: sell the opportunity, introduce key stakeholders, confirm mutual fit and close the candidate.":"Ziele: die Chance verkaufen, wichtige Ansprechpartner vorstellen, die beidseitige Passung bestätigen und den Kandidaten gewinnen.","Cover job expectations, compensation, the sales cycle, who they report to, and what a typical client looks like.":"Klären Sie Erwartungen an die Rolle, Vergütung, Vertriebszyklus, Berichtsweg und wie ein typischer Kunde aussieht.","Job offer":"Angebot","Be ready to make the offer at the end of the final interview if it has gone well.":"Seien Sie bereit, das Angebot am Ende des Abschlussgesprächs zu machen, wenn es gut gelaufen ist.","The offer must match what was discussed. No surprises.":"Das Angebot muss dem Besprochenen entsprechen. Keine Überraschungen.","Onboarding preparation":"Onboarding vorbereiten","Once the offer is accepted, shift straight into onboarding.":"Sobald das Angebot angenommen ist, geht es direkt ins Onboarding.","Clarify daily, weekly and monthly expectations.":"Klären Sie tägliche, wöchentliche und monatliche Erwartungen.","Train on product, market, competition, sales process and positioning.":"Schulen Sie Produkt, Markt, Wettbewerb, Vertriebsprozess und Positionierung.","Assign coaching responsibilities and onboarding milestones.":"Legen Sie Verantwortliche für das Coaching und Onboarding-Meilensteine fest.","“Recommended” does not mean automatic hire.":"«Empfohlen» heißt nicht automatisch Einstellung.","If the candidate sounds poor on the phone, interviews badly, or lacks the experience the role needs, you can and should say no. And “Not Recommended” does not mean the process failed — it did its job.":"Wenn der Kandidat am Telefon schwach klingt, das Gespräch schlecht führt oder die nötige Erfahrung fehlt, dürfen und sollen Sie ablehnen. Und «Nicht empfohlen» heißt nicht, dass der Prozess versagt hat – er hat funktioniert.","Add row":"Zeile hinzufügen","Download as spreadsheet":"Als Tabelle herunterladen","Clear":"Leeren","Click the tick columns to mark a touch. Yes / No cycles when you click it. Everything you type is saved in this browser.":"Klicken Sie die Häkchen-Spalten an, um einen Kontakt zu markieren. Ja / Nein wechselt per Klick. Alles, was Sie eintragen, wird in diesem Browser gespeichert.","Name":"Name","Email":"E-Mail","Phone":"Telefon","Application Received":"Bewerbung eingegangen","Sent Assessment?":"Assessment verschickt?","Follow Up?":"Nachfassen?","EMAIL 1":"E-MAIL 1","EMAIL 2":"E-MAIL 2","EMAIL 3":"E-MAIL 3","CALL 1":"ANRUF 1","CALL 2":"ANRUF 2","Yes":"Ja","No":"Nein","Anything in red is a placeholder — click it and type over it. You can edit any other line too.":"Alles in Rot ist ein Platzhalter – klicken Sie darauf und überschreiben Sie ihn. Jede andere Zeile lässt sich ebenfalls bearbeiten.","Copy Text":"Text kopieren","Download Word Doc":"Als Word herunterladen","Start over":"Zurücksetzen","Copied":"Kopiert","Copy":"Kopieren","BDM English":"BDM Englisch","BDM German":"BDM Deutsch","BDM Spanish":"BDM Spanisch"}};
+var LANG_NAMES = {en:"EN", es:"ES", de:"DE"};
+var LANG = "en";
+try{ LANG = localStorage.getItem("hubexo-hub-lang") || "en"; }catch(e){}
+
+/* the editable email body is already written in its own language, and the
+   training outlines describe English-language recordings — leave both alone */
+var NO_TRANSLATE = {"em-out":1, "ad-out":1, "yt-host":1};
+
+function langsFor(r){ return (r && r.langs) || null; }
+
+function tr(str){
+  var d = I18N[LANG];
+  if(!d) return str;
+  var k = String(str).trim();
+  return d[k] || str;
+}
+
+function translateTree(root){
+  var d = I18N[LANG];
+  if(!d || !root) return;
+  var walk = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+    acceptNode: function(n){
+      for(var p = n.parentNode; p && p !== root; p = p.parentNode){
+        if(p.id && NO_TRANSLATE[p.id]) return NodeFilter.FILTER_REJECT;
+        if(p.classList && p.classList.contains("osec")) return NodeFilter.FILTER_REJECT;
+        if(p.classList && p.classList.contains("chips")) return NodeFilter.FILTER_REJECT;
+      }
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+  var n, hits = 0;
+  while((n = walk.nextNode())){
+    var raw = n.nodeValue, k = raw.trim();
+    if(!k) continue;
+    var hit = d[k];
+    if(hit){ n.nodeValue = raw.replace(k, hit); hits++; }
+  }
+  /* placeholders and titles live in attributes, not text nodes */
+  Array.prototype.forEach.call(root.querySelectorAll("[placeholder]"), function(el){
+    var v = d[el.getAttribute("placeholder")]; if(v) el.setAttribute("placeholder", v);
+  });
+  return hits;
+}
+
+/* the nav tiles carry their label as artwork, so each language has its own set */
+function localiseTiles(root){
+  if(LANG === "en" || !root) return;
+  Array.prototype.forEach.call(root.querySelectorAll(".navtile img"), function(img){
+    var src = img.getAttribute("src");
+    if(src.indexOf("/nav/") === -1 || src.indexOf("/nav/" + LANG + "/") !== -1) return;
+    img.setAttribute("src", src.replace("/nav/", "/nav/" + LANG + "/"));
+    img.setAttribute("alt", tr(img.getAttribute("alt") || ""));
+  });
+}
+
+function paintLangPick(r){
+  var box = document.getElementById("langpick");
+  var langs = langsFor(r);
+  if(!langs){ box.hidden = true; box.innerHTML = ""; return; }
+  box.hidden = false;
+  box.innerHTML = langs.map(function(l){
+    var on = (l === LANG);
+    return '<button data-lang="' + l + '"' + (on ? ' class="on" style="background:' + grad(r) + '"' : '') +
+           '>' + LANG_NAMES[l] + '</button>';
+  }).join("");
+  Array.prototype.forEach.call(box.querySelectorAll("[data-lang]"), function(b){
+    b.addEventListener("click", function(){
+      LANG = b.getAttribute("data-lang");
+      try{ localStorage.setItem("hubexo-hub-lang", LANG); }catch(e){}
+      route();
+    });
+  });
+}
+
 /* ==========================================================================
    ROUTER
    ========================================================================== */
@@ -1628,6 +1731,17 @@ function route(){
     wireChecks();
   }
   wireCopy();
+
+  /* English first, then swap — see the LANGUAGE block above */
+  if(!langsFor(r)) LANG = "en";
+  paintLangPick(r ? themed(r) : null);
+  if(LANG !== "en"){
+    translateTree(view);
+    localiseTiles(view);
+    document.title = document.title.split(" — ").map(tr).join(" — ");
+  }
+  document.documentElement.setAttribute("lang", LANG);
+
   window.scrollTo(0,0);
 }
 window.addEventListener("hashchange", route);
@@ -1639,7 +1753,7 @@ function wireCopy(){
   Array.prototype.forEach.call(document.querySelectorAll("[data-copy]"), function(b){
     b.addEventListener("click", function(){
       var t = (window.__COPY || {})[b.getAttribute("data-copy")] || "";
-      copyText(t, b, "Copied", "Copy");
+      copyText(t, b, tr("Copied"), tr("Copy"));
     });
   });
 }
@@ -1693,7 +1807,7 @@ function wireEmail(r){
   });
 
   document.getElementById("em-copy").addEventListener("click", function(){
-    copyText(emText(), this, "Copied", "Copy Text");
+    copyText(emText(), this, tr("Copied"), tr("Copy Text"));
   });
   document.getElementById("em-docx").addEventListener("click", function(){ downloadDocx("em-out"); });
   document.getElementById("em-reset").addEventListener("click", function(){
