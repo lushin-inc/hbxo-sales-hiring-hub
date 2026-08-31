@@ -483,6 +483,20 @@ th{font-weight:600;color:var(--ink);font-size:13.5px;letter-spacing:.03em;text-t
 .langbtn:hover{background:var(--hover);color:var(--ink);}
 .langbtn.on{color:#fff;border-color:transparent;font-weight:600;}
 
+/* the role row keeps its bottom margin only when no language row follows */
+.langrow.hasSub{margin-bottom:12px;}
+/* language sub-toggle — quieter than the role buttons above it */
+.emlangs{
+  display:flex;flex-wrap:wrap;gap:7px;margin:0 0 26px;
+}
+.emlangs button{
+  border:1.5px solid var(--line);background:var(--surface);color:var(--ink-2);
+  border-radius:11px;padding:9px 15px;font:inherit;font-size:14.5px;font-weight:500;
+  cursor:pointer;white-space:nowrap;transition:all .13s ease;
+}
+.emlangs button:hover{background:var(--hover);color:var(--ink);}
+.emlangs button.on{color:#fff;border-color:transparent;font-weight:600;}
+
 label{display:block;font-size:13.5px;font-weight:500;color:var(--ink);margin:0 0 8px;}
 .field{margin-bottom:22px;}
 input[type=text]{
@@ -645,6 +659,7 @@ input[type=text]::placeholder{color:var(--ink-3);}
   .bigcard{padding:26px;gap:16px;}
   .bigcard .bt{font-size:22px;}
   .langrow{grid-template-columns:1fr;gap:10px;}
+  .emlangs button{flex:1 0 30%;padding:9px 6px;}
   .step{gap:15px;}
   .hx{height:20px;}
   .lu img{height:24px;}
@@ -740,13 +755,14 @@ var REGIONS = [
        eval:"https://eval.objectivemanagement.com/XQ5DZ86"}
     ] },
 
+  /* emLangs: the Email Templates page shows the roles across the top and this
+     language toggle underneath, so either role can be sent in any of the six.
+     Order follows the office list. Add or remove a language here and add the
+     matching block to EMAIL_COPY below \u2014 nothing else needs to change. */
   { key:"nordics", name:"Nordics", from:"#A54CFF", to:"#6B21C9", ink:"#FFFFFF", accent:"#A54CFF",
+    emLangs:["sv","no","fi","da","es","en"],
     options:[
-      {key:"bdr", label:"BDR", emLabel:"BDR English", job:"Business Development Representative", copy:"en",
-       reg:"https://info.objectivemanagement.com/Registration.aspx?ID=2055198",
-       eval:"https://eval.objectivemanagement.com/XYBYNPN"},
-      {key:"bdr-no", label:"BDR", emLabel:"BDR Norwegian", job:"Business Development Representative", copy:"no",
-       hideRole:true,
+      {key:"bdr", label:"BDR", job:"Business Development Representative", copy:"en",
        reg:"https://info.objectivemanagement.com/Registration.aspx?ID=2055198",
        eval:"https://eval.objectivemanagement.com/XYBYNPN"},
       {key:"bdm", label:"BDM", job:"Business Development Manager", copy:"en",
@@ -1096,7 +1112,7 @@ es:{ name:"Español", label:"BDM Spanish", hreflang:"es-ES",
   best:     "Un saludo,",
   subjectLabel:"ASUNTO:", emailLabel:"CORREO:" },
 
-no:{ name:"Norsk", label:"BDR Norwegian", hreflang:"nb-NO",
+no:{ name:"Norsk (bokm\u00e5l)", hreflang:"nb-NO",
   subject:  "Hubexo \u2013 ett siste steg\u2026",
   greet:    "Hei {name},",
   thanks:   "Takk for at du s\u00f8kte p\u00e5 stillingen som {job} hos {company}!",
@@ -1114,7 +1130,67 @@ no:{ name:"Norsk", label:"BDR Norwegian", hreflang:"nb-NO",
   after:    "N\u00e5r du har fullf\u00f8rt kartleggingen, tar vi kontakt p\u00e5 e-post og inviterer deg til intervju hvis vi tror vi kan passe godt for hverandre.",
   closeP:   "Takk igjen for interessen for {company}. Du h\u00f8rer fra oss snart.",
   best:     "Med vennlig hilsen,",
-  subjectLabel:"EMNE:", emailLabel:"E-POST:" }
+  subjectLabel:"EMNE:", emailLabel:"E-POST:" },
+
+sv:{ name:"Svenska", hreflang:"sv",
+  subject:  "Hubexo \u2013 ett sista steg\u2026",
+  greet:    "Hej {name},",
+  thanks:   "Tack f\u00f6r att du s\u00f6kte tj\u00e4nsten som {job} hos {company}!",
+  review:   "Vi g\u00e5r igenom din ans\u00f6kan under de n\u00e4rmaste dagarna, men jag ville redan nu ber\u00e4tta att det finns ett sista steg vi ber dig genomf\u00f6ra.",
+  nextH:    "N\u00e4sta steg:",
+  nextP:    "Fyll i en s\u00e4ljkartl\u00e4ggning via l\u00e4nken nedan. Den ger oss en b\u00e4ttre bild av dina styrkor.",
+  tipsH:    "N\u00e5gra tips inf\u00f6r kartl\u00e4ggningen:",
+  tips:[    "Den tar ungef\u00e4r 45 minuter att genomf\u00f6ra.",
+            "Avs\u00e4tt tiden utan avbrott och g\u00f6r klart den i ett svep.",
+            "Svara utifr\u00e5n hur du faktiskt arbetar i dag.",
+            "Om en fr\u00e5ga inte passar din nuvarande roll svarar du utifr\u00e5n hur du tror att du skulle hantera situationen."],
+  linkH:    "L\u00e4nk till kartl\u00e4ggningen:",
+  byH:      "Slutf\u00f6r senast:",
+  byP:      "Inom de n\u00e4rmaste 2 arbetsdagarna",
+  after:    "N\u00e4r du har genomf\u00f6rt kartl\u00e4ggningen h\u00f6r vi av oss via e-post och bjuder in dig till en intervju om vi tror att vi kan passa bra ihop.",
+  closeP:   "Tack igen f\u00f6r ditt intresse f\u00f6r {company}. Du h\u00f6r fr\u00e5n oss snart.",
+  best:     "Med v\u00e4nliga h\u00e4lsningar,",
+  subjectLabel:"\u00c4MNE:", emailLabel:"E-POST:" },
+
+fi:{ name:"Suomi", hreflang:"fi",
+  subject:  "Hubexo \u2013 viel\u00e4 yksi vaihe\u2026",
+  greet:    "Hei {name},",
+  thanks:   "Kiitos hakemuksestasi {job} -teht\u00e4v\u00e4\u00e4n yrityksess\u00e4 {company}!",
+  review:   "K\u00e4ymme hakemuksesi l\u00e4pi seuraavien p\u00e4ivien aikana, mutta halusin kertoa jo nyt, ett\u00e4 pyyd\u00e4mme sinua tekem\u00e4\u00e4n viel\u00e4 yhden vaiheen.",
+  nextH:    "Seuraava vaihe:",
+  nextP:    "T\u00e4yt\u00e4 myyntikartoitus alla olevasta linkist\u00e4. Se antaa meille paremman kuvan vahvuuksistasi.",
+  tipsH:    "Muutama vinkki kartoituksen tekemiseen:",
+  tips:[    "Sen tekemiseen menee noin 45 minuuttia.",
+            "Varaa aikaa rauhassa ja tee kartoitus yhdell\u00e4 istumalla.",
+            "Vastaa sen mukaan, miten toimit t\u00e4ll\u00e4 hetkell\u00e4.",
+            "Jos jokin kysymys ei sovi nykyiseen rooliisi, vastaa sen mukaan, miten uskoisit toimivasi tilanteessa."],
+  linkH:    "Linkki kartoitukseen:",
+  byH:      "Tee viimeist\u00e4\u00e4n:",
+  byP:      "Seuraavien 2 arkip\u00e4iv\u00e4n aikana",
+  after:    "Kun olet tehnyt kartoituksen, otamme sinuun yhteytt\u00e4 s\u00e4hk\u00f6postitse ja kutsumme sinut haastatteluun, jos uskomme ett\u00e4 voisimme sopia hyvin yhteen.",
+  closeP:   "Kiitos viel\u00e4 kiinnostuksestasi yrityst\u00e4 {company} kohtaan. Olemme pian yhteydess\u00e4.",
+  best:     "Yst\u00e4v\u00e4llisin terveisin,",
+  subjectLabel:"AIHE:", emailLabel:"S\u00c4HK\u00d6POSTI:" },
+
+da:{ name:"Dansk", hreflang:"da",
+  subject:  "Hubexo \u2013 et sidste skridt\u2026",
+  greet:    "Hej {name},",
+  thanks:   "Tak for din ans\u00f8gning til stillingen som {job} hos {company}!",
+  review:   "Vi bruger de n\u00e6ste par dage p\u00e5 at gennemg\u00e5 din ans\u00f8gning, men jeg ville lige give dig besked om, at der er et sidste skridt, vi beder dig gennemf\u00f8re.",
+  nextH:    "N\u00e6ste skridt:",
+  nextP:    "Udfyld en salgskortl\u00e6gning via linket nedenfor. Den giver os et bedre billede af dine styrker.",
+  tipsH:    "Et par gode r\u00e5d til kortl\u00e6gningen:",
+  tips:[    "Den tager cirka 45 minutter at gennemf\u00f8re.",
+            "S\u00e6t tiden af uden afbrydelser, og gennemf\u00f8r den i \u00e9n omgang.",
+            "Svar ud fra, hvordan du rent faktisk arbejder i dag.",
+            "Hvis et sp\u00f8rgsm\u00e5l ikke passer til din nuv\u00e6rende rolle, svarer du ud fra, hvordan du tror, du ville h\u00e5ndtere situationen."],
+  linkH:    "Link til kortl\u00e6gningen:",
+  byH:      "Gennemf\u00f8r senest:",
+  byP:      "Inden for de n\u00e6ste 2 hverdage",
+  after:    "N\u00e5r du har gennemf\u00f8rt kortl\u00e6gningen, kontakter vi dig p\u00e5 e-mail og inviterer dig til samtale, hvis vi tror, vi kan passe godt sammen.",
+  closeP:   "Tak igen for din interesse i {company}. Du h\u00f8rer fra os snart.",
+  best:     "Venlig hilsen,",
+  subjectLabel:"EMNE:", emailLabel:"E-MAIL:" }
 };
 
 /* the option currently selected on the Email Templates page */
@@ -1123,17 +1199,25 @@ function emOpt(){
   for(var i=0;i<opts.length;i++) if(opts[i].key === EM.opt) return opts[i];
   return opts[0] || {key:"", label:"", job:"", copy:"en", eval:""};
 }
-function emCopy(){ return EMAIL_COPY[emOpt().copy] || EMAIL_COPY.en; }
+/* A region with emLangs picks its language from the toggle; everywhere else
+   the language is baked into the selected role option. */
+function emLangsFor(r){ return (r && r.emLangs) || null; }
+function emCopy(){
+  var ls = emLangsFor(EM.region);
+  if(ls && EMAIL_COPY[EM.lang]) return EMAIL_COPY[EM.lang];
+  return EMAIL_COPY[emOpt().copy] || EMAIL_COPY.en;
+}
 var COMPANY      = "Hubexo";
 var NAME_TOKEN   = "[NAME]";
 var SENDER_TOKEN = "[SENDER\u2019S NAME]";
 var STORE        = "hubexoEmailV1";
 
-var EM = { opt:null, region:null };
+var EM = { opt:null, lang:null, region:null };
 
-function emSave(){ try{ localStorage.setItem(STORE, JSON.stringify({opt:EM.opt})); }catch(e){} }
+function emSave(){ try{ localStorage.setItem(STORE, JSON.stringify({opt:EM.opt, lang:EM.lang})); }catch(e){} }
 function emLoad(){
-  try{ var o = JSON.parse(localStorage.getItem(STORE) || "{}"); if(o.opt) EM.opt = o.opt; }catch(e){}
+  try{ var o = JSON.parse(localStorage.getItem(STORE) || "{}");
+        if(o.opt) EM.opt = o.opt; if(o.lang) EM.lang = o.lang; }catch(e){}
 }
 
 /* ---------------- build one line, swapping {tokens} for text or markup ---- */
@@ -1215,7 +1299,8 @@ icon:'<rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.6 7l7.4 5.4
 render:function(r){
   EM.region = r;
   return panel(
-    '<div class="langrow" id="em-langs"></div>' +
+    '<div class="langrow' + (emLangsFor(r) ? ' hasSub' : '') + '" id="em-langs"></div>' +
+    (emLangsFor(r) ? '<div class="emlangs" id="em-lang-row"></div>' : '') +
     '<div class="doc"><div class="body" id="em-out" contenteditable="true" spellcheck="false"></div></div>' +
     '<p class="edithint">Anything in red is a placeholder \u2014 click it and type over it. You can edit any other line too.</p>' +
     '<div class="actions">' +
@@ -1965,6 +2050,10 @@ function wireEmail(r){
   var valid = r.options.some(function(o){ return o.key === EM.opt; });
   if(!valid) EM.opt = (r.options[0] || {}).key;
 
+  /* the language toggle, where the region has one */
+  var langs = emLangsFor(r);
+  if(langs && langs.indexOf(EM.lang) === -1) EM.lang = langs[0];
+
   var box = document.getElementById("em-langs");
   function paintOpts(){
     box.innerHTML = r.options.map(function(o){
@@ -1980,7 +2069,26 @@ function wireEmail(r){
       });
     });
   }
+
+  var lbox = document.getElementById("em-lang-row");
+  function paintLangs(){
+    if(!lbox || !langs) return;
+    lbox.innerHTML = langs.map(function(l){
+      var t = EMAIL_COPY[l]; if(!t) return "";
+      var on = (l === EM.lang);
+      return '<button data-emlang="' + l + '"' + (on ? ' class="on" style="background:' + grad(r) + ';color:' + r.ink + '"' : "") +
+             '>' + esc(t.name) + '</button>';
+    }).join("");
+    Array.prototype.forEach.call(lbox.querySelectorAll("[data-emlang]"), function(b){
+      b.addEventListener("click", function(){
+        EM.lang = b.getAttribute("data-emlang");
+        emSave(); paintLangs(); emRender();
+      });
+    });
+  }
+
   paintOpts();
+  paintLangs();
   emRender();
 
   /* a placeholder stops being red the moment it is edited */
@@ -2151,7 +2259,8 @@ function downloadDocx(id, filename){
   var bytes = buildDocx(id);
   var blob  = new Blob([bytes], {type:"application/vnd.openxmlformats-officedocument.wordprocessingml.document"});
   var a     = document.createElement("a");
-  var name  = filename || ("Email Template - " + (emOpt().label || "BDM") + ".docx");
+  var name  = filename || ("Email Template - " + (emOpt().label || "BDM") +
+                           (emLangsFor(EM.region) ? " (" + emCopy().name + ")" : "") + ".docx");
   a.href = URL.createObjectURL(blob);
   a.download = name;
   document.body.appendChild(a); a.click();
