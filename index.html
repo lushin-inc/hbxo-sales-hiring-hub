@@ -255,6 +255,30 @@ html[data-theme="dark"] .navtile img{filter:invert(1) hue-rotate(180deg) brightn
 .chip .ct{font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;flex:0 0 auto;}
 .chip .cl{font-size:15px;font-weight:500;line-height:1.35;}
 
+/* ---- the slim video bar that sits with the region grid ---- */
+.watchbar{
+  display:flex;align-items:center;gap:16px;width:100%;
+  border-radius:16px;padding:20px 24px;margin:0 0 20px;
+  text-decoration:none;transition:transform .13s ease,filter .13s ease;
+}
+.watchbar:hover{transform:translateY(-3px);filter:brightness(1.05);}
+.watchbar .wp{
+  flex:0 0 auto;width:38px;height:38px;border-radius:50%;
+  background:rgba(255,255,255,.22);display:grid;place-items:center;
+}
+.watchbar .wp svg{width:17px;height:17px;fill:currentColor;margin-left:2px;}
+.watchbar .wt{font-size:19px;font-weight:600;letter-spacing:-.015em;}
+.watchbar .wa{margin-left:auto;flex:0 0 auto;opacity:.85;}
+.watchbar .wa svg{width:20px;height:20px;stroke:currentColor;stroke-width:2;fill:none;}
+
+/* timestamps stay visible when the player cannot be seeked from the page */
+.tchip.static,.tmini.static,.chip.static{cursor:default;}
+.tchip.static:hover,.tmini.static:hover{filter:none;}
+@media (max-width:640px){
+  .watchbar{padding:17px 18px;gap:13px;}
+  .watchbar .wt{font-size:17px;}
+}
+
 .osec{
   background:var(--surface);border:1px solid var(--line);border-radius:18px;
   padding:26px 28px;margin:0 0 18px;box-shadow:var(--shadow);
@@ -1039,7 +1063,14 @@ href:STAR_URL + "#retain/17"},
 /* ---------------------------- 5b (Continental Europe) ------------------- */
 {
 key:"onboarding", img:"Assets/nav/onboarding-plan.svg", title:"Onboarding Plan", only:"europe",
-render:function(r){ return chapterView(r, CHAPTERS.onboarding); }}
+render:function(r){ return chapterView(r, CHAPTERS.onboarding); }},
+
+/* ---------------------------- 6 (Nordics) ------------------------------- */
+{
+key:"omg-overview", title:"OMG Overview", only:"nordics",
+/* bar:true renders it as the slim strip above the tiles instead of a tile */
+bar:true,
+render:function(r){ return clipView(r); }}
 
 ];
 
@@ -1606,6 +1637,71 @@ function seekTo(t, videoId){
   }
 }
 
+
+/* ==========================================================================
+   NORDICS WALKTHROUGH CLIP
+   One recorded walkthrough of the portal, hosted on Zoom.
+
+   `yt` is what plays. Every timestamp below is then clickable, exactly like
+   the Lushin Training Sessions pages. Clear `yt` and it falls back to the
+   Zoom embed in `zoom`, with the timestamps as plain labels \u2014 Zoom Clips
+   has no player API and no start-time parameter, so they cannot jump.
+   ========================================================================== */
+var CLIP = {
+  key:   "omg-overview",
+  title: "OMG Overview",
+  zoom:  "wRkGv8kpStuPSAo_dd4gig",
+  yt:    "WKGzPkXqrPY",
+  chapters: [{"t":0,"label":"What OMG does, and the proof from the US office","points":[{"t":0,"p":"Think Moneyball, for sales. You are looking for people who fit the role you are hiring for and nothing else."},{"t":11,"p":"Darren's team in the North American office needed to learn to hunt better, so they put the assessment out and ran candidates through it."},{"t":20,"p":"Glenn Jarris applied. Not strong at everything, but a strong hunting skill set."},{"t":25,"p":"Click any line on a report and it tells you what it means.","subs":["Filled in is a strength","Blank is a gap"]},{"t":34,"p":"Past the skills, look at whether he is coachable and how quickly he figures things out."},{"t":40,"p":"Then the traits that are hard to train.","subs":["Commitment — above the threshold","Responsibility — loses a sale and says what he could have done better, instead of blaming the economy or the manager","Motivation"]},{"t":55,"p":"A year on, Glenn holds the individual best month and best quarter records, and passed the branch record for the year at just over $600,000."},{"t":63,"p":"It is like counting cards for sales. This works."},{"t":66,"p":"There is a management version too — coaching, motivating the team, holding people accountable, pipeline management. Harry was hired in the US on it about six months ago."}]},{"t":85,"label":"License and registration — the only two words you have to learn","points":[{"t":85,"p":"Sohail purchased one license. It holds 15 roles, three for each office."},{"t":95,"p":"When you see the word registration, think role. After that you can forget the word license."},{"t":101,"p":"Your office has two roles set up — BDM and BDR. The third lane is still open."},{"t":105,"p":"Assessments are unlimited until one of two things happens.","subs":["The 12-month mark, 17 August 2027","You hire somebody for that role"]},{"t":120,"p":"When you hire, click Request on the onboarding report line for that role. The lane is then marked filled and closed."},{"t":135,"p":"OMG guarantees the result. If the person does not work out inside 12 months and you clicked Request when you hired them, they give you the license again for free."}]},{"t":150,"label":"Where to start in the portal","points":[{"t":150,"p":"You will barely have to navigate the portal. The Process Checklist covers the basics and everything you need."},{"t":163,"p":"Lushin Training Sessions holds three recordings, cut from 90-minute live trainings down to 46 minutes."},{"t":170,"p":"The timestamps under each one are clickable, so you can go straight to the spot you want."},{"t":176,"p":"Aaron makes them entertaining. Watch all three and you will have it. If you only have time for one, watch the first."}]},{"t":183,"label":"Write the ad","points":[{"t":183,"p":"The process is not far off what you have done before. Write the ad, post it, send the assessment, interview, onboard."},{"t":190,"p":"Open Writing The Ad from the Process Checklist and download it."},{"t":196,"p":"Upload it to AI — Copilot, Claude, ChatGPT — along with your job ad, and ask for feedback. Then rewrite the ad on those recommendations."},{"t":214,"p":"The STAR mini-course is included with the Hubexo licenses. It normally costs $3,500."},{"t":227,"p":"Each manual downloads. Upload one to AI and ask how to handle a specific situation."},{"t":234,"p":"Write it so top performers say “that sounds like me,” not so everyone says “that sounds like fun.”"},{"t":244,"p":"The people you attract decide the people you end up with as recommended."}]},{"t":249,"label":"Send the assessment","points":[{"t":249,"p":"Post it wherever you already post — LinkedIn, Indeed, whatever platform you use. It does not matter."},{"t":253,"p":"Send using the email templates in the portal. They are set up in several languages."},{"t":265,"p":"Change any of the wording you like. Do not change the assessment link."},{"t":270,"p":"Dan has sent 50 assessments on the wrong link before. Check the code at the start matches the role — BDM starts XZH."},{"t":284,"p":"Type the candidate's name in, then copy the text into an email or download it as a Word doc. Start over resets the template."},{"t":297,"p":"Any of the languages works for the assessment itself. Besides English, Swedish is the likely one here. The Continental Europe team runs theirs fully in Spanish."}]},{"t":316,"label":"Work the applications","points":[{"t":316,"p":"Applications come in, you send the email. Andreas said you already have a tracking system there."},{"t":320,"p":"Check your local law. Here you have to send the assessment to everybody, but you do not have to follow up with everybody."},{"t":327,"p":"For the good ones, follow up at least five times. They may be on holiday, they may have missed it, and strong candidates are looking at several places."},{"t":336,"p":"The goal is as many completed assessments as possible."},{"t":340,"p":"Send it before you talk to anybody. Human bias is very hard to turn off once you have spoken to someone."},{"t":345,"p":"Results come back as one of three answers.","subs":["Recommended — schedule the interview as soon as possible","Worthy of consideration — OMG only guarantees Recommended hires, but interview these for practice or when candidates are light","Not recommended — do not interview them and do not hire them"]},{"t":366,"p":"Not recommended is tempting once you have already talked to somebody and think they could be good. Do not do it."},{"t":372,"p":"Two moments to move fast.","subs":["A new application — send the assessment straight away, like a new lead","A recommended candidate — get the interview scheduled"]}]},{"t":386,"label":"Reading the candidate analyzer","points":[{"t":386,"p":"On your registration page, click BDM. It is empty until candidates start coming in."},{"t":396,"p":"They land under the Candidate Analyzer, where you can filter for recommended or not recommended."},{"t":404,"p":"Add other score filters if you want something specific, then export the list to Excel."},{"t":416,"p":"Reset findings and filters puts it back to normal. It remembers where you left off, so click that when you want a clean view."},{"t":424,"p":"Recommendations come from the answers on the role specification questionnaire, which Andreas and Dan filled out."},{"t":434,"p":"Expect roughly 40% of people to take the assessment, and 20–30% of those to come back recommended. Fewer interviews, better people."},{"t":451,"p":"Change any answer that is not accurate. Leave the ones that are."}]},{"t":458,"label":"The what-if simulator, interviews and onboarding","points":[{"t":458,"p":"The criteria simulator lets you play what if — drop a requirement like selling to top executives and watch the recommendations change."},{"t":474,"p":"It does not change the recommendation on past assessments. It only shows who would come up. Click Reset to go back."},{"t":484,"p":"For interviews, pull the interview guide up beside the assessment, take three things they were weak on and ask those questions. Listen for the outcomes, check them off as you go, then click Clear."},{"t":499,"p":"For onboarding, download the plan, upload it to AI with the job description and ask for a 90-day onboarding plan."},{"t":510,"p":"Let Dan know when you get your first assessment and he will help you read it."}]}]
+};
+
+function clipView(r){
+  var acc = r.accentText || r.accent, live = !!CLIP.yt;
+
+  var stage = live
+    ? '<div class="stage"><div id="yt-host"></div></div>'
+    : '<div class="stage"><iframe src="https://us06web.zoom.us/clips/embed/' + CLIP.zoom +
+      '" allow="autoplay; picture-in-picture; fullscreen" allowfullscreen></iframe></div>';
+
+  /* the chapter chips only earn their place when they can jump */
+  var chips = "";
+  if(live){
+    chips = '<h2 class="shead">Chapters</h2><div class="chips">' + CLIP.chapters.map(function(c){
+      return '<button class="chip" data-t="' + c.t + '">' +
+             '<span class="ct" style="color:' + acc + '">' + hhmm(c.t) + '</span>' +
+             '<span class="cl">' + esc(c.label) + '</span></button>';
+    }).join("") + '</div>';
+  }
+
+  var outline = CLIP.chapters.map(function(c, i){
+    var pts = '<ul class="pts">' + c.points.map(function(pt){
+      return '<li><' + (live ? "button" : "span") + ' class="tmini' + (live ? "" : " static") +
+             '" data-t="' + pt.t + '" style="color:' + acc + ';border-color:' + tint(r.accent,.55) + '">' +
+             hhmm(pt.t) + '</' + (live ? "button" : "span") + '><div><p>' + esc(pt.p) + '</p>' +
+             (pt.subs ? '<ul class="subs">' + pt.subs.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join("") + '</ul>' : "") +
+             '</div></li>';
+    }).join("") + '</ul>';
+
+    return '<section class="osec" id="s' + i + '">' +
+             '<div class="osec-h"><' + (live ? "button" : "span") + ' class="tchip' + (live ? "" : " static") +
+               '" data-t="' + c.t + '" style="background:' + grad(r) + '">' + hhmm(c.t) +
+               '</' + (live ? "button" : "span") + '>' +
+               '<h3>' + esc(c.label) + '</h3></div>' + pts +
+           '</section>';
+  }).join("");
+
+  return stage + chips + '<h2 class="shead">Outline</h2>' + outline;
+}
+
+function wireClip(){
+  if(!CLIP.yt) return;
+  PLAYER = null;
+  mountPlayer(CLIP.yt);
+  Array.prototype.forEach.call(document.querySelectorAll("[data-t]"), function(b){
+    b.addEventListener("click", function(){ seekTo(+b.getAttribute("data-t"), CLIP.yt); });
+  });
+}
+
 /* ---------------- the two views ---------------- */
 var TRAINING_SECTION = {
 key:"training", img:"Assets/nav/training-sessions.svg", title:"Training Sessions",
@@ -1699,13 +1795,15 @@ var NAV_ORDER = [
   "mini-course", "ad-examples", "rewritten-ads", "writing-ad",
   "onboarding-plan", "onboarding"
 ];
+/* sections rendered as the slim bar above the grid rather than as a tile */
+var BAR_ORDER = ["omg-overview"];
 
 /* a section marked `only` shows for that region alone; `not` hides it there */
-function sectionsFor(r){
+function sectionsFor(r, order){
   var all = SECTIONS.concat([EMAIL_SECTION]);
   var byKey = {};
   for(var i=0;i<all.length;i++) byKey[all[i].key] = all[i];
-  return NAV_ORDER.map(function(k){ return byKey[k]; }).filter(function(s){
+  return (order || NAV_ORDER).map(function(k){ return byKey[k]; }).filter(function(s){
     if(!s) return false;
     if(s.hidden) return false;
     if(s.only && s.only !== r.key) return false;
@@ -1743,6 +1841,14 @@ function regionView(r){
                '<span>' + esc(a.label) + '</span>' + ARROW + '</a>';
       }).join("") +
     '</div>' +
+
+    sectionsFor(r, BAR_ORDER).map(function(s){
+      return '<a class="watchbar" href="#' + r.key + '/' + s.key + '" style="background:' + grad(r) +
+             ';color:' + r.ink + ';box-shadow:0 14px 32px -18px ' + tint(r.from,.7) + '">' +
+             '<span class="wp"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>' +
+             '<span class="wt">' + esc(s.title) + '</span>' +
+             '<span class="wa"><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span></a>';
+    }).join("") +
 
     '<div class="navgrid">' +
       sectionsFor(r).map(function(s){
@@ -1999,6 +2105,7 @@ function route(){
     if(s.key === "training") wireTraining(themed(r));
     if(s.key === "rewritten-ads") wireAds(themed(r));
     if(s.key === "writing-ad" || s.key === "onboarding") wireChapter();
+    if(s.key === "omg-overview") wireClip();
     wireChecks();
   }
   wireCopy();
