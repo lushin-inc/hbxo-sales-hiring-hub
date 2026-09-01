@@ -258,7 +258,7 @@ html[data-theme="dark"] .navtile img{filter:invert(1) hue-rotate(180deg) brightn
 /* ---- the slim video bar that sits with the region grid ---- */
 .watchbar{
   display:flex;align-items:center;gap:16px;width:100%;
-  border-radius:16px;padding:20px 24px;margin:0 0 20px;
+  border-radius:16px;padding:20px 24px;margin:20px 0 0;
   text-decoration:none;transition:transform .13s ease,filter .13s ease;
 }
 .watchbar:hover{transform:translateY(-3px);filter:brightness(1.05);}
@@ -1068,8 +1068,9 @@ render:function(r){ return chapterView(r, CHAPTERS.onboarding); }},
 /* ---------------------------- 6 (Nordics) ------------------------------- */
 {
 key:"omg-overview", title:"OMG Overview", only:"nordics",
-/* bar:true renders it as the slim strip above the tiles instead of a tile */
-bar:true,
+/* bar:true renders it as the slim strip under the tiles instead of a tile.
+   barLabel is what that strip says; title still names the page itself. */
+bar:true, barLabel:"Hubexo Nordics Team - OMG Overview (8m 41s)",
 render:function(r){ return clipView(r); }}
 
 ];
@@ -1842,14 +1843,6 @@ function regionView(r){
       }).join("") +
     '</div>' +
 
-    sectionsFor(r, BAR_ORDER).map(function(s){
-      return '<a class="watchbar" href="#' + r.key + '/' + s.key + '" style="background:' + grad(r) +
-             ';color:' + r.ink + ';box-shadow:0 14px 32px -18px ' + tint(r.from,.7) + '">' +
-             '<span class="wp"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>' +
-             '<span class="wt">' + esc(s.title) + '</span>' +
-             '<span class="wa"><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span></a>';
-    }).join("") +
-
     '<div class="navgrid">' +
       sectionsFor(r).map(function(s){
         var href = s.href ? s.href : '#' + r.key + '/' + s.key;
@@ -1857,7 +1850,15 @@ function regionView(r){
         return '<a class="navtile" href="' + href + '"' + out + '>' +
                '<img src="' + s.img + '" alt="' + esc(s.title) + '"></a>';
       }).join("") +
-    '</div>';
+    '</div>' +
+
+    sectionsFor(r, BAR_ORDER).map(function(s){
+      return '<a class="watchbar" href="#' + r.key + '/' + s.key + '" style="background:' + grad(r) +
+             ';color:' + r.ink + ';box-shadow:0 14px 32px -18px ' + tint(r.from,.7) + '">' +
+             '<span class="wp"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>' +
+             '<span class="wt">' + esc(s.barLabel || s.title) + '</span>' +
+             '<span class="wa"><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span></a>';
+    }).join("");
 }
 
 /* a training session names itself in the banner rather than the section */
