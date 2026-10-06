@@ -845,9 +845,9 @@ var REGIONS = [
       {key:"bdm",     label:"BDM",     job:"Business Development Manager",     copy:"en",
        reg:"https://info.objectivemanagement.com/Registration.aspx?ID=2053976",
        eval:"https://eval.objectivemanagement.com/X6JNYVH"},
-      {key:"manager", label:"Manager", job:"Sales Manager",                    copy:"en",
-       reg:"https://info.objectivemanagement.com/Registration.aspx?ID=2055276",
-       eval:"https://eval.objectivemanagement.com/XY7QB55"},
+      {key:"kam",     label:"UK KAM", job:"VP of Commercial Key Account Management", copy:"en",
+       reg:"https://info.objectivemanagement.com/Registration.aspx?ID=2071869&MI=2&bc1=License+29373&bc1u=License.aspx%3fID%3d26366&bc2=Registration+RJRVWVV&bc2u=Registration.aspx%3fID%3d2053976",
+       eval:"https://eval.objectivemanagement.com/X7F7WH9"},
       {key:"sdr",     label:"SDR",     job:"Sales Development Representative", copy:"en",
        reg:"https://info.objectivemanagement.com/Registration.aspx?ID=2055280",
        eval:"https://eval.objectivemanagement.com/XQ5DZ86"}
@@ -1929,7 +1929,7 @@ function regionView(r){
 
     '<div class="roles">' +
       r.options.filter(function(a){ return !a.hideRole; }).map(function(a){
-        return '<a class="role" href="' + a.reg + '" target="_blank" rel="noopener" ' +
+        return '<a class="role" href="' + esc(a.reg) + '" target="_blank" rel="noopener" ' +
                'style="background:' + grad(r) + ';color:' + r.ink +
                ';box-shadow:0 14px 32px -18px ' + tint(r.from,.7) + '">' +
                '<span>' + esc(a.label) + '</span>' + ARROW + '</a>';
