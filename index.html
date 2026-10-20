@@ -1850,13 +1850,11 @@ function findRegion(k){
 /* The region grid, read top-left to bottom-right. Writing The Ad and
    Re-Written Ads are mutually exclusive per region, so exactly six survive.
    Add a tile: put its key in this list. */
+/* Six tiles, same on every region. The ad and onboarding sections still
+   exist and their routes still work \u2014 they just no longer get a tile. */
 var NAV_ORDER = [
-  "emails",          "training",       "mini-course",
-  "interview-guide", "findings",       "checklist",
-  /* per region exactly one ad tile and one onboarding tile survive the
-     `only`/`not` filter below, so these five add two tiles, not five */
-  "ad-examples",     "rewritten-ads",  "writing-ad",
-  "onboarding-plan", "onboarding"
+  "checklist", "emails",      "findings",
+  "training",  "mini-course", "interview-guide"
 ];
 /* sections rendered as the slim bar above the grid rather than as a tile */
 var BAR_ORDER = ["omg-overview"];   /* Findings Reference is a tile now */
